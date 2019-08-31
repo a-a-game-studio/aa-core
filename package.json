@@ -59,6 +59,7 @@
     "utf8": "^3.0.0"
   },
   "directories": {
+    "lib": "lib",
     "test": "tests"
   }
 }

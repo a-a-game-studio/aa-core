@@ -1,7 +1,7 @@
 # Install
-npm i --save @63pokupki-nodejs-common
+npm i --save @a-a-game-studio/aa-components
 # Publish
-npm init --scope=63pokupki
+npm init --scope=a-a-game-studio
 
 
 # Patch version

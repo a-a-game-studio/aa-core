@@ -4,7 +4,7 @@ import {UserSys} from '../../../System/UserSys';
 
 
 // Компоненты
-import {ModelRulesC} from '../../../Components/ModelRulesC';
+import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
 
 export class UserE

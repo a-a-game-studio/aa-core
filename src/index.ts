@@ -13,7 +13,7 @@ import BaseM from './System/BaseM'
 
 
 
-import { ErrorSys } from './System/ErrorSys';
+import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 // export { ErrorSys, BaseSQL };
 
 import { UserSys } from './System/UserSys'
@@ -21,7 +21,7 @@ import { UserSys } from './System/UserSys'
 import { ResponseSys } from './System/ResponseSys'
 
 import MainRequest from './System/MainRequest'
-import { devReq } from './System/MainRequest'
+
 import { initMainRequest } from './System/MainRequest'
 // export { MainRequest as MainRequest };
 
@@ -73,7 +73,6 @@ export {
     RedisSys,
     Middleware,
     MainRequest, // interface MainRequest
-    devReq, // Пример MainRequest
     S3,
     S3objectParamsI,
     S3confI,
