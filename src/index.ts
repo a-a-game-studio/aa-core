@@ -1,3 +1,7 @@
+
+// Подключение компонентной библиотеки
+import * as Components from '@a-a-game-studio/aa-components/lib';
+
 import BaseCtrl from './System/BaseCtrl'
 // export { BaseCtrl as BaseCtrl };
 
@@ -7,8 +11,7 @@ import BaseSQL from './System/BaseSQL'
 import BaseM from './System/BaseM'
 // export { BaseM as BaseM };
 
-import { ModelValidatorSys } from './System/ModelValidatorSys'
-// export { ModelValidatorSys as ModelValidatorSys };
+
 
 import { ErrorSys } from './System/ErrorSys';
 // export { ErrorSys, BaseSQL };
@@ -17,26 +20,22 @@ import { UserSys } from './System/UserSys'
 
 import { ResponseSys } from './System/ResponseSys'
 
-import MainRequest from './System/MainRequest'
-import { devReq } from './System/MainRequest'
-import { initMainRequest } from './System/MainRequest'
+import MainRequest from './System/Core'
+import { devReq } from './System/Core'
+import { initMainRequest } from './System/Core'
 // export { MainRequest as MainRequest };
 
-import { ModelOneRuleC } from './Components/ModelOneRuleC'
-
-import { ModelRulesC, ModelRulesT } from './Components/ModelRulesC'
-
 // /* LEGO ошибок */
-import ErrorSysMiddleware from './System/Middleware/ErrorSysMiddleware'
+import ErrorSysMiddleware from './Middleware/ErrorSysMiddleware'
 
 /* Создает объект запроса */
-import RequestSysMiddleware from './System/Middleware/RequestSysMiddleware'
+import RequestSysMiddleware from './Middleware/RequestSysMiddleware'
 
 /* Создает объект ответа */
-import ResponseSysMiddleware from './System/Middleware/ResponseSysMiddleware'
+import ResponseSysMiddleware from './Middleware/ResponseSysMiddleware'
 
 // /* проверка авторизации на уровне приложения */
-import AuthSysMiddleware from './System/Middleware/AuthSysMiddleware'
+import AuthSysMiddleware from './Middleware/AuthSysMiddleware'
 
 import { RedisSys } from './System/RedisSys';
 
@@ -51,8 +50,6 @@ import BaseCommand from './System/BaseCommand';
 
 /* Конструктор теста */
 import BaseTest from './System/BaseTest';
-
-import * as Seo from './Components/Seo';
 
 /* Хелпер полезных функций */
 import * as HelperSys from './System/HelperSys';
@@ -69,10 +66,7 @@ export {
     BaseCtrl,
     BaseSQL,
     BaseM,
-    ModelValidatorSys,
-    ModelOneRuleC,
-    ModelRulesC,
-    ModelRulesT,
+    Components, // Общие компоненты
     ErrorSys,
     UserSys,
     ResponseSys,
@@ -87,6 +81,5 @@ export {
     initMainRequest, // Инициализация Main Request для тестов
     BaseCommand, // Конструктор консольных комманд
     BaseTest, // Конструктор тестов
-    Seo, // сео собственно
     HelperSys // Вспомогательные функцие которые никчему не привязаны
 }

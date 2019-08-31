@@ -1,26 +1,25 @@
 {
-  "name": "@63pokupki/nodejs-common",
-  "version": "0.0.56",
-  "description": "common nodejs functionality",
+  "name": "@a-a-game-studio/core",
+  "version": "1.0.1",
+  "description": "Base core server application",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/63pokupki/nodejs-common.git"
+    "url": "git+https://github.com/a-a-game-studio/aa-core.git"
   },
   "keywords": [
-    "react",
-    "components",
-    "crud"
+    "core"
   ],
-  "author": "63pokupki",
+  "author": "a-a-game-studio",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/63pokupki/nodejs-common/issues"
+    "url": "https://github.com/a-a-game-studio/aa-core/issues"
   },
-  "homepage": "https://github.com/63pokupki/nodejs-common#readme",
+  "homepage": "https://github.com/a-a-game-studio/aa-core#readme",
   "peerDependencies": {},
   "devDependencies": {
+    "@a-a-game-studio/aa-components": "^1.0.6",
     "@trongnd/ts-nodemon": "^1.0.3",
     "@types/expect": "^1.20.4",
     "@types/lodash": "^4.14.123",

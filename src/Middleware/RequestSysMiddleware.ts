@@ -1,4 +1,4 @@
-import MainRequest from '../MainRequest';
+import MainRequest from '../System/Core';
 
 
 export default function RequestSysMiddleware(request: MainRequest, response: any, next: any) {

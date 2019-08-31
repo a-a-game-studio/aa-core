@@ -1,6 +1,6 @@
 
 
-import MainRequest from './MainRequest';
+import MainRequest from './Core';
 
 /**
  * Системный сервис обработки ошибок

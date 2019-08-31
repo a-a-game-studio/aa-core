@@ -1,7 +1,7 @@
 // Системные сервисы
 import { ErrorSys } from './ErrorSys';
 import { UserSys } from './UserSys';
-import MainRequest from './MainRequest';
+import MainRequest from './Core';
 
 /**
  * Клас для сервисов которые проксируют запросы к базе данных

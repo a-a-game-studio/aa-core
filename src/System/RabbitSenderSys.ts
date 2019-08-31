@@ -1,5 +1,5 @@
 import * as amqp from 'amqplib/callback_api';
-import MainRequest from './MainRequest';
+import MainRequest from './Core';
 
 
 /**

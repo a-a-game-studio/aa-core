@@ -1,6 +1,6 @@
 
 import {ErrorSys} from './ErrorSys';
-import MainRequest from './MainRequest';
+import MainRequest from './Core';
 
 /**
  * Системный сервис формирования ответа

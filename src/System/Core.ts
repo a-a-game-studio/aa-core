@@ -1,12 +1,14 @@
+
+// Подключение компонентной библиотеки
+import * as Components from '@a-a-game-studio/aa-components/lib';
+
 import { ErrorSys } from './ErrorSys';
 import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 
 import { Request } from 'express';
-import { SeoBase } from '../Components/Seo';
-import { SeoConfigI } from '../Components/Seo';
 
-export default interface MainRequest extends Request {
+export default interface MainRequest extends Components. {
     headers: { [key: string]: any };
     body: any;
     method: string;
@@ -14,11 +16,9 @@ export default interface MainRequest extends Request {
     sys: {
         apikey: string,
         bAuth: boolean, /* флаг авторизации */
-
         errorSys: ErrorSys,
         userSys: UserSys,
-        responseSys: ResponseSys,
-        seo?: SeoBase;
+        responseSys: ResponseSys
     };
     conf: { // Конфигурация
         // ================================

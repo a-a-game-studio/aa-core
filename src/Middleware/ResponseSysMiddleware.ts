@@ -1,6 +1,6 @@
-import MainRequest from '../MainRequest';
+import MainRequest from '../System/Core';
 
-import { ResponseSys } from '../ResponseSys';
+import { ResponseSys } from '../System/ResponseSys';
 
 
 /* Переводи пост в JSON */

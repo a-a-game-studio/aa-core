@@ -1,4 +1,4 @@
-import MainRequest from './MainRequest';
+import MainRequest from './Core';
 const AWS = require('aws-sdk');
 
 /**

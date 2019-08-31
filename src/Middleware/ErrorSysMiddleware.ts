@@ -1,5 +1,5 @@
-import MainRequest from '../MainRequest';
-import {ErrorSys} from '../ErrorSys';
+import MainRequest from '../System/Core';
+import {ErrorSys} from '../System/ErrorSys';
 
 /* LEGO ошибок */
 export default function ErrorSysMiddleware(request: MainRequest, response: any, next: any) {

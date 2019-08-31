@@ -1,5 +1,5 @@
-import MainRequest from '../MainRequest';
-import { UserSys } from '../UserSys';
+import MainRequest from '../System/Core';
+import { UserSys } from '../System/UserSys';
 
 /* проверка аутентификации на уровне приложения */
 export default async function AuthSysMiddleware(request: MainRequest, response: any, next: any) {
