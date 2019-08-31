@@ -2,7 +2,7 @@
 // Глобальные сервисы
 
 // Системные сервисы
-import MainRequest from '../../../System/Core';
+import MainRequest from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
 import {CtrlAccessE} from '../Entity/CtrlAccessE';

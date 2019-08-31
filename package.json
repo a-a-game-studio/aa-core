@@ -19,7 +19,7 @@
   "homepage": "https://github.com/a-a-game-studio/aa-core#readme",
   "peerDependencies": {},
   "devDependencies": {
-    "@a-a-game-studio/aa-components": "^1.0.6",
+    "@a-a-game-studio/aa-components": "^1.0.7",
     "@trongnd/ts-nodemon": "^1.0.3",
     "@types/expect": "^1.20.4",
     "@types/lodash": "^4.14.123",

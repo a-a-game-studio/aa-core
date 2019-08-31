@@ -1,5 +1,5 @@
-import MainRequest from '../System/Core';
-import {ErrorSys} from '../System/ErrorSys';
+import MainRequest from '../System/MainRequest';
+import {ErrorSys} from '@a-a-game-studio/aa-components/lib';
 
 /* LEGO ошибок */
 export default function ErrorSysMiddleware(request: MainRequest, response: any, next: any) {
@@ -12,6 +12,6 @@ export default function ErrorSysMiddleware(request: MainRequest, response: any, 
         bAuth: false
     }
 
-    request.sys.errorSys = new ErrorSys(request);
+    request.sys.errorSys = new ErrorSys();
     next();
 }

@@ -2,8 +2,8 @@
 
 // Системные сервисы
 import { ResponseSys } from './ResponseSys';
-import { ErrorSys } from './ErrorSys';
-import MainRequest from './Core';
+import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import MainRequest from './MainRequest';
 
 import { UserSys } from './UserSys';
 

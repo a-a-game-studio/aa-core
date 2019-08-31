@@ -3,10 +3,9 @@
 import * as _ from 'lodash';
 
 // Системные сервисы
-import MainRequest from './Core';
+import MainRequest from './MainRequest';
 
-import {ErrorSys} from './ErrorSys';
-
+import * as Components from '@a-a-game-studio/aa-components/lib';
 
 // SQL Запросы
 import {UserSQL} from '../Infrastructure/SQL/Repository/UserSQL';
@@ -19,7 +18,6 @@ import {CtrlAccessSQL} from '../Infrastructure/SQL/Repository/CtrlAccessSQL';
  */
 export class UserSys
 {
-
 
 	public idUser:number; // ID пользователя
 
@@ -38,7 +36,7 @@ export class UserSys
 
 	private userSQL:UserSQL;
 
-	private errorSys:ErrorSys;
+	private errorSys:Components.ErrorSys;
 
 	private userGroupSQL:UserGroupSQL;
 

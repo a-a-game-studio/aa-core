@@ -20,9 +20,9 @@ import { UserSys } from './System/UserSys'
 
 import { ResponseSys } from './System/ResponseSys'
 
-import MainRequest from './System/Core'
-import { devReq } from './System/Core'
-import { initMainRequest } from './System/Core'
+import MainRequest from './System/MainRequest'
+import { devReq } from './System/MainRequest'
+import { initMainRequest } from './System/MainRequest'
 // export { MainRequest as MainRequest };
 
 // /* LEGO ошибок */

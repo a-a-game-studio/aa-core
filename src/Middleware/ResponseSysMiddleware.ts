@@ -1,4 +1,4 @@
-import MainRequest from '../System/Core';
+import MainRequest from '../System/MainRequest';
 
 import { ResponseSys } from '../System/ResponseSys';
 

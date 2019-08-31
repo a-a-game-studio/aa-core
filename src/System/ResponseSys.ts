@@ -1,6 +1,6 @@
 
-import {ErrorSys} from './ErrorSys';
-import MainRequest from './Core';
+import * as Components from '@a-a-game-studio/aa-components/lib';
+import MainRequest from './MainRequest';
 
 /**
  * Системный сервис формирования ответа
@@ -10,11 +10,11 @@ export class ResponseSys
 	private env:string;
 	private ifDevMode:boolean;
 
-	private errorSys:ErrorSys;
+	private errorSys:Components.ErrorSys;
 
 	constructor(req:MainRequest){
 
-		this.env = req.conf.common.env;
+		this.env = req.conf.env;
 		if( this.env == 'local' || this.env == 'dev' ){
 			this.ifDevMode = true;
 		} else {
