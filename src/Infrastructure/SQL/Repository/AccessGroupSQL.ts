@@ -6,10 +6,7 @@ import * as _ from 'lodash';
 import * as redisSys  from '../../../System/RedisSys';
 
 // Системные сервисы
-import {ErrorSys} from '../../../System/ErrorSys';
 import MainRequest from '../../../System/MainRequest';
-
-import {ModelValidatorSys} from '../../../System/ModelValidatorSys';
 
 // Сущьности и правила валидации
 import {AccessGroupE} from '../Entity/AccessGroupE';

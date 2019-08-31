@@ -3,10 +3,8 @@
 import * as redisSys  from '../../../System/RedisSys';
 
 // Системные сервисы
-import {ErrorSys} from '../../../System/ErrorSys';
-import MainRequest from '../../../System/MainRequest';
 
-import {ModelValidatorSys} from '../../../System/ModelValidatorSys';
+import MainRequest from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
 import {GroupsE} from '../Entity/GroupsE';

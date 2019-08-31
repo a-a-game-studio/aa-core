@@ -4,9 +4,7 @@ const utf8 = require('utf8');
 const uniqid = require('uniqid');
 var md5 = require('md5');
 
-// Глобальные сервисы
-
-// Системные сервисы
+// Системные сервисыW
 import MainRequest from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
 

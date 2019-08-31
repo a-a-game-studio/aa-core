@@ -5,9 +5,6 @@ import * as redisSys  from '../../../System/RedisSys';
 import MainRequest from '../../../System/MainRequest';
 
 // Системные сервисы
-import {ErrorSys} from '../../../System/ErrorSys';
-
-import {ModelValidatorSys} from '../../../System/ModelValidatorSys';
 import BaseSQL from '../../../System/BaseSQL';
 
 /**
