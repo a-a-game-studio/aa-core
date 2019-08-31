@@ -9,7 +9,7 @@ exports.up = async function(knex, Promise) {
     await knex.schema.createTable('aa_ctrl_access', table => {
         table.increments('id');
 
-        table.string('name', 100)
+        table.string('name', 100).index('name')
             .comment('Наименование модуля/контроллера');
 
         table.string('alias', 50).unique('alias')

@@ -14,17 +14,17 @@ exports.up = async function(knex, Promise) {
         table.integer('ctrl_access_id').index('ctrl_access_id')
             .comment('ID контроллера');
 
-        table.integer('create_access').index('create_access')
-            .comment('ID группы');
+        table.boolean('create_access').index('create_access')
+            .comment('Права на создание');
 
-        table.integer('read_access').index('read_access')
-            .comment('ID группы');
+        table.boolean('read_access').index('read_access')
+            .comment('Права на чтение');
 
-        table.integer('update_access').index('update_access')
-            .comment('ID группы');
+        table.boolean('update_access').index('update_access')
+            .comment('Права на обновление');
 
-        table.integer('delete_access').index('delete_access')
-            .comment('ID группы');
+        table.boolean('delete_access').index('delete_access')
+            .comment('Права на удаление');
 
         table.dateTime('created_at').index('created_at')
             .notNullable()

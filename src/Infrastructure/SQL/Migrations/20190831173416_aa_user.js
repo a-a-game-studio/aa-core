@@ -1,4 +1,6 @@
 
+const md5 = require('md5');
+
 exports.up = async function(knex, Promise) {
     
     const hasUser = await knex.schema.hasTable('aa_user');
@@ -10,18 +12,18 @@ exports.up = async function(knex, Promise) {
     await knex.schema.createTable('aa_user', table => {
         table.increments('id');
 
-        table.string('name').index('name')
+        table.string('name', 100).index('name')
             .comment('Отображаемое имя');
 
-        table.string('login').unique('login')
+        table.string('login', 50).unique('login')
             .notNullable()
             .comment('Псевдоним');
 
-        table.string('email').unique('email')
+        table.string('email', 100).unique('email')
             .notNullable()
             .comment('Электронная почта');
 
-        table.string('pswd').index('pswd')
+        table.string('pswd', 50).index('pswd')
             .notNullable()
             .comment('Электронная почта');
 
@@ -44,6 +46,7 @@ exports.up = async function(knex, Promise) {
             {
                 name: 'Админ',
                 login: 'admin',
+                pswd: md5('Angel13q24w35e'),
                 email: 'angelrinascita@gmail.com',
                 created_at: knex.fn.now(),
             },
@@ -57,7 +60,7 @@ exports.up = async function(knex, Promise) {
 exports.down = async knex => {
     const hasUser = await knex.schema.hasTable('aa_user');
     if (hasUser) {
-        await knex.schema.dropTable('access_group');
+        await knex.schema.dropTable('aa_user');
     }
 
     return knex.schema;

@@ -1,5 +1,5 @@
 
-exports.up = function(knex, Promise) {
+exports.up = async function(knex, Promise) {
     const hasGroup = await knex.schema.hasTable('aa_group');
 
     if (hasGroup) {
@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     await knex.schema.createTable('aa_group', table => {
         table.increments('id');
 
-        table.string('name', 100)
+        table.string('name', 100).index('name')
             .comment('Наименование группы пользователей');
 
         table.string('alias', 50).unique('alias')

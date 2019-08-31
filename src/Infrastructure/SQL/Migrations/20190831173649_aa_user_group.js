@@ -32,7 +32,7 @@ exports.up = async function(knex, Promise) {
         .insert([
             {
                 user_id: 1,
-                group_id,
+                group_id: 1,
             },
         ])
     ;
