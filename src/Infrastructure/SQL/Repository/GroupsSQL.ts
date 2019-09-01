@@ -49,7 +49,7 @@ export class GroupsSQL extends BaseSQL
                 g.group_type,
                 g.group_name,
                 g.group_desc
-            FROM phpbb_groups g
+            FROM ${GroupsE.NAME} g
             WHERE g.group_id = :id_group
             LIMIT 1
         `;
@@ -113,7 +113,7 @@ export class GroupsSQL extends BaseSQL
                     pg.group_id,
                     pg.group_name,
                     pg.alias
-                FROM phpbb_groups pg
+                FROM ${GroupsE.NAME} pg
                 ;
             `;
 
@@ -165,7 +165,7 @@ export class GroupsSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('phpbb_groups')
+                resp = await this.db(GroupsE.NAME)
                     .where({
                         group_id: idGroup
                     })

@@ -6,6 +6,8 @@ import MainRequest from '../../../System/MainRequest';
 
 // Системные сервисы
 import BaseSQL from '../../../System/BaseSQL';
+import { UserGroupE } from '../Entity/UserGroupE';
+import { GroupsE } from '../Entity/GroupsE';
 
 /**
  * Здесь методы для SQL запросов
@@ -58,8 +60,8 @@ export class UserGroupSQL extends BaseSQL
                     DISTINCT pug.group_id,
                     pg.alias,
                     pg.group_name
-                FROM phpbb_user_group pug
-                JOIN phpbb_groups pg ON pg.group_id = pug.group_id
+                FROM ${UserGroupE.NAME} pug
+                JOIN ${GroupsE.NAME} pg ON pg.group_id = pug.group_id
                 WHERE
                     pug.user_id = :user_id;
                 ;
@@ -121,7 +123,7 @@ export class UserGroupSQL extends BaseSQL
             let sql = `
                 SELECT
                     count(*) cnt
-                FROM phpbb_user_group pug
+                FROM ${UserGroupE.NAME} pug
                 WHERE
                     pug.user_id = :user_id
                 AND
@@ -153,7 +155,7 @@ export class UserGroupSQL extends BaseSQL
 
         if( ok ){ // Если пользователя в группе нет добавляем его в группу
             let sql = `
-                INSERT INTO phpbb_user_group
+                INSERT INTO ${UserGroupE.NAME}
                     (user_id, group_id, group_leader, user_pending)
                 VALUES
                     (:user_id, :group_id, 0, 0)
@@ -162,7 +164,7 @@ export class UserGroupSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('phpbb_user_group').insert({
+                resp = await this.db(UserGroupE.NAME).insert({
                     user_id: idUser,
                     group_id: idGroup,
                     group_leader: 0,
@@ -213,7 +215,7 @@ export class UserGroupSQL extends BaseSQL
             let sql = `
                 SELECT
                     count(*) cnt
-                FROM phpbb_user_group pug
+                FROM ${UserGroupE.NAME} pug
                 WHERE
                     pug.user_id = :user_id
                 AND
@@ -245,7 +247,7 @@ export class UserGroupSQL extends BaseSQL
 
         if( ok ){ // Если пользователя в группе есть удаляем его из группы
             let sql = `
-                DELETE FROM phpbb_user_group
+                DELETE FROM ${UserGroupE.NAME}
                 WHERE
                     user_id = :user_id
                 AND
@@ -255,7 +257,7 @@ export class UserGroupSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('phpbb_user_group')
+                resp = await this.db(UserGroupE.NAME)
                     .where({
                         user_id: idUser,
                         group_id: idGroup

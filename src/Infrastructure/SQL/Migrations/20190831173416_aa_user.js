@@ -15,6 +15,9 @@ exports.up = async function(knex, Promise) {
         table.string('name', 100).index('name')
             .comment('Отображаемое имя');
 
+        table.string('fullname', 100).index('fullname')
+            .comment('Полное имя');
+
         table.string('login', 50).unique('login')
             .notNullable()
             .comment('Псевдоним');
@@ -26,6 +29,9 @@ exports.up = async function(knex, Promise) {
         table.string('pswd', 50).index('pswd')
             .notNullable()
             .comment('Электронная почта');
+
+        table.string('avatar', 100).index('avatar')
+            .comment('аватарка');
 
         table.dateTime('created_at').index('created_at')
             .notNullable()

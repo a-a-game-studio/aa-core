@@ -7,6 +7,9 @@ var md5 = require('md5');
 // Системные сервисыW
 import MainRequest from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
+import { UserE } from '../Entity/UserE';
+import { UserTokenE } from '../Entity/UserTokenE';
+import { UserSmsCodeE } from '../Entity/UserSmsCodeE';
 
 
 /**
@@ -51,23 +54,17 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.user_id,
-                u.user_type,
-                u.group_id,
-                u.username,
-                u.username_clean,
-                u.user_email,
-                u.user_birthday,
-                u.user_avatar,
-                u.user_avatar_type,
-                u.user_mobile,
-                u.user_sig,
-                u.user_fullname
-            FROM phpbb_users u
+                u.id,
+                u.name,
+                u.fullname,
+                u.login,
+                u.email,
+                u.avatar
+            FROM ${UserE.NAME} u
             WHERE
-                u.username LIKE :search_username
+                u.name LIKE :search_username
             AND
-                u.user_fullname LIKE :search_fullname
+                u.fullname LIKE :search_fullname
             LIMIT :limit
             OFFSET :offset
             ;
@@ -109,18 +106,12 @@ export class UserSQL extends BaseSQL
         sql = `
             SELECT
                 u.user_id,
-                u.user_type,
                 u.group_id,
-                u.username,
-                u.username_clean,
-                u.user_email,
-                u.user_birthday,
-                u.user_avatar,
-                u.user_avatar_type,
-                u.user_mobile,
-                u.user_sig,
-                u.user_fullname
-            FROM phpbb_users u
+                u.name,
+                u.email,
+                u.avatar,
+                u.fullname
+            FROM ${UserE.NAME} u
             WHERE u.user_id = :user_id
             LIMIT 1
         `;
@@ -157,20 +148,14 @@ export class UserSQL extends BaseSQL
 
         if( ok ){
             let sql = `
-                SELECT  u.user_id,
-                u.user_type,
-                u.group_id,
-                u.username,
-                u.username_clean,
-                u.user_email,
-                u.user_birthday,
-                u.user_avatar,
-                u.user_avatar_type,
-                u.user_mobile,
-                u.user_sig
-                from phpbb_users u
-
-                join user_token ut
+                SELECT  
+                    u.user_id,
+                    u.group_id,
+                    u.name,
+                    u.user_email,
+                    u.user_avatar
+                FROM phpbb_users u
+                JOIN user_token ut
                 on ut.user_id=u.user_id
 
                 where ut.token= :token
@@ -223,7 +208,7 @@ export class UserSQL extends BaseSQL
             } else {
                 //Получаем одного пользователя
                 sql = `
-                    select ut.token from user_token ut
+                    select ut.token from ${UserTokenE.NAME} ut
 
                     where ut.token= :token order by ut.user_token_id desc
 
@@ -253,7 +238,7 @@ export class UserSQL extends BaseSQL
         return bResp;
     }
 
-    /* выдает id юзера по телефону и смс из таблицы user_mobile_code*/
+    /* выдает id юзера по телефону и смс из таблицы user_sms_code*/
     public async getUserIdByPhoneAndSms(phone:string, sms:string): Promise<number>{
         let ok = true;
         let resp:any[] = null;
@@ -267,12 +252,12 @@ export class UserSQL extends BaseSQL
 
 		/* дата создания смски сегодня или никогда */
         let sql = `
-            select um.user_id from user_mobile_code um
+            select um.user_id from ${UserSmsCodeE.NAME} um
 
             where
-            (um.number= :phone)
+            (um.tel= :phone)
             AND(um.code= :sms)
-            AND ((um.created + INTERVAL 1 DAY) between NOW() and (NOW() + INTERVAL 1 DAY) )
+            AND ((um.created_at + INTERVAL 1 DAY) between NOW() and (NOW() + INTERVAL 1 DAY) )
 
             limit 1
         `;
@@ -313,7 +298,7 @@ export class UserSQL extends BaseSQL
             /* todo прикрутить reddis */
             let sql = `
                 SELECT *
-                FROM phpbb_users
+                FROM ${UserE.NAME}
                 WHERE username_clean = :username limit 1
                 ;
             `;
@@ -352,7 +337,7 @@ export class UserSQL extends BaseSQL
         let token:string = null;
 		if( ok ){ /* выбираем последний из вставленных */
             let sql = `
-                select * from user_token ut
+                select * from ${UserTokenE.NAME} ut
                 where ut.user_id = :user_id
                 order by ut.user_token_id desc
                 limit 1
@@ -393,7 +378,7 @@ export class UserSQL extends BaseSQL
         ]);
 
         user_id = Number(user_id);
-        sql = `INSERT INTO user_token (\`user_id\`, \`token\`) VALUES (:user_id, :api_key)`;
+        sql = `INSERT INTO ${UserTokenE.NAME} (\`user_id\`, \`token\`) VALUES (:user_id, :api_key)`;
 
         let resp = null;
         try{
@@ -435,7 +420,7 @@ export class UserSQL extends BaseSQL
         ]);
 
         let sql = `
-            select u.* from phpbb_users u
+            select u.* from ${UserE.NAME} u
 
             where u.user_id= :user_id
 

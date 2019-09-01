@@ -46,7 +46,7 @@ export class CtrlAccessSQL extends BaseSQL
                 ca.alias,
                 ca.name,
                 ca.descript
-            FROM ctrl_access ca
+            FROM ${CtrlAccessE.NAME} ca
             WHERE ca.alias = :alias
             LIMIT 1
         `;
@@ -92,7 +92,7 @@ export class CtrlAccessSQL extends BaseSQL
                 ca.alias,
                 ca.name,
                 ca.descript
-            FROM ctrl_access ca
+            FROM ${CtrlAccessE.NAME} ca
             WHERE ca.id = :id_ctrl_access
             LIMIT 1
         `;
@@ -156,7 +156,7 @@ export class CtrlAccessSQL extends BaseSQL
                     ca.id,
                     ca.alias,
                     ca.name
-                FROM ctrl_access ca
+                FROM ${CtrlAccessE.NAME} ca
                 ;
             `;
 
@@ -207,7 +207,7 @@ export class CtrlAccessSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('ctrl_access')
+                resp = await this.db(CtrlAccessE.NAME)
                     .where({
                         id: idCtrlAccess
                     })
@@ -251,7 +251,7 @@ export class CtrlAccessSQL extends BaseSQL
 
 
             try{
-                resp = await this.db('ctrl_access')
+                resp = await this.db(CtrlAccessE.NAME)
                 .returning('id')
                     .insert(this.modelValidatorSys.getResult());
                     if(resp){
@@ -295,7 +295,7 @@ export class CtrlAccessSQL extends BaseSQL
 
         let resp = null;
         try{
-            resp = await this.db('ctrl_access')
+            resp = await this.db(CtrlAccessE.NAME)
                 .where({
                     alias: aliasCtrlAccess,
                 })
@@ -342,7 +342,7 @@ export class CtrlAccessSQL extends BaseSQL
             let sql = `
                 SELECT
                     COUNT(*) cnt
-                FROM ctrl_access ca
+                FROM ${CtrlAccessE.NAME} ca
                 WHERE ca.alias = :alias
                 LIMIT 1
             `;

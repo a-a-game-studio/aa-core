@@ -11,6 +11,7 @@ import MainRequest from '../../../System/MainRequest';
 // Сущьности и правила валидации
 import {AccessGroupE} from '../Entity/AccessGroupE';
 import BaseSQL from '../../../System/BaseSQL';
+import { CtrlAccessE } from '../Entity/CtrlAccessE';
 
 /**
  * Здесь методы для SQL запросов
@@ -56,8 +57,8 @@ export class AccessGroupSQL extends BaseSQL
                     ca.alias,
                     ca.name,
                     ca.descript
-                FROM access_group ag
-                JOIN ctrl_access ca ON ca.id = ag.ctrl_access_id
+                FROM ${AccessGroupE.NAME} ag
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
                 WHERE ag.group_id = :id_group
                 ;
             `;
@@ -105,19 +106,18 @@ export class AccessGroupSQL extends BaseSQL
         if( ok ){ // Получаем права CRUD
             sql = `
                 SELECT
-                    SUM(ag.create_access) \`create\`,
-                    SUM(ag.read_access) \`read\`,
-                    SUM(ag.update_access) \`update\`,
-                    SUM(ag.delete_access) \`delete\`
-                FROM access_group ag
-                JOIN ctrl_access ca ON ca.id = ag.ctrl_access_id
+                    SUM(ag.create_access) 'create',
+                    SUM(ag.read_access) 'read',
+                    SUM(ag.update_access) 'update',
+                    SUM(ag.delete_access) 'delete'
+                FROM ${AccessGroupE.NAME} ag
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
                 WHERE
                     ag.group_id IN (${sIdsGroup})
                 AND
                     ag.ctrl_access_id = :ctrl_access_id
                 ;
             `;
-
 
 
             try{
@@ -176,8 +176,8 @@ export class AccessGroupSQL extends BaseSQL
             sql = `
                 SELECT
                     count(*) cnt
-                FROM access_group ag
-                JOIN ctrl_access ca ON ca.id = ag.ctrl_access_id
+                FROM ${AccessGroupE.NAME} ag
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
                 WHERE
                     ag.group_id IN (${sIdsGroup})
                 AND
@@ -228,7 +228,7 @@ export class AccessGroupSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('access_group')
+                resp = await this.db(AccessGroupE.NAME)
                     .returning('id')
                     .insert({
                         group_id: idGroup,
@@ -277,7 +277,7 @@ export class AccessGroupSQL extends BaseSQL
 
             let resp = null;
             try{
-                resp = await this.db('access_group')
+                resp = await this.db(AccessGroupE.NAME)
                     .where({
                         id: idAccessGroup
                     })
@@ -321,7 +321,7 @@ export class AccessGroupSQL extends BaseSQL
         if( ok ){
             let resp = null;
             try{
-                resp = await this.db('access_group')
+                resp = await this.db(AccessGroupE.NAME)
                     .where({
                         group_id: idGroup,
                         ctrl_access_id: idCtrlAccess,
@@ -374,7 +374,7 @@ export class AccessGroupSQL extends BaseSQL
             sql = `
                 SELECT
                     COUNT(*) cnt
-                FROM access_group ag
+                FROM ${AccessGroupE.NAME} ag
                 WHERE
                     ag.group_id = :group_id
                 AND

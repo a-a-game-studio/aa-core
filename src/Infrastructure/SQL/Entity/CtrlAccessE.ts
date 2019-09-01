@@ -8,7 +8,7 @@ import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 export class CtrlAccessE
 {
     //Имя таблицы
-    public NAME = 'ctrl_access';
+    public static NAME = 'aa_ctrl_access';
 
     /**
      * Обновление ключевых записей таблицы
@@ -31,13 +31,6 @@ export class CtrlAccessE
             .type('text')
             .error('descript - неверный формат')
         );
-
-        // rules.set(rules.rule('updated_at')
-        //     .type('int')
-        //     .def(time())
-        //     .error('updated_at - неверный формат')
-        // );
-
 
         return rules.get();
     }
