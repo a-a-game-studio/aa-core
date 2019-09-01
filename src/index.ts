@@ -51,10 +51,6 @@ import BaseCommand from './System/BaseCommand';
 /* Конструктор теста */
 import BaseTest from './System/BaseTest';
 
-/* Хелпер полезных функций */
-import * as HelperSys from './System/HelperSys';
-
-
 const Middleware = {
     ErrorSysMiddleware,
     RequestSysMiddleware,
@@ -80,5 +76,4 @@ export {
     initMainRequest, // Инициализация Main Request для тестов
     BaseCommand, // Конструктор консольных комманд
     BaseTest, // Конструктор тестов
-    HelperSys // Вспомогательные функцие которые никчему не привязаны
 }

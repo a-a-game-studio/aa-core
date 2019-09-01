@@ -7,7 +7,6 @@ const AWS = require('aws-sdk');
 export interface S3confI {
     endpoint: string;
     bucket: string;
-    baseUrl: string;
     access: string;
     secret: string;
 }
@@ -60,7 +59,7 @@ export class S3 {
                 .putObject(object)
                 .promise()
                 .then((data: any) => {
-                    resolve(this.conf.baseUrl + this.conf.bucket + '/' + object.Key);
+                    resolve(this.conf.endpoint + this.conf.bucket + '/' + object.Key);
                 })
                 .catch((e: any) => reject(e));
         })
