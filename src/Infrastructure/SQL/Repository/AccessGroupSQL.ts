@@ -2,9 +2,6 @@
 // Библиотеки
 import * as _ from 'lodash';
 
-// Глобальные сервисы
-import * as redisSys  from '../../../System/RedisSys';
-
 // Системные сервисы
 import MainRequest from '../../../System/MainRequest';
 
@@ -229,7 +226,6 @@ export class AccessGroupSQL extends BaseSQL
             let resp = null;
             try{
                 resp = await this.db(AccessGroupE.NAME)
-                    .returning('id')
                     .insert({
                         group_id: idGroup,
                         ctrl_access_id: idCtrlAccess,
