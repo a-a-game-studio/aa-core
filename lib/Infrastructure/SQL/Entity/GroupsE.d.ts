@@ -1,5 +1,5 @@
 export declare class GroupsE {
-    NAME: string;
+    static NAME: string;
     /**
      * Обновление ключевых записей таблицы
      */

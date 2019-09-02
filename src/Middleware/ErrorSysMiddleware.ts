@@ -12,6 +12,6 @@ export default function ErrorSysMiddleware(request: MainRequest, response: any, 
         bAuth: false
     }
 
-    request.sys.errorSys = new ErrorSys();
+    request.sys.errorSys = new ErrorSys('dev');
     next();
 }

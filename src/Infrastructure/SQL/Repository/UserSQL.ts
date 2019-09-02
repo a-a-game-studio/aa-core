@@ -199,6 +199,8 @@ export class UserSQL extends BaseSQL
             'api_key_in_db'
         ]);
 
+        
+
         /* если ключ больше 4 */
         if( apikey.length > 4) {
 
@@ -210,11 +212,13 @@ export class UserSQL extends BaseSQL
                 sql = `
                     select ut.token from ${UserTokenE.NAME} ut
 
-                    where ut.token= :token order by ut.user_token_id desc
+                    where ut.token= :token order by ut.token_id desc
 
                     limit 1;
                 `;
 
+                console.log('==>sql',apikey);
+                
                 try{
                     resp = (await this.db.raw(sql, {
                         'token': apikey

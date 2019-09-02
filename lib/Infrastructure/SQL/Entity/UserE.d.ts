@@ -1,6 +1,6 @@
 export declare class UserE {
     static NAME: string;
-    getRules(): {
+    getRulesInsert(): {
         [key: string]: any;
     };
 }

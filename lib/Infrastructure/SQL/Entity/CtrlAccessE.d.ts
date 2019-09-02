@@ -1,5 +1,5 @@
 export declare class CtrlAccessE {
-    NAME: string;
+    static NAME: string;
     /**
      * Обновление ключевых записей таблицы
      */

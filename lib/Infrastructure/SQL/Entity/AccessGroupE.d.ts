@@ -5,7 +5,7 @@
  * @ORM\Entity
  */
 export declare class AccessGroupE {
-    NAME: string;
+    static NAME: string;
     /**
      * Обновление ключевых записей таблицы
      */

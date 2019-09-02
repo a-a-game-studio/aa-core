@@ -5,7 +5,6 @@ import MainRequest from './MainRequest';
 export interface S3confI {
     endpoint: string;
     bucket: string;
-    baseUrl: string;
     access: string;
     secret: string;
 }

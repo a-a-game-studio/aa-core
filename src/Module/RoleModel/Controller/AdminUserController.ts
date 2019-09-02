@@ -52,7 +52,7 @@ class AdminUserController extends BaseCtrl
         await self.userSys.isAuth();
 
         // Проверка права доступа на модуль
-        await self.userSys.isAccessCtrl('api_admin_user');
+        await self.userSys.isAccessCtrl('admin_user');
 
         // Проверка являетесь ли вы администратором
         self.userSys.isAdmin();
@@ -76,7 +76,11 @@ router.post('/api/admin/user/get-users', async (req:any, res:any, next:any) => {
 
     let out = null;
     if( ok ){ // Получаем список пользователей
-        out = await self.userM.getUserList(req.body);
+        try{
+            out = await self.userM.getUserList(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -97,7 +101,11 @@ router.post('/api/admin/user/get-user', async (req:any, res:any, next:any) => {
 
     let out = null;
     if( ok ){ // Получаем пользователя по ID
-        out = await self.userM.getUserByID(req.body);
+        try{
+            out = await self.userM.getUserByID(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
 
@@ -117,7 +125,11 @@ router.post('/api/admin/user/get-group', async (req:any, res:any, next:any) => {
 
     let out = null;
     if( ok ){ // Получаем группу по ID
-        out = await self.groupM.getGroupByID(req.body);
+        try{
+            out = await self.groupM.getGroupByID(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -136,7 +148,11 @@ router.post('/api/admin/user/get-ctrl-access', async (req:any, res:any, next:any
 
     let out = null;
     if( ok ){ // Получаем контроль доступа по ID
-        out = await self.ctrlAccessM.getCtrlAccessByAlias(req.body);
+        try{
+            out = await self.ctrlAccessM.getCtrlAccessByAlias(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -155,7 +171,11 @@ router.post('/api/admin/user/get-user-groups', async (req:any, res:any, next:any
 
     let out = null;
     if( ok ){ // Получаем роли по ID пользователя
-        out = await self.userM.getUserGroupsByUserID(req.body);
+        try{
+            out = await self.userM.getUserGroupsByUserID(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -176,7 +196,11 @@ router.post('/api/admin/user/get-ctrl-access-of-group', async (req:any, res:any,
 
     let out = null;
     if( ok ){ // Получаем модули доступные группе по ID группы
-        out = await self.accessGroupM.getCtrlAccessOfGroupByID(req.body);
+        try{
+            out = await self.accessGroupM.getCtrlAccessOfGroupByID(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -195,7 +219,11 @@ router.post('/api/admin/user/get-group-list', async (req:any, res:any, next:any)
 
     let out = null;
     if( ok ){ // Получаем весь список ролей
-        out = await self.groupM.getAllGroups(req.body);
+        try{
+            out = await self.groupM.getAllGroups(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -214,7 +242,11 @@ router.post('/api/admin/user/get-ctrl-access-list', async (req:any, res:any, nex
 
     let out = null;
     if( ok ){ // Получаем весь список ролей
-        out = await self.ctrlAccessM.getAllCtrlAccess(req.body);
+        try{
+            out = await self.ctrlAccessM.getAllCtrlAccess(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -237,7 +269,11 @@ router.post('/api/admin/user/save-group', async (req:any, res:any, next:any) => 
 
     let out = null;
     if( ok ){ // сохраняем данные группы
-        out = await self.groupM.saveGroup(req.body);
+        try{
+            out = await self.groupM.saveGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -256,7 +292,11 @@ router.post('/api/admin/user/save-ctrl-access', async (req:any, res:any, next:an
 
     let out = null;
     if( ok ){ // сохраняем данные контроллера доступа
-        out = await self.ctrlAccessM.saveCtrlAccess(req.body);
+        try{
+            out = await self.ctrlAccessM.saveCtrlAccess(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -275,7 +315,11 @@ router.post('/api/admin/user/save-access-group', async (req:any, res:any, next:a
 
     let out = null;
     if( ok ){ // сохраняем/изменяем доступы группы к модулю
-        out = await self.accessGroupM.saveAccessGroup(req.body);
+        try{
+            out = await self.accessGroupM.saveAccessGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -300,7 +344,11 @@ router.post('/api/admin/user/add-ctrl-access', async (req:any, res:any, next:any
 
     let out = null;
     if( ok ){ // Добавляем пользователя
-        out = await self.ctrlAccessM.addCtrlAccess(req.body);
+        try{
+            out = await self.ctrlAccessM.addCtrlAccess(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -319,7 +367,11 @@ router.post('/api/admin/user/add-user-to-group', async (req:any, res:any, next:a
 
     let out = null;
     if( ok ){ // Добавляем пользователя
-        out = await self.userM.addUserToGroup(req.body);
+        try{
+            out = await self.userM.addUserToGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -338,7 +390,11 @@ router.post('/api/admin/user/add-ctrl-access-to-group', async (req:any, res:any,
 
     let out = null;
     if( ok ){ // Добавляем доступ группы к модулю
-        out = await self.accessGroupM.addCtrlAccessToGroup(req.body);
+        try{
+            out = await self.accessGroupM.addCtrlAccessToGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -363,7 +419,11 @@ router.post('/api/admin/user/del-user-from-group', async (req:any, res:any, next
 
     let out = null;
     if( ok ){ // Удаляем пользователя
-        out = await self.userM.delUserFromGroup(req.body);
+        try{
+            out = await self.userM.delUserFromGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -382,7 +442,11 @@ router.post('/api/admin/user/del-ctrl-access', async (req:any, res:any, next:any
 
     let out = null;
     if( ok ){ // Удаляем пользователя
-        out = await self.ctrlAccessM.delCtrlAccess(req.body);
+        try{
+            out = await self.ctrlAccessM.delCtrlAccess(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
@@ -401,7 +465,11 @@ router.post('/api/admin/user/del-ctrl-access-from-group', async (req:any, res:an
 
     let out = null;
     if( ok ){ // Удаляем доступ группы к модулю
-        out = await self.accessGroupM.delCtrlAccessFromGroup(req.body);
+        try{
+            out = await self.accessGroupM.delCtrlAccessFromGroup(req.body);
+        } catch(e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
     }
 
     res.send(
