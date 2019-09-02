@@ -12,6 +12,7 @@ import * as Middleware from './Namespace/Middleware'
 import * as Components from '@a-a-game-studio/aa-components/lib';
 
 export {
+    Controller,
     System,
     Components, // Общие компоненты
     Middleware
