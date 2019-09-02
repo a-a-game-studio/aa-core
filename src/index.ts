@@ -1,5 +1,8 @@
 
 // Подключене системных файлов для экспорта
+import * as Controller from './Namespace/Controller'
+
+// Подключене системных файлов для экспорта
 import * as System from './Namespace/System'
 
 // Подключене системных файлов

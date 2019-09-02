@@ -25,3 +25,18 @@ import BaseCtrl from '../System/BaseCtrl'
 import BaseSQL from '../System/BaseSQL'
 
 import BaseM from '../System/BaseM'
+
+export {
+    UserSys,
+    ResponseSys,
+    MainRequest,
+    initMainRequest,
+    RedisSys,
+    S3objectParamsI, S3confI, S3,
+    RabbitSenderSys,
+    BaseCommand,
+    BaseTest,
+    BaseCtrl,
+    BaseSQL,
+    BaseM
+}
