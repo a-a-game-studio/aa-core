@@ -51,6 +51,15 @@ export class UserSQL extends BaseSQL
             sSearchUserName = aFilter['search_username'];
         }
 
+        let bSearchUserName = false;
+        if(sSearchUserName){
+            bSearchUserName = true;
+        }
+
+        let bSearchFIO = false;
+        if(sSearchFIO){
+            bSearchFIO = true;
+        }
 
         sql = `
             SELECT
@@ -62,18 +71,22 @@ export class UserSQL extends BaseSQL
                 u.avatar
             FROM ${UserE.NAME} u
             WHERE
-                u.name LIKE :search_username
+                CASE WHEN :if_search_username THEN u.name LIKE :search_username ELSE true END
             AND
-                u.fullname LIKE :search_fullname
+                CASE WHEN :if_search_fullname THEN u.fullname LIKE :search_fullname ELSE true END
             LIMIT :limit
             OFFSET :offset
             ;
         `;
 
+        console.log(sql);
+
         try{
             resp = (await this.db.raw(sql, {
                 'offset': iOffset,
                 'limit': iLimit,
+                'if_search_username':bSearchUserName,
+                'if_search_fullname':bSearchFIO,
                 'search_username': '%'+sSearchUserName+'%',
                 'search_fullname': '%'+sSearchFIO+'%'
             }))[0];
@@ -149,14 +162,12 @@ export class UserSQL extends BaseSQL
         if( ok ){
             let sql = `
                 SELECT  
-                    u.user_id,
-                    u.group_id,
+                    u.id,
                     u.name,
-                    u.user_email,
-                    u.user_avatar
-                FROM phpbb_users u
-                JOIN user_token ut
-                on ut.user_id=u.user_id
+                    u.email,
+                    u.avatar
+                FROM ${UserE.NAME} u
+                JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
 
                 where ut.token= :token
 
@@ -212,12 +223,10 @@ export class UserSQL extends BaseSQL
                 sql = `
                     select ut.token from ${UserTokenE.NAME} ut
 
-                    where ut.token= :token order by ut.token_id desc
+                    where ut.token= :token order by ut.token desc
 
                     limit 1;
                 `;
-
-                console.log('==>sql',apikey);
                 
                 try{
                     resp = (await this.db.raw(sql, {

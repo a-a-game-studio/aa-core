@@ -96,7 +96,7 @@ export class UserSys
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
 				this.userInfoList = userInfoList;
-				this.idUser = userInfoList['user_id'];
+				this.idUser = userInfoList['id'];
 			}
 		}
 
@@ -104,6 +104,8 @@ export class UserSys
 		if( ok && ifAuth ){ // Получаем роли пользователя
 
 			userGroupsList = await this.userGroupSQL.getUserGroupsByUserID(this.idUser);
+
+			console.log('userGroupsList', userGroupsList);
 
 			if( !userGroupsList ){
 				ok = false;
@@ -385,7 +387,7 @@ export class UserSys
 			'is_admin'
 		]);
 
-		if( ok && this.userGroupsList['administrators'] ){
+		if( ok && this.userGroupsList['admin'] ){
 			this.errorSys.devNotice('is_admin', 'Вы администратор');
 		} else {
 			ok = false;
@@ -411,7 +413,7 @@ export class UserSys
         } else {
 			ok = false;
             this.errorSys.error('is_auth', 'Вы не авторизованы');
-        }
+		}
 
 		return ok;
 	}

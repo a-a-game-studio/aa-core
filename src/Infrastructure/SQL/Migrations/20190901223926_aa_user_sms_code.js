@@ -18,10 +18,10 @@ exports.up = async function(knex, Promise) {
         table.string('code', 50).index('code')
             .comment('Код подтверждения');
 
-        table.boolean('is_activated', 50).index('is_activated')
+        table.boolean('is_activated').index('is_activated')
             .comment('Статус активации кода');
 
-        table.dateTime('activated_at', 50).index('activated_at')
+        table.dateTime('activated_at').index('activated_at')
             .comment('Время активации кода');
 
         table.dateTime('created_at').index('created_at')

@@ -57,15 +57,17 @@ export class UserGroupSQL extends BaseSQL
         if( ok && !bCache ){ // Получаем список ролей
             let sql = `
                 SELECT
-                    DISTINCT pug.group_id,
-                    pg.alias,
-                    pg.group_name
-                FROM ${UserGroupE.NAME} pug
-                JOIN ${GroupsE.NAME} pg ON pg.group_id = pug.group_id
+                    DISTINCT ug.group_id,
+                    g.alias,
+                    g.name
+                FROM ${UserGroupE.NAME} ug
+                JOIN ${GroupsE.NAME} g ON g.id = ug.group_id
                 WHERE
-                    pug.user_id = :user_id;
+                    ug.user_id = :user_id;
                 ;
             `;
+
+            console.log(sql, idUser);
 
             try{
                 aUserGroups = (await this.db.raw(sql, {
