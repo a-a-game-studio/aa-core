@@ -51,12 +51,12 @@ export class UserSQL extends BaseSQL
             sSearchUserName = aFilter['search_username'];
         }
 
-        let bSearchUserName = false;
+        let bSearchUserName = false; // Использовать поиск по имени или нет
         if(sSearchUserName){
             bSearchUserName = true;
         }
 
-        let bSearchFIO = false;
+        let bSearchFIO = false; // Использовать поиск по ФИО или нет
         if(sSearchFIO){
             bSearchFIO = true;
         }
@@ -78,8 +78,6 @@ export class UserSQL extends BaseSQL
             OFFSET :offset
             ;
         `;
-
-        console.log(sql);
 
         try{
             resp = (await this.db.raw(sql, {
