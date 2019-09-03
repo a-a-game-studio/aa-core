@@ -75,10 +75,10 @@ export function initMainRequest(conf: any): MainRequest {
         sys: {
             apikey: '',
             bAuth: false, /* флаг авторизации */
-    
             errorSys: null,
             userSys: null,
-            responseSys: null
+            responseSys: null,
+            aaQuerySys:null
         },
         conf:null,
         infrastructure:{

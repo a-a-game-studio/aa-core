@@ -5,6 +5,7 @@ import BaseM from '../../../System/BaseM';
 // Классы SQL Запросов
 import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
 import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQL';
+import * as V from '../Validator/UserV';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -26,50 +27,39 @@ export class UserM extends BaseM
     }
 
 
-    public async getUserList(data: { [key: string]: any }): Promise<any> {
+    public async getUserList(
+        data:V.getUserList.RequestI): Promise<V.getUserList.ResponseI> {
+
+        try{
+        data = <V.getUserList.RequestI>V.getUserList.valid(this.req, data);
+        } catch(e){
+            console.log('!!!ERROR:',e);
+        }
+        console.log('====>aUserList');
         let ok = this.errorSys.isOk();
 
-        // Декларирование ошибок
-        this.errorSys.declare([
-            'offset', // начальная позиция списка пользователей
-            'limit', // конец списка пользователей
-            'limit_big', // ограничение по лимиту
-        ]);
 
-        let iOffset = 0;
-        if (!data['offset']) {
-            ok = false;
-            this.errorSys.error('offset', 'offset отсутствует');
-        } else {
-            iOffset = Number(data['offset']);
-        }
+        let iOffset = data.offset;
 
-        let iLimit = 20;
-        if (!data['limit']) {
-            ok = false;
-            this.errorSys.error('limit', 'limit отсутствует');
-        } else {
-            iLimit = Number(data['limit']);
-        }
+        let iLimit = data.limit;
 
-        let aFilter: { [key: string]: any } = {};
+        
+        let aFilter:{
+            search_fullname?:string; // ФИО пользователя
+            search_username?:string; // Имя пользователя
+        } = {};
         if (ok) { // Формируем параметры фильтрации
-            if (data['search_fullname']) {
-                aFilter['search_fullname'] = String(data['search_fullname']);
+            if (data.search_fullname) {
+                aFilter.search_fullname = data.search_fullname;
             } else {
                 this.errorSys.devNotice('search_fullname', 'Поиск по ФИО отсутствует');
             }
 
-            if (data['search_username']) {
-                aFilter['search_username'] = String(data['search_username']);
+            if (data.search_username) {
+                aFilter.search_username = data.search_username;
             } else {
                 this.errorSys.devNotice('search_username', 'Поиск по логину отсутствует');
             }
-        }
-
-        if (ok && iLimit > 100) { // Проверяем чтобы лимит был не больше 100
-            ok = false;
-            this.errorSys.error('limit_big', 'размер страницы слишком большой');
         }
 
         let aUserList = [];
@@ -77,11 +67,15 @@ export class UserM extends BaseM
             aUserList = await this.userSQL.getUserList(iOffset, iLimit, aFilter);
         }
 
+        
+
         let out = null;
         if (ok) { // Формирование ответа
-            out = aUserList;
-        } else {
-            out = [];
+            out = {
+                list:{
+                    user:aUserList
+                },
+            };
         }
 
         return out;

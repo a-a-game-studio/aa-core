@@ -9,5 +9,7 @@ export default function ResponseSysMiddleware(request: MainRequest, response: an
     const responseSys = new ResponseSys(request);
     request.sys.responseSys = responseSys;
 
+
+
     next();
 }

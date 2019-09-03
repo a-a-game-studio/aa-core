@@ -31,9 +31,12 @@ export class UserSQL extends BaseSQL
      * @param array sSearchFIO
      * @return array|null
      */
-    public async getUserList(iOffset:number, iLimit:number, aFilter:{ [key: string]: any }): Promise<any>{
+    public async getUserList(iOffset:number, iLimit:number, aFilter:{
+        search_fullname?:string; // ФИО пользователя
+        search_username?:string; // Имя пользователя
+    }): Promise<any>{
         let ok = this.errorSys.isOk();
-        let resp = null;
+        
         let sql = '';
 
         // Декларирование ошибок
@@ -42,13 +45,13 @@ export class UserSQL extends BaseSQL
         ]);
 
         let sSearchFIO = "";
-        if( aFilter['search_fullname']  ){
-            sSearchFIO = aFilter['search_fullname'];
+        if( aFilter.search_fullname  ){
+            sSearchFIO = aFilter.search_fullname;
         }
 
         let sSearchUserName = "";
-        if( aFilter['search_username']  ){
-            sSearchUserName = aFilter['search_username'];
+        if( aFilter.search_username  ){
+            sSearchUserName = aFilter.search_username;
         }
 
         let bSearchUserName = false; // Использовать поиск по имени или нет
@@ -61,37 +64,40 @@ export class UserSQL extends BaseSQL
             bSearchFIO = true;
         }
 
-        sql = `
-            SELECT
-                u.id,
-                u.name,
-                u.fullname,
-                u.login,
-                u.email,
-                u.avatar
-            FROM ${UserE.NAME} u
-            WHERE
-                CASE WHEN :if_search_username THEN u.name LIKE :search_username ELSE true END
-            AND
-                CASE WHEN :if_search_fullname THEN u.fullname LIKE :search_fullname ELSE true END
-            LIMIT :limit
-            OFFSET :offset
-            ;
-        `;
+        let resp = null;
+        if(ok){
+            sql = `
+                SELECT
+                    u.id,
+                    u.name,
+                    u.fullname,
+                    u.login,
+                    u.email,
+                    u.avatar
+                FROM ${UserE.NAME} u
+                WHERE
+                    CASE WHEN :if_search_username THEN u.name LIKE :search_username ELSE true END
+                AND
+                    CASE WHEN :if_search_fullname THEN u.fullname LIKE :search_fullname ELSE true END
+                LIMIT :limit
+                OFFSET :offset
+                ;
+            `;
 
-        try{
-            resp = (await this.db.raw(sql, {
-                'offset': iOffset,
-                'limit': iLimit,
-                'if_search_username':bSearchUserName,
-                'if_search_fullname':bSearchFIO,
-                'search_username': '%'+sSearchUserName+'%',
-                'search_fullname': '%'+sSearchFIO+'%'
-            }))[0];
+            try{
+                resp = (await this.db.raw(sql, {
+                    'offset': iOffset,
+                    'limit': iLimit,
+                    'if_search_username':bSearchUserName,
+                    'if_search_fullname':bSearchFIO,
+                    'search_username': '%'+sSearchUserName+'%',
+                    'search_fullname': '%'+sSearchFIO+'%'
+                }))[0];
 
-        } catch (e){
-            ok = false;
-            this.errorSys.errorEx(e, 'get_user', 'Не удалось получить пользователя');
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'get_user', 'Не удалось получить пользователя');
+            }
         }
 
         return resp;

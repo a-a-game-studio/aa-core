@@ -6,6 +6,13 @@ import {UserSys} from '../../../System/UserSys';
 // Компоненты
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
+export interface UserI{
+    id?:number;
+    login?:string;
+    name?:string;
+    email?:string;
+}
+
 
 export class UserE
 {
