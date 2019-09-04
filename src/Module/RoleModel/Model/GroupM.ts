@@ -35,8 +35,11 @@ export class GroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async getAllGroups(data:{ [key: string]: any }): Promise<any>{
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async getAllGroups(data:V.getAllGroups.RequestI): Promise<V.getAllGroups.ResponseI> {
+
+        data = <V.getAllGroups.RequestI>V.getAllGroups.valid(this.req, data);
+
+        let ok = this.errorSys.isOk()
 
         this.errorSys.declare([
             'get_all_roles' // Не удалось получить группы пользователей
@@ -53,9 +56,11 @@ export class GroupM extends BaseM
 
         }
 
-        let out = null;
+        let out:V.getAllGroups.ResponseI = null;
         if( ok ){ // Формирование ответа
-            out = allGroupsList;
+            out = {
+                list_group:allGroupsList
+            }
         }
 
         return out;
@@ -100,28 +105,32 @@ export class GroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async saveGroup(data:{ [key: string]: any }): Promise<any>{
+    public async saveGroup(data:V.saveGroup.RequestI): Promise<V.saveGroup.ResponseI> {
+
+        data = <V.saveGroup.RequestI>V.saveGroup.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        let idGroup = 0;
-        if( !data['group_id'] ){
-            ok = false;
-            this.errorSys.error('group_id','Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        let idGroup = data.group_id
 
-        let group = false;
+        let bSaveGroup = false;
         if( ok ){ // Получить группу
-            group = await this.groupsSQL.saveGroup(idGroup, data);
+            bSaveGroup = await this.groupsSQL.saveGroup(idGroup, data);
 
-            if( !group ){
+            if( !bSaveGroup ){
                 ok = false;
                 this.errorSys.error('save_group','Не удалось сохранить данные группы');
             }
         }
 
-        return null;
+        let out:V.saveGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_save_group:bSaveGroup,
+            }
+        }
+
+        return out;
     }
 
 }

@@ -133,49 +133,31 @@ export class CtrlAccessSQL extends BaseSQL
             'get_list_ctrl_access'
         ]);
 
-        let sCache = null;
-        if( ok ){ // Пробуем получить данные из кеша
-            sCache = await this.redisSys.get("CtrlAccessSQL.getAllCtrlAccess()");
-
-
-            if( sCache ){
-                bCache = true;
-                this.errorSys.devNotice(
-                    "cache:CtrlAccessSQL.getAllCtrlAccess()",
-                    'Значение взято из кеша'
-                );
-            }
-        }
 
         let ctrlAccessList = null;
-        if( ok && !bCache ){ // Получаем весь список групп
-            sql = `
-                SELECT
-                    ca.id,
-                    ca.alias,
-                    ca.name
-                FROM ${CtrlAccessE.NAME} ca
-                ;
-            `;
+        if( ok ){ // Получаем весь список контроллеров доступа
 
-            try{
-                ctrlAccessList = (await this.db.raw(sql))[0];
-            } catch (e){
-                ok = false;
-                this.errorSys.error('get_list_ctrl_access', 'Не удалось получить группы пользователя');
-            }
-        }
+            ctrlAccessList = await this.autoCache("CtrlAccessSQL.getAllCtrlAccess()", 3600, async () => {
 
-        if( ok && !bCache ){ // Если значения нет в кеше - добавляем его в кеш
-            this.redisSys.set(
-                "CtrlAccessSQL.getAllCtrlAccess()",
-                JSON.stringify(ctrlAccessList),
-                3600
-            );
-        }
+                let ctrlAccessList = null;
+                sql = `
+                    SELECT
+                        ca.id,
+                        ca.alias,
+                        ca.name
+                    FROM ${CtrlAccessE.NAME} ca
+                    ;
+                `;
 
-        if( ok && bCache ){ // Если значение взято из кеша - отдаем его в ответ
-            ctrlAccessList = JSON.parse(sCache);
+                try{
+                    ctrlAccessList = (await this.db.raw(sql))[0];
+                } catch (e){
+                    ok = false;
+                    this.errorSys.error('get_list_ctrl_access', 'Не удалось получить группы пользователя');
+                }
+
+                return ctrlAccessList;
+            }); // autoCache
         }
 
         // Формирование ответа

@@ -6,7 +6,7 @@ import {UserSys} from '../../../System/UserSys';
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
 /**
- * Описание полей пользователя
+ * Описание полей группы
  */
 export interface GroupI{
     id?:number;

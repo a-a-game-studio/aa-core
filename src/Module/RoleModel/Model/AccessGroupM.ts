@@ -7,6 +7,9 @@ import {UserSQL} from '../../../Infrastructure/SQL/Repository/UserSQL';
 import {CtrlAccessSQL} from '../../../Infrastructure/SQL/Repository/CtrlAccessSQL';
 import {AccessGroupSQL} from '../../../Infrastructure/SQL/Repository/AccessGroupSQL';
 
+// Валидация
+import * as V from '../Validator/AccessGroupV';
+
 /**
  * Контроллеры доступа по модулям
  * Внутри метода делаем нужную бизнес логику
@@ -33,20 +36,13 @@ export class AccessGroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async getCtrlAccessOfGroupByID(data:{ [key: string]: any }): Promise<any>{
+    public async getCtrlAccessOfGroupByID(data:V.getCtrlAccessOfGroupByID.RequestI): Promise<V.getCtrlAccessOfGroupByID.ResponseI> {
+
+        data = <V.getCtrlAccessOfGroupByID.RequestI>V.getCtrlAccessOfGroupByID.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        this.errorSys.declare([
-            'group_id', // Отсутствует группа
-        ]);
-
-        let idGroup = null;
-        if( !data['group_id'] ){
-            ok = false;
-            this.errorSys.error('group_id','Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        let idGroup = data.group_id;
 
         let ctrlAccessList = null;
         if( ok ){ // Получить список модулей доступных группе
@@ -57,11 +53,11 @@ export class AccessGroupM extends BaseM
             }
         }
 
-        let out = null;
+        let out:V.getCtrlAccessOfGroupByID.ResponseI = null;
         if( ok ){ // Формирование ответа
-            out = ctrlAccessList;
-        } else {
-            out = [];
+            out = {
+                list_ctrl_access:ctrlAccessList
+            };
         }
 
         return out;

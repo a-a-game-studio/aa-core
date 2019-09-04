@@ -5,11 +5,22 @@ import {UserSys} from '../../../System/UserSys';
 // Компоненты
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
+
 /**
- * WorldFasa
- *
- * @ORM\Table(name="access_group")
- * @ORM\Entity
+ * Описание полей группы
+ */
+export interface AccessGroupI{
+	id?:number; // ID доступа
+	group_id?:number; //ID группы
+	ctrl_access_id?:number; // ID контроллера
+	create_access?:boolean; // Права на создание
+	read_access?:boolean; // Права на чтение
+	update_access?:boolean; // Права на обновление
+	delete_access?:boolean; // Права на удаление
+}
+
+/**
+ * Сущьность доступа группе пользователей
  */
 export class AccessGroupE
 {

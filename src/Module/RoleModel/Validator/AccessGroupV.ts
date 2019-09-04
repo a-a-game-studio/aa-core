@@ -3,10 +3,12 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import { MainRequest } from '../../../Namespace/System';
 import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { AccessGroupI } from '../../../Infrastructure/SQL/Entity/AccessGroupE';
+import { CtrlAccessI } from '../../../Infrastructure/SQL/Entity/CtrlAccessE';
 
 // =======================================================
-/** Получить информацию о группе */
-export namespace getGroupByID {
+/** Получить Список пользователей */
+export namespace getCtrlAccessOfGroupByID {
 
     /** Параметры api запроса */
     export interface RequestI {
@@ -15,7 +17,7 @@ export namespace getGroupByID {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        one_group:GroupI; // Информация по группе
+        list_ctrl_access:AccessGroupI[]; // Список пользователей
     }
 
     /**
@@ -29,12 +31,57 @@ export namespace getGroupByID {
 
         // =======================================
 
-        // ID группы
+        // Проверка с какой записи получать данные
         rules.set(rules.rule('group_id')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
             .errorEx('group_id', 'group_id')
+        );
+
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+
+// =======================================================
+/** Получить пользователя по ID */
+export namespace getUserByID {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        user_id:number; // ID пользователя
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        one_user:UserI; // Информация о пользователе
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+
+        // Сколько записей получать
+        rules.set(rules.rule('user_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .moreOrEq(0)
+            .errorEx('user_id', 'user_id')
         );
 
         // =======================================
@@ -48,16 +95,17 @@ export namespace getGroupByID {
 
 
 // =======================================================
-/** Получить все группы */
-export namespace getAllGroups {
+/** Получить группы по ID пользователя*/
+export namespace getUserGroupsByUserID {
 
     /** Параметры api запроса */
     export interface RequestI {
+        user_id:number; // ID пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_group:GroupI; // Информация по группе
+        list_group:GroupI[]; // Информация о пользователе
     }
 
     /**
@@ -71,67 +119,13 @@ export namespace getAllGroups {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
-        validator.fValid(rules.get(), data);
 
-        return validator.getResult();
-    }
-}
-
-
-
-// =======================================================
-/** Сохранить группу */
-export namespace saveGroup {
-
-    /** Параметры api запроса */
-    export interface RequestI {
-        group_id:number; // ID группы
-        name?:string; // Наименование группы
-        alias?:string; // Псевдоним
-        descript?:string; // Описание
-    }
-
-    /** Параметры api ответа */
-    export interface ResponseI {
-        cmd_save_group:boolean; // Информация по группе
-    }
-
-    /**
-     * Валидация
-     *
-     * @param req MainRequest
-     * @param data RequestI
-     */
-    export function valid(req:MainRequest, data:any){
-        let rules = new Components.ModelRulesC();
-
-        // =======================================
-
-        // ID группы
-        rules.set(rules.rule('group_id')
+        // Сколько записей получать
+        rules.set(rules.rule('user_id')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('group_id', 'group_id')
-        );
-
-        // Имя
-        rules.set(rules.rule('name')
-            .type(Components.ModelRulesT.text)
-            .errorEx('name', 'name')
-        );
-
-        // Псевдоним
-        rules.set(rules.rule('alias')
-            .type(Components.ModelRulesT.text)
-            .errorEx('alias', 'alias')
-        );
-
-        // Описание
-        rules.set(rules.rule('descript')
-            .type(Components.ModelRulesT.text)
-            .errorEx('descript', 'descript')
+            .errorEx('user_id', 'user_id')
         );
 
         // =======================================
@@ -142,3 +136,5 @@ export namespace saveGroup {
         return validator.getResult();
     }
 }
+
+

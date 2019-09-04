@@ -35,8 +35,11 @@ export class CtrlAccessM extends BaseM
      * @param array data
      * @return array|null
      */
-    public getAllCtrlAccess(data:{ [key: string]: any }): any{
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async getAllCtrlAccess(data:V.getAllCtrlAccess.RequestI): Promise<V.getAllCtrlAccess.ResponseI> {
+
+        data = <V.getAllCtrlAccess.RequestI>V.getAllCtrlAccess.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
 
         this.errorSys.declare([
             'get_all_roles' // Не удалось получить группы пользователей
@@ -44,7 +47,7 @@ export class CtrlAccessM extends BaseM
 
         let allCtrlAccessList = null;
         if( ok ){ // Получить список ролей
-            allCtrlAccessList = this.ctrlAccessSQL.getAllCtrlAccess();
+            allCtrlAccessList = await this.ctrlAccessSQL.getAllCtrlAccess();
 
             if( !allCtrlAccessList ){
                 ok = false;
@@ -53,9 +56,11 @@ export class CtrlAccessM extends BaseM
 
         }
 
-        let out = null;
+        let out:V.getAllCtrlAccess.ResponseI = null;
         if( ok ){ // Формирование ответа
-            out = allCtrlAccessList;
+            out = {
+                list_ctrl_access:allCtrlAccessList
+            }
         }
 
         return out;

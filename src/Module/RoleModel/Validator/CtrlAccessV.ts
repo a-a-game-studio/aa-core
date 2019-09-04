@@ -46,3 +46,33 @@ export namespace getCtrlAccessByAlias {
     }
 }
 
+// =======================================================
+/** Получить все модули */
+export namespace getAllCtrlAccess {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        list_ctrl_access:CtrlAccessI[]; // список модулей
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}

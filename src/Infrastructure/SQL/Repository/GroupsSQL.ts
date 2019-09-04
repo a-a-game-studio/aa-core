@@ -7,7 +7,7 @@ import * as redisSys  from '../../../System/RedisSys';
 import MainRequest from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
-import {GroupsE} from '../Entity/GroupsE';
+import {GroupsE, GroupI} from '../Entity/GroupsE';
 import BaseSQL from '../../../System/BaseSQL';
 
 /**
@@ -84,50 +84,32 @@ export class GroupsSQL extends BaseSQL
             'get_roles'
         ]);
 
-        let sCache = null;
-        if( ok ){ // Пробуем получить данные из кеша
-            sCache = await this.redisSys.get("GroupsSQL.getAllGroups()");
-
-            if( sCache ){
-                bCache = true;
-                this.errorSys.devNotice(
-                    "cache:GroupsSQL.getAllGroups()",
-                    'Значение взято из кеша'
-                );
-            }
-        }
-
-
         let groupList = null;
         if( ok && !bCache ){ // Получаем весь список групп
-            sql = `
-                SELECT
-                    pg.group_id,
-                    pg.group_name,
-                    pg.alias
-                FROM ${GroupsE.NAME} pg
-                ;
-            `;
+            groupList = await this.autoCache(`GroupsSQL.getAllGroups()`, 3600, async () => {
 
-            try{
-                groupList = (await this.db.raw(sql))[0];
-            } catch (e){
-                ok = false;
-                this.errorSys.error('get_roles', 'Не удалось получить группы пользователя');
-            }
+                let groupList = null;
+                sql = `
+                    SELECT
+                        g.id,
+                        g.name,
+                        g.alias
+                    FROM ${GroupsE.NAME} g
+                    ;
+                `;
+
+                try{
+                    groupList = (await this.db.raw(sql))[0];
+                } catch (e){
+                    ok = false;
+                    this.errorSys.error('get_roles', 'Не удалось получить группы пользователя');
+                }
+
+                return groupList;
+        
+            }); // autoCache
         }
 
-        if( ok && !bCache ){ // Если значения нет в кеше - добавляем его в кеш
-            this.redisSys.set(
-                "GroupsSQL.getAllGroups()",
-                JSON.stringify(groupList),
-                3600
-            );
-        }
-
-        if( ok && bCache ){ // Если значение взято из кеша - отдаем его в ответ
-            groupList = JSON.parse(sCache);
-        }
 
         // Формирование ответа
         return groupList;
@@ -143,9 +125,8 @@ export class GroupsSQL extends BaseSQL
      * @param integer idGroup
      * @return boolean
      */
-    public async saveGroup(idGroup:number, data:{ [key: string]: any }): Promise<boolean>{
+    public async saveGroup(idGroup:number, data:GroupI): Promise<boolean>{
         let ok = this.errorSys.isOk();
-        let sql:string = '';
 
         // Декларация ошибок
         this.errorSys.declare([
@@ -159,13 +140,13 @@ export class GroupsSQL extends BaseSQL
             try{
                 resp = await this.db(GroupsE.NAME)
                     .where({
-                        group_id: idGroup
+                        id: idGroup
                     })
-                    .update(this.modelValidatorSys.getResult());
+                    .update(this.modelValidatorSys.getResult())
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('save_group', 'Не удалось сохранить изменения в группе');
+                this.errorSys.errorEx(e, 'save_group', 'Не удалось сохранить изменения в группе');
             }
         }
 
