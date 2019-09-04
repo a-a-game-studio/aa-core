@@ -6,6 +6,9 @@ import BaseM from '../../../System/BaseM';
 import {UserSQL} from '../../../Infrastructure/SQL/Repository/UserSQL';
 import {CtrlAccessSQL} from '../../../Infrastructure/SQL/Repository/CtrlAccessSQL';
 
+// Валидация
+import * as V from '../Validator/CtrlAccessV';
+
 /**
  * Контроллеры доступа по модулям
  * Внутри метода делаем нужную бизнес логику
@@ -65,24 +68,22 @@ export class CtrlAccessM extends BaseM
      * @param array data
      * @return array|null
      */
-    public getCtrlAccessByAlias(data:{ [key: string]: any }): any{
+    public async getCtrlAccessByAlias(data:V.getCtrlAccessByAlias.RequestI): Promise<V.getCtrlAccessByAlias.ResponseI> {
+
+        data = <V.getCtrlAccessByAlias.RequestI>V.getCtrlAccessByAlias.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        this.errorSys.declare([
-            'get_ctrl_access' // Не удалось получить контроллер доступа
-        ]);
+        this.errorSys.declareEx({
+            'get_ctrl_access':'Не удалось получить контроллер доступа'
+        });
 
-        let aliasCtrlAccess = null;
-        if( !data['alias'] ){
-            ok = false;
-            this.errorSys.error('alias','Отсутствует Alias группы');
-        } else {
-            aliasCtrlAccess = String(data['alias']);
-        }
+        let aliasCtrlAccess = data.alias;
 
-        let ctrlAccessList = {};
+        
+        let ctrlAccessList = null;
         if( ok ){ // Получить группу
-            ctrlAccessList = this.ctrlAccessSQL.getCtrlAccessByAlias(aliasCtrlAccess);
+            ctrlAccessList = await this.ctrlAccessSQL.getCtrlAccessByAlias(aliasCtrlAccess);
 
             if( !ctrlAccessList ){
                 ok = false;
@@ -90,11 +91,11 @@ export class CtrlAccessM extends BaseM
             }
         }
 
-        let out = null;
+        let out:V.getCtrlAccessByAlias.ResponseI = null;
         if( ok ){ // Формирование ответа
-            out = ctrlAccessList;
-        } else {
-            out = [];
+            out = {
+                one_ctrl_access:ctrlAccessList
+            }
         }
 
         return out;

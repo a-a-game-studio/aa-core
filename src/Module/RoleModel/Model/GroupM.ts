@@ -6,6 +6,9 @@ import BaseM from '../../../System/BaseM';
 import {UserSQL} from '../../../Infrastructure/SQL/Repository/UserSQL';
 import {GroupsSQL} from '../../../Infrastructure/SQL/Repository/GroupsSQL';
 
+// Валидация
+import * as V from '../Validator/GroupV';
+
 /**
  * Группы пользователей
  * Внутри метода делаем нужную бизнес логику
@@ -65,18 +68,15 @@ export class GroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async getGroupByID(data:{ [key: string]: any }): Promise<any>{
+    public async getGroupByID(data:V.getGroupByID.RequestI): Promise<V.getGroupByID.ResponseI> {
+
+        data = <V.getGroupByID.RequestI>V.getGroupByID.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        let idGroup = 0;
-        if( !data['group_id'] ){
-            ok = false;
-            this.errorSys.error('group_id','Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        let idGroup = data.group_id;
 
-        let groupList = [];
+        let groupList = null;
         if( ok ){ // Получить группу
             groupList = await this.groupsSQL.getGroupByID(idGroup);
 
@@ -89,8 +89,6 @@ export class GroupM extends BaseM
         let out = null;
         if( ok ){ // Формирование ответа
             out = groupList;
-        } else {
-            out = [];
         }
 
         return out;

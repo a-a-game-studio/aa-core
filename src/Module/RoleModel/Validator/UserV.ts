@@ -2,6 +2,7 @@
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import { MainRequest } from '../../../Namespace/System';
+import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
 
 // =======================================================
 /** Получить Список пользователей */
@@ -17,9 +18,7 @@ export namespace getUserList {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list:{ // Списки
-            user:UserI[];
-        };
+        list_user:UserI[]; // Список пользователей
     }
 
     /**
@@ -48,6 +47,94 @@ export namespace getUserList {
             .moreOrEq(0)
             .lessOrEq(100)
             .errorEx('limit', 'limit')
+        );
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+
+// =======================================================
+/** Получить пользователя по ID */
+export namespace getUserByID {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        user_id:number; // ID пользователя
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        one_user:UserI; // Информация о пользователе
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+
+        // Сколько записей получать
+        rules.set(rules.rule('user_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .moreOrEq(0)
+            .errorEx('user_id', 'user_id')
+        );
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+
+// =======================================================
+/** Получить группы по ID пользователя*/
+export namespace getUserGroupsByUserID {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        user_id:number; // ID пользователя
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        list_group:GroupI[]; // Информация о пользователе
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+
+        // Сколько записей получать
+        rules.set(rules.rule('user_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .moreOrEq(0)
+            .errorEx('user_id', 'user_id')
         );
 
         // =======================================

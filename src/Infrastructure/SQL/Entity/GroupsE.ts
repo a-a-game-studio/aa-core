@@ -5,6 +5,19 @@ import {UserSys} from '../../../System/UserSys';
 // Компоненты
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
+/**
+ * Описание полей пользователя
+ */
+export interface GroupI{
+    id?:number;
+    alias?:string;
+    name?:string;
+    descript?:string;
+}
+
+/**
+ * Правила работы с таблицей группы
+ */
 export class GroupsE
 {
     //Имя таблицы

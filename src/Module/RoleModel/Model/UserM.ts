@@ -5,7 +5,12 @@ import BaseM from '../../../System/BaseM';
 // Классы SQL Запросов
 import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
 import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQL';
+
+// Валидация
 import * as V from '../Validator/UserV';
+
+// Интерфейсы и сущьности
+import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -27,15 +32,10 @@ export class UserM extends BaseM
     }
 
 
-    public async getUserList(
-        data:V.getUserList.RequestI): Promise<V.getUserList.ResponseI> {
+    public async getUserList(data:V.getUserList.RequestI): Promise<V.getUserList.ResponseI> {
 
-        try{
-        data = <V.getUserList.RequestI>V.getUserList.valid(this.req, data);
-        } catch(e){
-            console.log('!!!ERROR:',e);
-        }
-        console.log('====>aUserList');
+        data = <V.getUserList.RequestI>V.getUserList.valid(this.req, data);    
+
         let ok = this.errorSys.isOk();
 
 
@@ -72,9 +72,7 @@ export class UserM extends BaseM
         let out = null;
         if (ok) { // Формирование ответа
             out = {
-                list:{
-                    user:aUserList
-                },
+                list_user:aUserList // Список пользователей
             };
         }
 
@@ -87,32 +85,24 @@ export class UserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async getUserByID(data: { [key: string]: any }): Promise<any> {
+    public async getUserByID(data:V.getUserByID.RequestI): Promise<V.getUserByID.ResponseI> {
+
+        data = <V.getUserByID.RequestI>V.getUserByID.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        // Декларирование ошибок
-        this.errorSys.declare([
-            'user_id' // Отсутствует ID пользователя
-        ]);
+        let idUser = data.user_id;
 
-        let idUser = 0;
-        if (!data['user_id']) {
-            ok = false;
-            this.errorSys.error('user_id', 'Отсутствует ID пользователя');
-        } else {
-            idUser = Number(data['user_id']);
-        }
-
-        let aUser = [];
+        let vUser:UserI = null;
         if (ok) { // Получить список пользователей
-            aUser = await this.userSQL.getUserByID(idUser);
+            vUser = await this.userSQL.getUserByID(idUser);
         }
 
-        let out = null;
+        let out:V.getUserByID.ResponseI = null;
         if (ok) { // Формирование ответа
-            out = aUser;
-        } else {
-            out = [];
+            out = {
+                one_user:vUser
+            };
         }
 
         return out;
@@ -125,21 +115,13 @@ export class UserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async getUserGroupsByUserID(data: { [key: string]: any }): Promise<any> {
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async getUserGroupsByUserID(data:V.getUserGroupsByUserID.RequestI): Promise<V.getUserGroupsByUserID.ResponseI> {
 
-        // Декларирование ошибок
-        this.errorSys.declare([
-            'user_id' // Отсутствует ID пользователя
-        ]);
+        data = <V.getUserGroupsByUserID.RequestI>V.getUserGroupsByUserID.valid(this.req, data);
 
-        let idUser = 0;
-        if (!data['user_id']) {
-            ok = false;
-            this.errorSys.error('user_id', 'Отсутствует ID пользователя');
-        } else {
-            idUser = Number(data['user_id']);
-        }
+        let ok = this.errorSys.isOk();
+
+        let idUser = data.user_id
 
         let aUserGroups = [];
         if (ok) { // Получить список ролей пользователя

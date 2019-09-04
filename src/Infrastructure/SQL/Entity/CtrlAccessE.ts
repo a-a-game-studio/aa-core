@@ -5,6 +5,17 @@ import {UserSys} from '../../../System/UserSys';
 // Компоненты
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
 
+/**
+ * Описание полей пользователя
+ */
+export interface CtrlAccessI{
+    id?:number;
+    alias?:string;
+    name?:string;
+    descript?:string;
+}
+
+
 export class CtrlAccessE
 {
     //Имя таблицы

@@ -33,67 +33,42 @@ export class UserGroupSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declare([
-            'get_role'
-        ]);
+        this.errorSys.declareEx({
+            'get_role':'Не удалось группы пользователя'
+        });
 
-        let bCache = false; // Наличие кеша
+        let aUserGroups = null; 
+        if( ok ){ 
+            aUserGroups = await this.autoCache(`UserGroupSQL.getUserGroupsByUserID(${idUser})`, 3600, async () =>{
 
-        let sCache = null;
-        if( ok ){ // Пробуем получить данные из кеша
-            sCache = await this.redisSys.get(`UserGroupSQL.getUserGroupsByUserID(${idUser})`);
+                let aUserGroups = null;
+                let sql = `
+                    SELECT
+                        DISTINCT ug.group_id,
+                        g.alias,
+                        g.name
+                    FROM ${UserGroupE.NAME} ug
+                    JOIN ${GroupsE.NAME} g ON g.id = ug.group_id
+                    WHERE
+                        ug.user_id = :user_id;
+                    ;
+                `;
 
-            if( sCache ){
-                bCache = true;
-                this.errorSys.devNotice(
-                    `cache:UserGroupSQL.getUserGroupsByUserID(${idUser})`,
-                    'Значение взято из кеша'
-                );
-            }
+                try{
+                    aUserGroups = (await this.db.raw(sql, {
+                        user_id: idUser
+                    }))[0];
+
+                } catch (e){
+                    ok = false;
+
+                    this.errorSys.errorEx(e, 'get_role', 'Не удалось группы пользователя');
+                }
+
+                return aUserGroups;
+
+            })
         }
-
-
-        let aUserGroups = null;
-        if( ok && !bCache ){ // Получаем список ролей
-            let sql = `
-                SELECT
-                    DISTINCT ug.group_id,
-                    g.alias,
-                    g.name
-                FROM ${UserGroupE.NAME} ug
-                JOIN ${GroupsE.NAME} g ON g.id = ug.group_id
-                WHERE
-                    ug.user_id = :user_id;
-                ;
-            `;
-
-            console.log(sql, idUser);
-
-            try{
-                aUserGroups = (await this.db.raw(sql, {
-                    user_id: idUser
-                }))[0];
-
-            } catch (e){
-                ok = false;
-
-                this.errorSys.error('get_role', 'Не удалось группы пользователя');
-            }
-
-        }
-
-        if( ok && !bCache ){ // Если значения нет в кеше - добавляем его в кеш
-            this.redisSys.set(
-                `UserGroupSQL.getUserGroupsByUserID(${idUser})`,
-                JSON.stringify(aUserGroups),
-                3600
-            );
-        }
-
-        if( ok && bCache ){ // Если значение взято из кеша - отдаем его в ответ
-            aUserGroups = JSON.parse(sCache);
-        }
-
 
         return aUserGroups;
     }

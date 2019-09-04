@@ -105,8 +105,6 @@ export class UserSys
 
 			userGroupsList = await this.userGroupSQL.getUserGroupsByUserID(this.idUser);
 
-			console.log('userGroupsList', userGroupsList);
-
 			if( !userGroupsList ){
 				ok = false;
 				this.errorSys.error('get_user_roles_in_auth', 'Не возомжно получить роли пользователя при авторизации');

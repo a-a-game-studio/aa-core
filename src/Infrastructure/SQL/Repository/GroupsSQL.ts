@@ -33,31 +33,30 @@ export class GroupsSQL extends BaseSQL
      */
     public async getGroupByID(idGroup:number): Promise<any>{
         let ok = this.errorSys.isOk();
-        let resp: any[] = null;
+        
         let sql:string = '';
 
         // Декларация ошибок
-        this.errorSys.declare([
-            'get_group',
-            'group_not_found'
-        ]);
+        this.errorSys.declareEx({
+            'get_group':'Не удалось получить группу'
+        });
 
         sql = `
             SELECT
-                g.group_id,
+                g.id,
                 g.alias,
-                g.group_type,
-                g.group_name,
-                g.group_desc
+                g.name,
+                g.descript
             FROM ${GroupsE.NAME} g
-            WHERE g.group_id = :id_group
+            WHERE g.id = :id_group
             LIMIT 1
         `;
 
+        let respGroup = null;
         try{
-            resp = (await this.db.raw(sql, {
+            respGroup = (await this.db.raw(sql, {
                 id_group: idGroup
-            }))[0];
+            }))[0][0];
 
 
         } catch (e){
@@ -65,14 +64,7 @@ export class GroupsSQL extends BaseSQL
             this.errorSys.error('get_group', 'Не удалось получить группу');
         }
 
-        if ( ok && resp.length > 0) {
-            resp = resp[0];
-        } else {
-            resp = null;
-            ok = false;
-            this.errorSys.error('group_not_found', 'Группа не найден');
-        }
-        return resp;
+        return respGroup;
     }
 
     /**

@@ -122,14 +122,13 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.user_id,
-                u.group_id,
+                u.id,
                 u.name,
                 u.email,
                 u.avatar,
                 u.fullname
             FROM ${UserE.NAME} u
-            WHERE u.user_id = :user_id
+            WHERE u.id = :user_id
             LIMIT 1
         `;
 
@@ -146,7 +145,7 @@ export class UserSQL extends BaseSQL
 
         } catch (e){
             ok = false;
-            this.errorSys.error('get_user', 'Не удалось получить пользователя');
+            this.errorSys.errorEx(e, 'get_user', 'Не удалось получить пользователя');
         }
 
         return resp;

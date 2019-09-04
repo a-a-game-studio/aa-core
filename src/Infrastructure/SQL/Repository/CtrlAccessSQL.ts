@@ -31,7 +31,7 @@ export class CtrlAccessSQL extends BaseSQL
      */
     public async getCtrlAccessByAlias(aliasCtrlAccess:string): Promise<any>{
         let ok = this.errorSys.isOk();
-        let resp:any = null;
+        
         let sql = '';
 
         // Декларация ошибок
@@ -51,23 +51,21 @@ export class CtrlAccessSQL extends BaseSQL
             LIMIT 1
         `;
 
-        try{
-            resp = (await this.db.raw(sql, {
-                'alias': aliasCtrlAccess
-            }))[0];
+        let respCtrlAccess:any = null;
+        if(ok){
+            try{
+                respCtrlAccess = (await this.db.raw(sql, {
+                    'alias': aliasCtrlAccess
+                }))[0][0];
 
-        } catch (e){
-            ok = false;
-            this.errorSys.error('get_ctrl_access', 'Не удалось получить контроль доступа');
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'get_ctrl_access', 'Не удалось получить контроль доступа');
+            }
         }
 
-        if( ok && resp[0] ){
-            resp = resp[0];
-        } else {
-            this.errorSys.error('get_ctrl_access_not_found', 'Не удалось найти контроль доступа');
-        }
 
-        return resp;
+        return respCtrlAccess;
     }
 
     /**
