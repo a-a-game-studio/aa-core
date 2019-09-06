@@ -179,7 +179,7 @@ export class CtrlAccessSQL extends BaseSQL
 
         // Декларация ошибок
         this.errorSys.declare([
-            'save_ctrl_access'
+            'db_save_ctrl_access'
         ]);
 
         let vCtrlAccessE = new CtrlAccessE();
@@ -195,15 +195,13 @@ export class CtrlAccessSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('save_ctrl_access', 'Не удалось сохранить изменения в группе');
+                this.errorSys.error('db_save_ctrl_access', 'Не удалось сохранить изменения в контроллере доступа');
             }
 
         }
 
-        let aRelatedKeyRedis = [];
-        if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('CtrlAccessSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+        if( ok ){
+            await this.clearCache('CtrlAccessSQL*');
         }
 
         return ok;

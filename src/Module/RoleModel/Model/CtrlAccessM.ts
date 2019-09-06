@@ -112,33 +112,37 @@ export class CtrlAccessM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async saveCtrlAccess(data:{ [key: string]: any }): Promise<any>{
+    public async saveCtrlAccess(data:V.saveCtrlAccess.RequestI): Promise<V.saveCtrlAccess.ResponseI> {
+
+        data = <V.saveCtrlAccess.RequestI>V.saveCtrlAccess.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        this.errorSys.declare([
-            'ctrl_access_id', // Отсутствует ID группы
-            'save_ctrl_access' // Не удалось сохранить данные группы
-        ]);
+        this.errorSys.declareEx({
+            'save_ctrl_access':'Не удалось сохранить данные группы'
+        });
 
-        let idCtrlAccess = 0;
-        if( !data['ctrl_access_id'] ){
-            ok = false;
-            this.errorSys.error('ctrl_access_id','Отсутствует ID группы');
-        } else {
-            idCtrlAccess = Number(data['ctrl_access_id']);
-        }
+        let idCtrlAccess = data.ctrl_access_id;
 
-        let ctrlAccess = false;
+
+        let bCtrlAccess = false;
         if( ok ){ // Получить группу
-            ctrlAccess = await this.ctrlAccessSQL.saveCtrlAccess(idCtrlAccess, data);
+            bCtrlAccess = await this.ctrlAccessSQL.saveCtrlAccess(idCtrlAccess, data);
 
-            if( !ctrlAccess ){
+            if( !bCtrlAccess ){
                 ok = false;
                 this.errorSys.error('save_ctrl_access','Не удалось сохранить данные группы');
             }
         }
 
-        return null;
+        let out:V.saveCtrlAccess.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_save_ctrl_access:true
+            }
+        }
+
+        return out;
     }
 
     /**
