@@ -30,7 +30,7 @@ export namespace getCtrlAccessByAlias {
         // =======================================
         // ID группы
         rules.set(rules.rule('alias')
-            .type(Components.ModelRulesT.str)
+            .type(Components.ModelRulesT.text)
             .require()
             .minLen(3)
             .maxLen(50)
@@ -79,15 +79,15 @@ export namespace getAllCtrlAccess {
 
 
 // =======================================================
-/** Получить все модули */
+/** Сохранить контроллер доступа */
 export namespace saveCtrlAccess {
 
     /** Параметры api запроса */
     export interface RequestI {
         ctrl_access_id:number;
-        alias?:string;
-        name?:string;
-        descript?:string;
+        alias?:string; // Псевдоним
+        name?:string; // Имя контроллера
+        descript?:string; // Описание
     }
 
     /** Параметры api ответа */
@@ -105,8 +105,37 @@ export namespace saveCtrlAccess {
         let rules = new Components.ModelRulesC();
 
         // =======================================
+        // ID группы
+        rules.set(rules.rule('ctrl_access_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .errorEx('ctrl_access_id', 'ctrl_access_id')
+        );
 
+        // =======================================
+        // Псевдоним
+        rules.set(rules.rule('alias')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(50)
+            .errorEx('alias', 'alias')
+        );
 
+        // =======================================
+        // Имя контроллера
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('alias', 'alias')
+        );
+
+        // =======================================
+        // Описание
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
+            .errorEx('descript', 'descript')
+        );
 
         // =======================================
 

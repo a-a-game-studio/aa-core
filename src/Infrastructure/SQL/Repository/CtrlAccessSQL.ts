@@ -182,11 +182,15 @@ export class CtrlAccessSQL extends BaseSQL
             'db_save_ctrl_access'
         ]);
 
+        console.log('===>data:',data);
+
         let vCtrlAccessE = new CtrlAccessE();
         if( ok && this.modelValidatorSys.fValid(vCtrlAccessE.getRulesUpdate(), data) ){
 
             let resp = null;
             try{
+
+                console.log('===>result:',this.modelValidatorSys.getResult());
                 resp = await this.db(CtrlAccessE.NAME)
                     .where({
                         id: idCtrlAccess
@@ -195,7 +199,7 @@ export class CtrlAccessSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('db_save_ctrl_access', 'Не удалось сохранить изменения в контроллере доступа');
+                this.errorSys.errorEx(e, 'db_save_ctrl_access', 'Не удалось сохранить изменения в контроллере доступа');
             }
 
         }
