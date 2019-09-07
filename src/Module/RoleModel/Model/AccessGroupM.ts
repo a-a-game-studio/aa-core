@@ -69,32 +69,20 @@ export class AccessGroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async addCtrlAccessToGroup(data:{ [key: string]: any }): Promise<any>{
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async addCtrlAccessToGroup(data:V.addCtrlAccessToGroup.RequestI): Promise<V.addCtrlAccessToGroup.ResponseI> {
 
-        this.errorSys.declare([
-            'ctrl_access_id', // ID контроллера доступа
-            'group_id', // ID группы
-            'is_exist_ctrl_access', // Проверка на существование доступа
-            'cnt_access_group', // Группа уже имеет доступ к этому модулю
-            'add_ctrl_access_to_group' // Не удалось добавить доступ на модуль группе
-        ]);
+        data = <V.addCtrlAccessToGroup.RequestI>V.addCtrlAccessToGroup.valid(this.req, data);
 
-        let idCtrlAccess = 0;
-        if( !data['ctrl_access_id'] ){
-            ok = false;
-            this.errorSys.error('ctrl_access_id','Отсутствует ID Модуля');
-        } else {
-            idCtrlAccess = Number(data['ctrl_access_id']);
-        }
+        let ok = this.errorSys.isOk();
 
-        let idGroup = 0;
-        if( !data['group_id'] ){
-            ok = false;
-            this.errorSys.error('group_id','Отсутствует IF группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        this.errorSys.declareEx({
+            'is_exist_ctrl_access':'Проверка на существование доступа',
+            'cnt_access_group':'Группа уже имеет доступ к этому модулю',
+            'add_ctrl_access_to_group':'Не удалось добавить доступ на модуль группе',
+        });
+
+        let idCtrlAccess = data.ctrl_access_id;
+        let idGroup = data.group_id;
 
         let cntAccessGroup:number = 0;
         if( ok ){ // Проверить существуют ли связь модуля и группы
@@ -120,10 +108,14 @@ export class AccessGroupM extends BaseM
             }
         }
 
-        // Формируем ответ
-        return {
-            access_group_id:idAccessGroup
-        };
+        let out:V.addCtrlAccessToGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_add_ctrl_access_to_group:idAccessGroup
+            };
+        }
+
+        return out;
     }
 
 
@@ -133,33 +125,36 @@ export class AccessGroupM extends BaseM
      * @param array data
      * @return null
      */
-    public async saveAccessGroup(data:any): Promise<void>{
+    public async saveAccessGroup(data:V.saveAccessGroup.RequestI): Promise<V.saveAccessGroup.ResponseI> {
+
+        data = <V.saveAccessGroup.RequestI>V.saveAccessGroup.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        this.errorSys.declare([
-            'access_group_id', // Отсутствует ID доступа
-            'save_access_group' // Не удалось изменить параметры доступа
-        ]);
+        this.errorSys.declareEx({
+            'save_access_group':'Не удалось изменить параметры доступа'
+        });
 
-        let idAccessGroup = 0;
-        if( !data['access_group_id'] ){
-            ok = false;
-            this.errorSys.error('access_group_id','Отсутствует ID доступа');
-        } else {
-            idAccessGroup = Number(data['access_group_id']);
-        }
+        let idAccessGroup = data.access_group_id;
 
-        let accessGroup = false;
-        if( ok ){ // Получить группу
-            accessGroup = await this.accessGroupSQL.saveAccessGroup(idAccessGroup, data);
+        let bAccessGroup = false;
+        if( ok ){ // Изменить параметры доступа
+            bAccessGroup = await this.accessGroupSQL.saveAccessGroup(idAccessGroup, data);
 
-            if( !accessGroup ){
+            if( !bAccessGroup ){
                 ok = false;
                 this.errorSys.error('save_access_group','Не удалось изменить параметры доступа');
             }
         }
 
-        return null;
+        let out:V.saveAccessGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_save_access_group:bAccessGroup
+            };
+        }
+
+        return out;
     }
 
     /**

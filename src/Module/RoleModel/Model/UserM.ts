@@ -146,43 +146,38 @@ export class UserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async addUserToGroup(data: { [key: string]: any }): Promise<any> {
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async addUserToGroup(data:V.addUserToGroup.RequestI): Promise<V.addUserToGroup.ResponseI> {
+
+        data = <V.addUserToGroup.RequestI>V.addUserToGroup.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
 
         // Декларирование ошибок
-        this.errorSys.declare([
-            'group_id', // Отсутствует ID группы
-            'add_role_to_user' // Не удалось добавить роль пользователю
-        ]);
+        this.errorSys.declareEx({
+            'add_role_to_user':'Не удалось добавить роль пользователю'
+        });
 
-        let idUser = 0;
-        if (!data['user_id']) {
-            ok = false;
-            this.errorSys.error('user_id', 'Отсутствует ID пользователя');
-        } else {
-            idUser = Number(data['user_id']);
-        }
+        let idUser = data.user_id;
+        let idGroup = data.group_id;
 
-        let idGroup = 0;
-        if (!data['group_id']) {
-            ok = false;
-            this.errorSys.error('group_id', 'Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
-
-        let bAddUserToGroup = false;
+        let idAddUserToGroup = 0; // ID Связи между пользователем и группой
         if (ok) { // Получить список ролей пользователя
-            bAddUserToGroup = await this.userGroupSQL.addUserToGroup(idUser, idGroup);
+            idAddUserToGroup = await this.userGroupSQL.addUserToGroup(idUser, idGroup);
 
-            if (!bAddUserToGroup) {
+            if (!idAddUserToGroup) {
                 ok = false;
-                this.errorSys.error('add_role_to_user', 'Не удалось добавить роль пользователю');
+                this.errorSys.err('add_role_to_user');
             }
         }
 
-        // Не возвращаем никаких данных
-        return null;
+        let out:V.addUserToGroup.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                cmd_add_user_to_group:idAddUserToGroup
+            };
+        }
+
+        return out;
     }
 
     /**

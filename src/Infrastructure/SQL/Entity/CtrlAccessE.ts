@@ -4,6 +4,7 @@ import {UserSys} from '../../../System/UserSys';
 
 // Компоненты
 import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
+import { Components } from '../../..';
 
 /**
  * Описание полей пользователя
@@ -53,7 +54,22 @@ export class CtrlAccessE
         let rules = new ModelRulesC();
 
         rules.set(rules.rule('alias')
-            .type('text')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(3)
+            .maxLen(50)
+            .error('alias - неверный формат')
+        );
+
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .error('alias - неверный формат')
+        );
+
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
             .error('alias - неверный формат')
         );
 

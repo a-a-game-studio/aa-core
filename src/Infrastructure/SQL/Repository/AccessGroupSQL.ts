@@ -240,10 +240,8 @@ export class AccessGroupSQL extends BaseSQL
 
         }
 
-        let aRelatedKeyRedis = [];
         if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('AccessGroupSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+            this.clearCache('AccessGroupSQL*');
         }
 
         return idAccessGroup;

@@ -111,7 +111,7 @@ export class GroupM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idGroup = data.group_id
+        let idGroup = data.group_id;
 
         let bSaveGroup = false;
         if( ok ){ // Получить группу

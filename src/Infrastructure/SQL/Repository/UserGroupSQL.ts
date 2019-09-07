@@ -81,11 +81,10 @@ export class UserGroupSQL extends BaseSQL
      * Добавить пользователя в группу - дать Роль
      * Группа/Роль
      *
-     * @param integer idUser
-     * @param integer idGroup
-     * @return array|null
+     * @param idUser - ID Пользователя
+     * @param idGroup - ID Группы
      */
-    public async addUserToGroup(idUser:number, idGroup:number): Promise<boolean>{
+    public async addUserToGroup(idUser:number, idGroup:number): Promise<number>{
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
@@ -100,26 +99,26 @@ export class UserGroupSQL extends BaseSQL
             let sql = `
                 SELECT
                     count(*) cnt
-                FROM ${UserGroupE.NAME} pug
+                FROM ${UserGroupE.NAME} ug
                 WHERE
-                    pug.user_id = :user_id
+                    ug.user_id = :user_id
                 AND
-                    pug.group_id = :group_id
+                    ug.group_id = :group_id
                 LIMIT 1
                 ;
 
             `;
 
             try{
-                let resp = (await this.db.raw(sql, {
+
+                iCountUserInGroup = (await this.db.raw(sql, {
                     user_id: idUser,
                     group_id: idGroup
-                }))[0];
+                }))[0][0]['cnt'];
 
-                iCountUserInGroup = resp[0]['cnt'];
             } catch (e){
                 ok = false;
-                this.errorSys.error('ctrl_user_in_group', 'Не удалось проверить наличия пользователя в группе');
+                this.errorSys.errorEx(e, 'ctrl_user_in_group', 'Не удалось проверить наличия пользователя в группе');
             }
 
         }
@@ -130,39 +129,30 @@ export class UserGroupSQL extends BaseSQL
         }
 
 
+        let idUserGroup = 0;
         if( ok ){ // Если пользователя в группе нет добавляем его в группу
-            let sql = `
-                INSERT INTO ${UserGroupE.NAME}
-                    (user_id, group_id, group_leader, user_pending)
-                VALUES
-                    (:user_id, :group_id, 0, 0)
-                ;
-            `;
 
-            let resp = null;
             try{
-                resp = await this.db(UserGroupE.NAME).insert({
-                    user_id: idUser,
-                    group_id: idGroup,
-                    group_leader: 0,
-                    user_pending: 0
-                });
+                idUserGroup = (await this.db(UserGroupE.NAME)
+                    .insert({
+                        user_id: idUser,
+                        group_id: idGroup
+                    })
+                )[0];
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('add_role', 'Не удалось добавить роль');
+                this.errorSys.errorEx(e,'add_role', 'Не удалось добавить роль');
             }
 
         }
 
-        let aRelatedKeyRedis = [];
-        if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('UserGroupSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+        if( ok ){ // Очищаем связный кеш
+            this.clearCache('UserGroupSQL*');
         }
 
         // Формирование ответа
-        return ok ? true : false;
+        return idUserGroup;
     }
 
     // ========================================

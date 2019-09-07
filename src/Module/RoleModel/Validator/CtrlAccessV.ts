@@ -84,7 +84,7 @@ export namespace saveCtrlAccess {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id:number;
+        ctrl_access_id:number; // ID контроллера доступа - который обновляем
         alias?:string; // Псевдоним
         name?:string; // Имя контроллера
         descript?:string; // Описание
@@ -145,3 +145,65 @@ export namespace saveCtrlAccess {
         return validator.getResult();
     }
 }
+
+
+// =======================================================
+/** Добавить контроллер доступа */
+export namespace addCtrlAccess {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        alias:string; // Псевдоним
+        name?:string; // Имя контроллера
+        descript?:string; // Описание
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        cmd_add_ctrl_access:number; // ID нового контроллера доступа
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+        // Псевдоним
+        rules.set(rules.rule('alias')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(3)
+            .maxLen(50)
+            .errorEx('alias', 'alias')
+        );
+
+        // =======================================
+        // Имя контроллера
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('alias', 'alias')
+        );
+
+        // =======================================
+        // Описание
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
+            .errorEx('descript', 'descript')
+        );
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+

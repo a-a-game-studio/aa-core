@@ -5,7 +5,7 @@
 import MainRequest from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
-import {CtrlAccessE} from '../Entity/CtrlAccessE';
+import {CtrlAccessE, CtrlAccessI} from '../Entity/CtrlAccessE';
 import BaseSQL from '../../../System/BaseSQL';
 
 /**
@@ -220,40 +220,34 @@ export class CtrlAccessSQL extends BaseSQL
      *
      * @return boolean
      */
-    public async addCtrlAccess(data:{ [key: string]: any }): Promise<boolean>{
+    public async addCtrlAccess(data:CtrlAccessI): Promise<number>{
         let ok = this.errorSys.isOk();
-        let resp;
         // Декларация ошибок
         this.errorSys.declare([
             'add_ctrl_access'
         ]);
 
         let vCtrlAccessE = new CtrlAccessE();
+        let idCtrlAccess = 0;
         if( ok && this.modelValidatorSys.fValid(vCtrlAccessE.getRulesInsert(), data) ){
 
-
             try{
-                resp = await this.db(CtrlAccessE.NAME)
-                .returning('id')
-                    .insert(this.modelValidatorSys.getResult());
-                    if(resp){
-                        resp = resp[0];
-                    }
+                idCtrlAccess = (await this.db(CtrlAccessE.NAME)
+                    .insert(this.modelValidatorSys.getResult())
+                )[0];
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('add_ctrl_access', 'Не удалось добавить контроль доступа');
+                this.errorSys.errorEx(e, 'add_ctrl_access', 'Не удалось добавить контроль доступа');
             }
 
         }
 
-        let aRelatedKeyRedis = [];
         if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('CtrlAccessSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+            this.clearCache('CtrlAccessSQL*');
         }
 
-        return resp;
+        return idCtrlAccess;
     }
 
     // ========================================

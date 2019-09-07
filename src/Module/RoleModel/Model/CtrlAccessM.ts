@@ -149,26 +149,20 @@ export class CtrlAccessM extends BaseM
      * Добавить контроллер доступа
      *
      * @param array data
-     * @return array|null
      */
-    public async addCtrlAccess(data:{ [key: string]: any }): Promise<any>{
+    public async addCtrlAccess(data:V.addCtrlAccess.RequestI): Promise<V.addCtrlAccess.ResponseI> {
+
+        data = <V.addCtrlAccess.RequestI>V.addCtrlAccess.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        let resp;
-        this.errorSys.declare([
-            'alias', // Отсутствует alias для создания контроллера доступа
-            'is_exist_ctrl_access', // Проверка на существования ctrl_access по alias провалилась
-            'cnt_ctrl_access', // Контроллер с таким alias уже существует
-            'add_ctrl_access' // Не удалось добавить модуль доступа
-        ]);
+        this.errorSys.declareEx({
+            'is_exist_ctrl_access':'Проверка на существования ctrl_access по alias провалилась',
+            'cnt_ctrl_access':'Контроллер с таким alias уже существует',
+            'add_ctrl_access':'Не удалось добавить модуль доступа',
+        });
 
-        let aliasCtrlAccess = '';
-        if( !data['alias'] ){
-            ok = false;
-            this.errorSys.error('alias','Отсутствует alias для создания контроллера доступа');
-        } else {
-            aliasCtrlAccess = String(data['alias']);
-        }
+        let aliasCtrlAccess = data.alias;
 
         let cntCtrlAccess = 0;
         if( ok ){ // Проверить существуют ли контроллер доступа с таким ALIAS
@@ -185,16 +179,24 @@ export class CtrlAccessM extends BaseM
         }
 
 
+        let idCtrlAccess = 0;
         if( ok ){ // Добавить контроллер доступа
-            resp = await this.ctrlAccessSQL.addCtrlAccess(data);
+            idCtrlAccess = await this.ctrlAccessSQL.addCtrlAccess(data);
 
-            if( !resp ){
+            if( !idCtrlAccess ){
                 ok = false;
                 this.errorSys.error('add_ctrl_access','Не удалось добавить модуль доступа');
             }
         }
 
-        return resp;
+        let out:V.addCtrlAccess.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_add_ctrl_access:idCtrlAccess
+            }
+        }
+
+        return out;
     }
 
 

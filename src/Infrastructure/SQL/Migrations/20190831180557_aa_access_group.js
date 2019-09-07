@@ -15,15 +15,19 @@ exports.up = async function(knex, Promise) {
             .comment('ID контроллера');
 
         table.boolean('create_access').index('create_access')
+            .defaultTo(0)
             .comment('Права на создание');
 
         table.boolean('read_access').index('read_access')
+            .defaultTo(0)
             .comment('Права на чтение');
 
         table.boolean('update_access').index('update_access')
+            .defaultTo(0)
             .comment('Права на обновление');
 
         table.boolean('delete_access').index('delete_access')
+            .defaultTo(0)
             .comment('Права на удаление');
 
         table.dateTime('created_at').index('created_at')
