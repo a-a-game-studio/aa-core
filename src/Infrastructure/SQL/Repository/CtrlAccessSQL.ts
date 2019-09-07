@@ -265,28 +265,28 @@ export class CtrlAccessSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declare([
-            'del_ctrl_access'
-        ]);
+        this.errorSys.declareEx({
+            'del_ctrl_access':'Не удалось удалить контроллер доступа'
+        });
 
-        let resp = null;
-        try{
-            resp = await this.db(CtrlAccessE.NAME)
-                .where({
-                    alias: aliasCtrlAccess,
-                })
-                .limit(1)
-                .del(this.modelValidatorSys.getResult());
+        if( ok ){
+            try{
+                await this.db(CtrlAccessE.NAME)
+                    .where({
+                        alias: aliasCtrlAccess,
+                    })
+                    .limit(1)
+                    .del()
+                ;
 
-        } catch (e){
-            ok = false;
-            this.errorSys.error('del_ctrl_access', 'Не удалось удалить контроллер доступа');
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'del_ctrl_access', 'Не удалось удалить контроллер доступа');
+            }
         }
 
-        let aRelatedKeyRedis = [];
-        if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('CtrlAccessSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+        if( ok ){ // Удаляем связный кеш
+            this.clearCache('CtrlAccessSQL*');
         }
 
         return ok;

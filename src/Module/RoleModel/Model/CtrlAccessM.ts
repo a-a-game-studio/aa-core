@@ -206,23 +206,19 @@ export class CtrlAccessM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async delCtrlAccess(data:{ [key: string]: any }): Promise<any>{
+    public async delCtrlAccess(data:V.delCtrlAccess.RequestI): Promise<V.delCtrlAccess.ResponseI> {
+
+        data = <V.delCtrlAccess.RequestI>V.delCtrlAccess.valid(this.req, data);
+
         let ok = this.errorSys.isOk();
 
-        this.errorSys.declare([
-            'alias', // Отсутствует ID контроллера доступа
-            'is_exist_ctrl_access', // Проверка на существования ctrl_access по alias провалилась
-            'cnt_ctrl_access', // Контроллера с таким alias не существует
-            'del_ctrl_access' // Не удалось удалить контроллер доступа
-        ]);
+        this.errorSys.declareEx({
+            'is_exist_ctrl_access':'Проверка на существования ctrl_access по alias провалилась',
+            'cnt_ctrl_access':'Контроллера с таким alias не существует',
+            'del_ctrl_access':'Не удалось удалить контроллер доступа',
+        });
 
-        let aliasCtrlAccess = null;
-        if( !data['alias'] ){
-            ok = false;
-            this.errorSys.error('alias','Отсутствует alias контроллера доступа');
-        } else {
-            aliasCtrlAccess = data['alias'];
-        }
+        let aliasCtrlAccess = data.alias;
 
         let cntCtrlAccess = 0;
         if( ok ){ // Проверить существуют ли контроллер доступа с таким ALIAS
@@ -248,7 +244,14 @@ export class CtrlAccessM extends BaseM
             }
         }
 
-        return null;
+        let out:V.delCtrlAccess.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_del_ctrl_access:okCtrlAccess
+            }
+        }
+
+        return out;
     }
 
 

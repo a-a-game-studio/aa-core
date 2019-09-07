@@ -308,9 +308,9 @@ export class AccessGroupSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declare([
-            'del_ctrl_access'
-        ]);
+        this.errorSys.declareEx({
+            'del_ctrl_access':'Не удалось удалить права на модуль'
+        });
 
         if( ok ){
             let resp = null;
@@ -325,15 +325,13 @@ export class AccessGroupSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('del_ctrl_access', 'Не удалось удалить права на модуль');
+                this.errorSys.errorEx(e, 'del_ctrl_access', 'Не удалось удалить права на модуль');
             }
         }
 
 
-        let aRelatedKeyRedis = [];
         if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('AccessGroupSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+            this.clearCache('AccessGroupSQL*');
         }
 
         return ok;

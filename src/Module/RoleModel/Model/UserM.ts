@@ -186,31 +186,19 @@ export class UserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async delUserFromGroup(data: { [key: string]: any }): Promise<any> {
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async delUserFromGroup(data:V.delUserFromGroup.RequestI): Promise<V.delUserFromGroup.ResponseI> {
+
+        data = <V.delUserFromGroup.RequestI>V.delUserFromGroup.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
 
         // Декларирование ошибок
-        this.errorSys.declare([
-            'user_id', // Отсутствует ID пользователя
-            'group_id', // Отсутствует ID группы
-            'del_role_to_user' // Не удалось убрать роль пользователю
-        ]);
+        this.errorSys.declareEx({
+            'del_role_to_user':'Не удалось убрать роль пользователю'
+        });
 
-        let idUser = 0;
-        if (!data['user_id']) {
-            ok = false;
-            this.errorSys.error('user_id', 'Отсутствует ID пользователя');
-        } else {
-            idUser = Number(data['user_id']);
-        }
-
-        let idGroup = 0;
-        if (!data['group_id']) {
-            ok = false;
-            this.errorSys.error('group_id', 'Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        let idUser = data.user_id;
+        let idGroup = data.group_id;
 
         let bDelUserFromGroup = false;
         if (ok) { // Получить список ролей пользователя
@@ -222,8 +210,14 @@ export class UserM extends BaseM
             }
         }
 
-        // Не возвращаем никаких данных
-        return null;
+        let out:V.delUserFromGroup.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                cmd_del_user_from_group:bDelUserFromGroup
+            };
+        }
+
+        return out;
     }
 
 

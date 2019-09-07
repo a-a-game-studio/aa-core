@@ -261,3 +261,56 @@ export namespace addCtrlAccessToGroup {
         return validator.getResult();
     }
 }
+
+
+// =======================================================
+/** Удалить контроллер доступа у группы */
+export namespace delCtrlAccessFromGroup {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        ctrl_access_id:number;
+        group_id:number;
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        cmd_del_ctrl_access_from_group:boolean; // Статус удаления
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+        // ID контроллера
+        rules.set(rules.rule('ctrl_access_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .more(0)
+            .errorEx('ctrl_access_id', 'ctrl_access_id')
+        );
+
+        // =======================================
+        // ID группы
+        rules.set(rules.rule('group_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .more(0)
+            .errorEx('group_id', 'group_id')
+        );
+
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}

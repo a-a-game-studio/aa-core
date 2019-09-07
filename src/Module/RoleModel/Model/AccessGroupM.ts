@@ -163,33 +163,20 @@ export class AccessGroupM extends BaseM
      * @param array data
      * @return null
      */
-    public async delCtrlAccessFromGroup( data:any ): Promise<void>{
-        let ok = this.errorSys.isOk(); // Статус выполнения
+    public async delCtrlAccessFromGroup(data:V.delCtrlAccessFromGroup.RequestI): Promise<V.delCtrlAccessFromGroup.ResponseI> {
 
-        this.errorSys.declare([
-            'ctrl_access_id', // Отсутствует ID модуля
-            'group_id', // Отсутствует ID группы
-            'is_exist_ctrl_access', // Проверка на существования доступа провалилась
-            'cnt_access_group', // Группа не имеет доступ к этому модулю
-            'del_ctrl_access_to_group' // Не удалось убрать права на модуль у группы
-        ]);
+        data = <V.delCtrlAccessFromGroup.RequestI>V.delCtrlAccessFromGroup.valid(this.req, data);
 
+        let ok = this.errorSys.isOk();
 
-        let idCtrlAccess = 0;
-        if( !data['ctrl_access_id'] ){
-            ok = false;
-            this.errorSys.error('ctrl_access_id','Отсутствует ID модуля');
-        } else {
-            idCtrlAccess = Number(data['ctrl_access_id']);
-        }
+        this.errorSys.declareEx({
+            'is_exist_ctrl_access':'Проверка на существования доступа провалилась',
+            'cnt_access_group':'Группа не имеет доступ к этому модулю',
+            'del_ctrl_access_to_group':'Не удалось убрать права на модуль у группы'
+        });
 
-        let idGroup = 0;
-        if( !data['group_id'] ){
-            ok = false;
-            this.errorSys.error('group_id','Отсутствует ID группы');
-        } else {
-            idGroup = Number(data['group_id']);
-        }
+        let idCtrlAccess = data.ctrl_access_id;
+        let idGroup = data.group_id;
 
         let cntAccessGroup = 0;
         if( ok ){ // Проверить существуют ли связь модуля и группы
@@ -205,18 +192,24 @@ export class AccessGroupM extends BaseM
             this.errorSys.error('cnt_access_group','Группа не имеет доступ к этому модулю');
         }
 
-        let delCtrlAccessFromGroup = false;
+        let bDelCtrlAccessFromGroup = false;
         if( ok ){ // Удалить права на модуль из группы
-            delCtrlAccessFromGroup = await this.accessGroupSQL.delCtrlAccessFromGroup(idCtrlAccess, idGroup);
+            bDelCtrlAccessFromGroup = await this.accessGroupSQL.delCtrlAccessFromGroup(idCtrlAccess, idGroup);
 
-            if( !delCtrlAccessFromGroup ){
+            if( !bDelCtrlAccessFromGroup ){
                 ok = false;
                 this.errorSys.error('del_ctrl_access_to_group','Не удалось убрать права на модуль у группы');
             }
         }
 
-        // Не возвращаем никаких данных
-        return null;
+        let out:V.delCtrlAccessFromGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                cmd_del_ctrl_access_from_group:bDelCtrlAccessFromGroup
+            };
+        }
+
+        return out;
     }
 
 }

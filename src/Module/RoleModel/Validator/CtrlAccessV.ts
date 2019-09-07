@@ -207,3 +207,45 @@ export namespace addCtrlAccess {
     }
 }
 
+
+// =======================================================
+/** Добавить контроллер доступа */
+export namespace delCtrlAccess {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        alias:string; // Псевдоним
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        cmd_del_ctrl_access:boolean; // Статус операции
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+        // Псевдоним
+        rules.set(rules.rule('alias')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(3)
+            .maxLen(50)
+            .errorEx('alias', 'alias')
+        );
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
