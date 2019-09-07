@@ -254,45 +254,46 @@ export class UserSQL extends BaseSQL
         return bResp;
     }
 
-    /* выдает id юзера по телефону и смс из таблицы user_sms_code*/
-    public async getUserIdByPhoneAndSms(phone:string, sms:string): Promise<number>{
-        let ok = true;
-        let resp:any[] = null;
-        let idUser:number = 0;
+    /** 
+     * выдает id юзера по телефону и смс из таблицы user_sms_code
+     */
+    public async getUserIdByPhoneAndSms(tel:number, sms:number): Promise<number>{
+        let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declare([
-            'api_key_in_db'
-        ]);
+        this.errorSys.declareEx({
+            'get_user_id_by_tel_and_sms':'Не удалось найти пользователя с таким телефоном'
+        });
+        
+        let idUser:number = 0;
+        if( ok ){ /* дата создания смски сегодня или никогда */
+            let sql = `
+                SELECT 
+                    usc.user_id 
+                FROM ${UserSmsCodeE.NAME} usc
+                WHERE
+                    usc.tel= :tel
+                AND
+                    usc.code= :sms
+                AND 
+                    (um.created_at + INTERVAL 1 DAY) between NOW() and (NOW() + INTERVAL 1 DAY) 
+                LIMIT 1
+            `;
 
+            try{
+                let respUserList = (await this.db.raw(sql, {
+                    'tel': tel,
+                    'sms': sms
+                }))[0];
 
-		/* дата создания смски сегодня или никогда */
-        let sql = `
-            select um.user_id from ${UserSmsCodeE.NAME} um
+                if (respUserList.length > 0) {
+                    idUser = respUserList[0]['user_id'];
+                }
 
-            where
-            (um.tel= :phone)
-            AND(um.code= :sms)
-            AND ((um.created_at + INTERVAL 1 DAY) between NOW() and (NOW() + INTERVAL 1 DAY) )
-
-            limit 1
-        `;
-
-        try{
-            resp = (await this.db.raw(sql, {
-                'phone': phone,
-                'sms': sms
-            }))[0];
-
-            if (resp.length > 0) {
-                idUser = resp[0]['user_id'];
-            } else {
-                resp = null;
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'get_user_id_by_tel_and_sms', 'Не удалось найти пользователя с таким телефоном');
             }
-
-        } catch (e){
-            ok = false;
-            this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
         }
 
         return idUser;

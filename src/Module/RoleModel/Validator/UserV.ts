@@ -251,3 +251,53 @@ export namespace delUserFromGroup {
         return validator.getResult();
     }
 }
+
+
+
+// =======================================================
+/** Получить apikey по телефону и СМС */
+export namespace getApiKeyByPhoneAndSms {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        tel:number; // Номер телефона 79998887766
+        sms:number; // Смс код 0000
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        state_apikey:string; // api key
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req:MainRequest, data:any){
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // Телефон
+        rules.set(rules.rule('tel')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .errorEx('tel', 'tel')
+        );
+
+        // СМС
+        rules.set(rules.rule('sms')
+            .type(Components.ModelRulesT.int)
+            .errorEx('sms', 'sms')
+        );
+
+        // =======================================
+
+        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}

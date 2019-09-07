@@ -69,7 +69,7 @@ export class UserM extends BaseM
 
         
 
-        let out = null;
+        let out:V.getUserList.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 list_user:aUserList // Список пользователей
@@ -130,11 +130,11 @@ export class UserM extends BaseM
 
         }
 
-        let out = null;
+        let out:V.getUserGroupsByUserID.ResponseI = null;
         if (ok) { // Формирование ответа
-            out = aUserGroups;
-        } else {
-            out = [];
+            out = {
+                list_group:aUserGroups
+            }
         }
 
         return out;
@@ -221,7 +221,9 @@ export class UserM extends BaseM
     }
 
 
-    /* выдает инфу по юзеру по apikey */
+    /**
+     *  выдает инфу по юзеру по apikey 
+     */
     public async fGetUserInfoByApiKey(apikey = '') {
         let resp;
         // Декларирование ошибок
@@ -266,70 +268,51 @@ export class UserM extends BaseM
 		apiKey: string
 		}
      */
-    public async getApiKeyByPhoneAndSms(body: {
-        phone: string;
-        sms: string;
-    }) {
+    public async getApiKeyByPhoneAndSms(data:V.getApiKeyByPhoneAndSms.RequestI): Promise<V.getApiKeyByPhoneAndSms.ResponseI> {
 
-        let ok = true;
-        let apikey;
+        data = <V.getApiKeyByPhoneAndSms.RequestI>V.getApiKeyByPhoneAndSms.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        
 
         // Декларирование ошибок
-        this.errorSys.declare([
-            'phone', /* если нету телефона */
-            'sms', /* если нету sms */
-            'reg', /* если нету такого юзера  */
-        ]);
+        this.errorSys.declareEx({
+            'get_user_by_tel_and_sms':'Не удалось найти пользователя'
+        });
 
-        try {
+        let idUser = 0;
+        if( ok ){ /* пытаемся получить apiKey моделью */
 
-            if (!body) {
-                this.errorSys.error('phone', 'Не заполнено поле телефон');
-                this.errorSys.error('sms', 'Не заполнено поле sms');
-                throw "erro body";
-            }
+            idUser = await this.userSQL.getUserIdByPhoneAndSms(data.tel, data.sms);
 
-            /* если нету телефона */
-            if (!body.phone) {
-                this.errorSys.error('phone', 'Не заполнено поле телефон');
+            if(!idUser){
                 ok = false;
+                this.errorSys.error('sms', 'Не удалось найти пользователя');
             }
-            /* если нету sms */
-            if (!body.sms) {
-                this.errorSys.error('sms', 'Не заполнено поле sms');
-                ok = false;
-            }
+        }
 
-            /* пытаемся получить apiKey моделью */
-            let userId = await this.userSQL.getUserIdByPhoneAndSms(body.phone, body.sms);
-
-
-            /* если нету такого юзера  */
-            if (!userId) {
-                this.errorSys.error('sms', 'Такой пользователь отсутствует');
-                ok = false;
-            }
-
-            if (!ok) {
-                throw "erro body";
-            }
-
+        let apikey = null;
+        if( ok ){ // Получить apikey пользователя
             /* проверяем есть ли уже такой юзера с ключем */
-            apikey = await this.userSQL.getUserApiKey(userId);
+            apikey = await this.userSQL.getUserApiKey(idUser);
 
             if (!apikey) {
                 /* если в первый раз */
                 /* юзер есть генерим ему apiKey тк это действие делается после регистрации */
-                apikey = await this.userSQL.insertUserApiKey(userId);
+                apikey = await this.userSQL.insertUserApiKey(idUser);
             }
-
-            /* response.setStatusCode(200); */
-        } catch (e) {
-            /* что-то не так */
-
         }
 
-        return apikey;
+
+        let out:V.getApiKeyByPhoneAndSms.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                state_apikey:apikey
+            };
+        }
+
+        return out;
 
     }
 
