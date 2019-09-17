@@ -12,12 +12,12 @@ export namespace getCtrlAccessOfGroupByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id:number; // ID группы
+        group_id: number; // ID группы
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_ctrl_access:AccessGroupI[]; // Список пользователей
+        list_ctrl_access: AccessGroupI[]; // Список пользователей
     }
 
     /**
@@ -26,7 +26,7 @@ export namespace getCtrlAccessOfGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -42,7 +42,7 @@ export namespace getCtrlAccessOfGroupByID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -56,12 +56,12 @@ export namespace getUserByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
+        user_id: number; // ID пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        one_user:UserI; // Информация о пользователе
+        one_user: UserI; // Информация о пользователе
     }
 
     /**
@@ -70,7 +70,7 @@ export namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -86,7 +86,7 @@ export namespace getUserByID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -100,12 +100,12 @@ export namespace getUserGroupsByUserID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
+        user_id: number; // ID пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_group:GroupI[]; // Информация о пользователе
+        list_group: GroupI[]; // Информация о пользователе
     }
 
     /**
@@ -114,7 +114,7 @@ export namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -130,7 +130,7 @@ export namespace getUserGroupsByUserID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -145,16 +145,16 @@ export namespace saveAccessGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        access_group_id:number; // ID параметров доступа
-        create_access:boolean; // Разрешение на создание
-        read_access:boolean; // Разрешение на чтение
-        update_access:boolean; // Разрешение на обнление
-        delete_access:boolean; // Разрешение на удаление
+        access_group_id: number; // ID параметров доступа
+        create_access: boolean; // Разрешение на создание
+        read_access: boolean; // Разрешение на чтение
+        update_access: boolean; // Разрешение на обнление
+        delete_access: boolean; // Разрешение на удаление
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_save_access_group:boolean; // Успешно или нет прошло изменение доступа
+        cmd_save_access_group: boolean; // Успешно или нет прошло изменение доступа
     }
 
     /**
@@ -163,7 +163,7 @@ export namespace saveAccessGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -203,7 +203,7 @@ export namespace saveAccessGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -216,13 +216,13 @@ export namespace addCtrlAccessToGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id:number;
-        group_id:number;
+        ctrl_access_id: number;
+        group_id: number;
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_add_ctrl_access_to_group:number; // ID связи контроллера и группы
+        cmd_add_ctrl_access_to_group: number; // ID связи контроллера и группы
     }
 
     /**
@@ -231,7 +231,7 @@ export namespace addCtrlAccessToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -255,7 +255,7 @@ export namespace addCtrlAccessToGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -269,13 +269,13 @@ export namespace delCtrlAccessFromGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id:number;
-        group_id:number;
+        ctrl_access_id: number;
+        group_id: number;
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_del_ctrl_access_from_group:boolean; // Статус удаления
+        cmd_del_ctrl_access_from_group: boolean; // Статус удаления
     }
 
     /**
@@ -284,7 +284,7 @@ export namespace delCtrlAccessFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -308,7 +308,7 @@ export namespace delCtrlAccessFromGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
