@@ -17,11 +17,10 @@ export declare class UserGroupSQL extends BaseSQL {
      * Добавить пользователя в группу - дать Роль
      * Группа/Роль
      *
-     * @param integer idUser
-     * @param integer idGroup
-     * @return array|null
+     * @param idUser - ID Пользователя
+     * @param idGroup - ID Группы
      */
-    addUserToGroup(idUser: number, idGroup: number): Promise<boolean>;
+    addUserToGroup(idUser: number, idGroup: number): Promise<number>;
     /**
      * Удалить пользователя из группы - убрать Роль
      * Группа/Роль

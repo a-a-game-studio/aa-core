@@ -1,4 +1,5 @@
 import MainRequest from '../../../System/MainRequest';
+import { GroupI } from '../Entity/GroupsE';
 import BaseSQL from '../../../System/BaseSQL';
 /**
  * Здесь методы для SQL запросов
@@ -25,7 +26,5 @@ export declare class GroupsSQL extends BaseSQL {
      * @param integer idGroup
      * @return boolean
      */
-    saveGroup(idGroup: number, data: {
-        [key: string]: any;
-    }): Promise<boolean>;
+    saveGroup(idGroup: number, data: GroupI): Promise<boolean>;
 }

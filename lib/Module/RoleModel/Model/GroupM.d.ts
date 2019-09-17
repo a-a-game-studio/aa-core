@@ -1,4 +1,5 @@
 import BaseM from '../../../System/BaseM';
+import * as V from '../Validator/GroupV';
 /**
  * Группы пользователей
  * Внутри метода делаем нужную бизнес логику
@@ -15,25 +16,19 @@ export declare class GroupM extends BaseM {
      * @param array data
      * @return array|null
      */
-    getAllGroups(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    getAllGroups(data: V.getAllGroups.RequestI): Promise<V.getAllGroups.ResponseI>;
     /**
      * Получить сокращенную иформацию группы по ID
      *
      * @param array data
      * @return array|null
      */
-    getGroupByID(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    getGroupByID(data: V.getGroupByID.RequestI): Promise<V.getGroupByID.ResponseI>;
     /**
      * Получить сокращенную иформацию группы по ID
      *
      * @param array data
      * @return array|null
      */
-    saveGroup(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    saveGroup(data: V.saveGroup.RequestI): Promise<V.saveGroup.ResponseI>;
 }

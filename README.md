@@ -1,3 +1,6 @@
+# Описание API
+[Описание API](./src/Module/RoleModel/README.md)
+
 # Install
 npm i --save @a-a-game-studio/aa-components
 # Publish

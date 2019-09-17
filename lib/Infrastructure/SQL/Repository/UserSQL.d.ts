@@ -14,7 +14,8 @@ export declare class UserSQL extends BaseSQL {
      * @return array|null
      */
     getUserList(iOffset: number, iLimit: number, aFilter: {
-        [key: string]: any;
+        search_fullname?: string;
+        search_username?: string;
     }): Promise<any>;
     /**
      * Получить пользователя по ID
@@ -28,7 +29,10 @@ export declare class UserSQL extends BaseSQL {
      * проверка на то что есть apikey в базе
      */
     isAuth(apikey?: string): Promise<boolean>;
-    getUserIdByPhoneAndSms(phone: string, sms: string): Promise<number>;
+    /**
+     * выдает id юзера по телефону и смс из таблицы user_sms_code
+     */
+    getUserIdByPhoneAndSms(tel: number, sms: number): Promise<number>;
     getUserByUsername(username: string): Promise<any[]>;
     getUserApiKey(user_id: number): Promise<string>;
     insertUserApiKey(user_id: number): Promise<string>;
