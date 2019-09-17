@@ -2,6 +2,7 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 import { Request } from 'express';
+import { Seo } from './Seo';
 export interface ConfI {
     env: string;
     mysql: {
@@ -34,6 +35,7 @@ export interface ConfI {
         access: string;
         secret: string;
     };
+    seo?: Seo;
 }
 export default interface MainRequest extends Request {
     headers: {

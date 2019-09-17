@@ -11,6 +11,8 @@ import * as Middleware from './Namespace/Middleware'
 // Подключение компонентной библиотеки
 import * as Components from '@a-a-game-studio/aa-components/lib';
 
+import * as SeoModule from "./System/Seo";
+
 import { App } from "./App";
 
 export {
@@ -18,5 +20,6 @@ export {
     System,
     Components, // Общие компоненты
     Middleware,
+    SeoModule,
     App, // готовое собранно приложение
 }

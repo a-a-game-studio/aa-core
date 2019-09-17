@@ -6,6 +6,7 @@ import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 
 import { Request } from 'express';
+import { Seo } from './Seo';
 
 export interface ConfI{ // Конфигурация
     env: string; // Тип окружения
@@ -43,6 +44,8 @@ export interface ConfI{ // Конфигурация
         secret: string;
     },
 
+    seo?: Seo;
+
 };
 
 export default interface MainRequest extends Request {
@@ -57,7 +60,7 @@ export default interface MainRequest extends Request {
         userSys: UserSys,
         responseSys: ResponseSys
     };
-    conf: ConfI
+    conf: ConfI;
     infrastructure:{
         mysql:any;
         redis:any;
@@ -91,6 +94,7 @@ export function initMainRequest(conf: any): MainRequest {
     mainRequest.conf = conf;
 
     mainRequest.sys.errorSys = new Components.ErrorSys(conf.env);
+    mainRequest.seo = new Seo();
 
     return mainRequest;
 }
