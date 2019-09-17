@@ -11,9 +11,12 @@ import * as Middleware from './Namespace/Middleware'
 // Подключение компонентной библиотеки
 import * as Components from '@a-a-game-studio/aa-components/lib';
 
+import { App } from "./App";
+
 export {
     Controller,
     System,
     Components, // Общие компоненты
-    Middleware
+    Middleware,
+    App, // готовое собранно приложение
 }
