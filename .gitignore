@@ -63,3 +63,4 @@ typings/
 .idea
 tests/config.js
 src/Config/MainConfig.js
+package-lock.json

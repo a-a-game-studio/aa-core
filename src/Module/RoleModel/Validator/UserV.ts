@@ -10,15 +10,15 @@ export namespace getUserList {
 
     /** Параметры api запроса */
     export interface RequestI {
-        offset:number; // С какой записи получать данные
-        limit:number; // Сколько записей получать
-        search_fullname?:string; // Поиск По ФИО
-        search_username?:string; // Поиск по Имени пользователя
+        offset: number; // С какой записи получать данные
+        limit: number; // Сколько записей получать
+        search_fullname?: string; // Поиск По ФИО
+        search_username?: string; // Поиск по Имени пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_user:UserI[]; // Список пользователей
+        list_user: UserI[]; // Список пользователей
     }
 
     /**
@@ -27,7 +27,7 @@ export namespace getUserList {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -51,7 +51,7 @@ export namespace getUserList {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -65,12 +65,12 @@ export namespace getUserByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
+        user_id: number; // ID пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        one_user:UserI; // Информация о пользователе
+        one_user: UserI; // Информация о пользователе
     }
 
     /**
@@ -79,7 +79,7 @@ export namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -95,7 +95,7 @@ export namespace getUserByID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -109,12 +109,12 @@ export namespace getUserGroupsByUserID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
+        user_id: number; // ID пользователя
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_group:GroupI[]; // Информация о пользователе
+        list_group: GroupI[]; // Информация о пользователе
     }
 
     /**
@@ -123,7 +123,7 @@ export namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -139,7 +139,7 @@ export namespace getUserGroupsByUserID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -153,13 +153,13 @@ export namespace addUserToGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
-        group_id:number; // ID группы
+        user_id: number; // ID пользователя
+        group_id: number; // ID группы
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_add_user_to_group:number; // ID Связи пользователя и группы
+        cmd_add_user_to_group: number; // ID Связи пользователя и группы
     }
 
     /**
@@ -168,7 +168,7 @@ export namespace addUserToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -192,7 +192,7 @@ export namespace addUserToGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -206,13 +206,13 @@ export namespace delUserFromGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id:number; // ID пользователя
-        group_id:number; // ID группы
+        user_id: number; // ID пользователя
+        group_id: number; // ID группы
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_del_user_from_group:boolean; // Статус операции
+        cmd_del_user_from_group: boolean; // Статус операции
     }
 
     /**
@@ -221,7 +221,7 @@ export namespace delUserFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -245,7 +245,7 @@ export namespace delUserFromGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -260,13 +260,13 @@ export namespace getApiKeyByPhoneAndSms {
 
     /** Параметры api запроса */
     export interface RequestI {
-        tel:number; // Номер телефона 79998887766
-        sms:number; // Смс код 0000
+        tel: number; // Номер телефона 79998887766
+        sms: number; // Смс код 0000
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        state_apikey:string; // api key
+        state_apikey: string; // api key
     }
 
     /**
@@ -275,7 +275,7 @@ export namespace getApiKeyByPhoneAndSms {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -295,7 +295,7 @@ export namespace getApiKeyByPhoneAndSms {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();

@@ -1,14 +1,13 @@
-
 import * as express from 'express';
 
 // Подключение системных классов
 
 
 // Подключение системных моделей
-import {UserM} from '../Model/UserM';
-import {GroupM} from '../Model/GroupM';
-import {CtrlAccessM} from '../Model/CtrlAccessM';
-import {AccessGroupM} from '../Model/AccessGroupM';
+import { UserM } from '../Model/UserM';
+import { GroupM } from '../Model/GroupM';
+import { CtrlAccessM } from '../Model/CtrlAccessM';
+import { AccessGroupM } from '../Model/AccessGroupM';
 
 import MainRequest from '../../../System/MainRequest';
 import BaseCtrl from '../../../System/BaseCtrl';
@@ -19,16 +18,18 @@ var router = express.Router();
  * API для Админки
  * Редактирование и управление пользователями, а так-же их правами
  */
-class AdminUserController extends BaseCtrl
-{
+class AdminUserController extends BaseCtrl {
 
-    public userM:UserM;
+    static sBaseUrl: string = '/api/admin/user'; // базовый путь api-методов для контролера
 
-    public groupM:GroupM;
+    public userM: UserM;
 
-    public ctrlAccessM:CtrlAccessM;
+    public groupM: GroupM;
 
-    public accessGroupM:AccessGroupM;
+    public ctrlAccessM: CtrlAccessM;
+
+    public accessGroupM: AccessGroupM;
+
 
 
     /**
@@ -37,8 +38,8 @@ class AdminUserController extends BaseCtrl
      * @param req
      * @param res
      */
-    public static async init(req:MainRequest, res:any): Promise<AdminUserController>{
-        let self = new AdminUserController(req);
+    public static async init(req: MainRequest, res: any): Promise<AdminUserController> {
+        const self = new AdminUserController(req);
 
         // Инициализация бизнес моделей
         self.userM = new UserM(req);
@@ -69,16 +70,16 @@ class AdminUserController extends BaseCtrl
 /**
  * Получить список пользователей
  */
-router.post('/api/admin/user/get-users', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-users', async (req: MainRequest, res: any, next: any) => {
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем список пользователей
-        try{
+    if (ok) { // Получаем список пользователей
+        try {
             out = await self.userM.getUserList(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -93,17 +94,17 @@ router.post('/api/admin/user/get-users', async (req:any, res:any, next:any) => {
 /*
  * Получить одного пользователя
  */
-router.post('/api/admin/user/get-user', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-user', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем пользователя по ID
-        try{
+    if (ok) { // Получаем пользователя по ID
+        try {
             out = await self.userM.getUserByID(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -117,17 +118,17 @@ router.post('/api/admin/user/get-user', async (req:any, res:any, next:any) => {
 /**
  * Получить Краткаю информацию по группе
  */
-router.post('/api/admin/user/get-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем группу по ID
-        try{
+    if (ok) { // Получаем группу по ID
+        try {
             out = await self.groupM.getGroupByID(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -140,17 +141,17 @@ router.post('/api/admin/user/get-group', async (req:any, res:any, next:any) => {
 /**
  * Получить краткую информацию по контроллеру доступа
  */
-router.post('/api/admin/user/get-ctrl-access', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-ctrl-access', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем контроль доступа по ID
-        try{
+    if (ok) { // Получаем контроль доступа по ID
+        try {
             out = await self.ctrlAccessM.getCtrlAccessByAlias(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -163,17 +164,17 @@ router.post('/api/admin/user/get-ctrl-access', async (req:any, res:any, next:any
 /**
  * @Route("/api/admin/user/get-user-groups", name="api__admin__user__get_user_groups")
  */
-router.post('/api/admin/user/get-user-groups', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-user-groups', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем роли по ID пользователя
-        try{
+    if (ok) { // Получаем роли по ID пользователя
+        try {
             out = await self.userM.getUserGroupsByUserID(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -188,17 +189,17 @@ router.post('/api/admin/user/get-user-groups', async (req:any, res:any, next:any
  *
  * @Route("/api/admin/user/get-ctrl-access-of-group", name="api__admin__user__get_ctrl_access_of_group")
  */
-router.post('/api/admin/user/get-ctrl-access-of-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-of-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем модули доступные группе по ID группы
-        try{
+    if (ok) { // Получаем модули доступные группе по ID группы
+        try {
             out = await self.accessGroupM.getCtrlAccessOfGroupByID(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -211,17 +212,17 @@ router.post('/api/admin/user/get-ctrl-access-of-group', async (req:any, res:any,
 /**
  * @Route("/api/admin/user/get-group-list", name="api__admin__user_get_group_list")
  */
-router.post('/api/admin/user/get-group-list', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-group-list', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем весь список ролей
-        try{
+    if (ok) { // Получаем весь список ролей
+        try {
             out = await self.groupM.getAllGroups(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -234,17 +235,17 @@ router.post('/api/admin/user/get-group-list', async (req:any, res:any, next:any)
 /**
  * @Route("/api/admin/user/get-ctrl-access-list", name="api__admin__user_get_ctrl_access_list")
  */
-router.post('/api/admin/user/get-ctrl-access-list', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-list', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Получаем весь список ролей
-        try{
+    if (ok) { // Получаем весь список ролей
+        try {
             out = await self.ctrlAccessM.getAllCtrlAccess(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -261,17 +262,17 @@ router.post('/api/admin/user/get-ctrl-access-list', async (req:any, res:any, nex
 /**
  * @Route("/api/admin/user/save-group", name="api__admin__user__save_group")
  */
-router.post('/api/admin/user/save-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/save-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // сохраняем данные группы
-        try{
+    if (ok) { // сохраняем данные группы
+        try {
             out = await self.groupM.saveGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -284,17 +285,17 @@ router.post('/api/admin/user/save-group', async (req:any, res:any, next:any) => 
 /**
  * @Route("/api/admin/user/save-ctrl-access", name="api__admin__user__save_ctrl_access")
  */
-router.post('/api/admin/user/save-ctrl-access', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/save-ctrl-access', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // сохраняем данные контроллера доступа
-        try{
+    if (ok) { // сохраняем данные контроллера доступа
+        try {
             out = await self.ctrlAccessM.saveCtrlAccess(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -307,17 +308,17 @@ router.post('/api/admin/user/save-ctrl-access', async (req:any, res:any, next:an
 /**
  * @Route("/api/admin/user/save-access-group", name="api__admin__user__save_access_group")
  */
-router.post('/api/admin/user/save-access-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/save-access-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // сохраняем/изменяем доступы группы к модулю
-        try{
+    if (ok) { // сохраняем/изменяем доступы группы к модулю
+        try {
             out = await self.accessGroupM.saveAccessGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -336,17 +337,17 @@ router.post('/api/admin/user/save-access-group', async (req:any, res:any, next:a
 /**
  * @Route("/api/admin/user/add-ctrl-access", name="api__admin__user__add_ctrl_access")
  */
-router.post('/api/admin/user/add-ctrl-access', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/add-ctrl-access', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Добавляем пользователя
-        try{
+    if (ok) { // Добавляем пользователя
+        try {
             out = await self.ctrlAccessM.addCtrlAccess(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -359,17 +360,17 @@ router.post('/api/admin/user/add-ctrl-access', async (req:any, res:any, next:any
 /**
  * @Route("/api/admin/user/add-user-to-group", name="api__admin__user__add_user_to_group")
  */
-router.post('/api/admin/user/add-user-to-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/add-user-to-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Добавляем пользователя
-        try{
+    if (ok) { // Добавляем пользователя
+        try {
             out = await self.userM.addUserToGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -382,17 +383,17 @@ router.post('/api/admin/user/add-user-to-group', async (req:any, res:any, next:a
 /**
  * @Route("/api/admin/user/add-ctrl-access-to-group", name="api__admin__user__add_ctrl_access_to_group")
  */
-router.post('/api/admin/user/add-ctrl-access-to-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/add-ctrl-access-to-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Добавляем доступ группы к модулю
-        try{
+    if (ok) { // Добавляем доступ группы к модулю
+        try {
             out = await self.accessGroupM.addCtrlAccessToGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -411,17 +412,17 @@ router.post('/api/admin/user/add-ctrl-access-to-group', async (req:any, res:any,
 /**
  * @Route("/api/admin/user/del-user-from-group", name="api__admin__user__del_user_from_group")
  */
-router.post('/api/admin/user/del-user-from-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/del-user-from-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Удаляем пользователя
-        try{
+    if (ok) { // Удаляем пользователя
+        try {
             out = await self.userM.delUserFromGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -434,40 +435,40 @@ router.post('/api/admin/user/del-user-from-group', async (req:any, res:any, next
 /**
  * @Route("/api/admin/user/del-ctrl-access", name="api__admin__user__del_ctrl_access")
  */
-router.post('/api/admin/user/del-ctrl-access', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/del-ctrl-access', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Удаляем пользователя
-        try{
+    if (ok) { // Удаляем пользователя
+        try {
             out = await self.ctrlAccessM.delCtrlAccess(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
 
     res.send(
-        self.responseSys.response(out, 'Удален контрноллер доступа')
+        self.responseSys.response(out, 'Удален контроллер доступа')
     );
 });
 
 /**
  * @Route("/api/admin/user/del-ctrl-access-from-group", name="api__admin__user__del_ctrl_access_from_group")
  */
-router.post('/api/admin/user/del-ctrl-access-from-group', async (req:any, res:any, next:any) => {
+router.post(AdminUserController.sBaseUrl + '/del-ctrl-access-from-group', async (req: MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 
     let out = null;
-    if( ok ){ // Удаляем доступ группы к модулю
-        try{
+    if (ok) { // Удаляем доступ группы к модулю
+        try {
             out = await self.accessGroupM.delCtrlAccessFromGroup(req.body);
-        } catch(e) {
+        } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
@@ -477,4 +478,4 @@ router.post('/api/admin/user/del-ctrl-access-from-group', async (req:any, res:an
     );
 });
 
-export {router};
+export { router };
