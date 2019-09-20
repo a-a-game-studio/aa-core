@@ -4,7 +4,8 @@
 
 ## Пример использования
 ``` typescript
-    import { App } from '../../src/App';
+    import { App } from '@a-a-game-studio/aa-core/lib';
+
     const config = require('./MainConfig.js');
 
     async function faRunServer() {
