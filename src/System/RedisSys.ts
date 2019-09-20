@@ -2,6 +2,9 @@ var redis = require("redis");
 
 /**
  * Обертка над редисом которая понимает async/await
+ * 
+ *  Для запуска redis в докере
+ *  docker run -p 6379:6379 --name some-redis -d redis
  */
 export class RedisSys {
 
