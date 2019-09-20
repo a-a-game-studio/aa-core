@@ -22,18 +22,16 @@ export class App {
     protected iPort: number; // порт подключения
     protected bodyMaxSize: string = '50mb'; // размер body
     protected conf: System.MainRequest.ConfI; // конфиг
-    protected objDb: db;
 
     protected bUseMySql: boolean; // флаг использования MySql
     protected bUseRabbitSender: boolean;  // флаг использования RabbitSender
     protected bUseReddis: boolean; // флаг использования Reddis
     protected bUseAuthSys: boolean; // флаг использования AuthSys
 
-
-
     public objExpress: express.Express;
     public errorSys: AAClasses.Components.ErrorSys
 
+    public objDb: db; // подключение к базе
 
 
     constructor(conf: System.MainRequest.ConfI, iPort: number = 3005) {
