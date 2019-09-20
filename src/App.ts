@@ -207,7 +207,7 @@ export class App {
      * @param sPath 
      */
     public fUseStatic(sPath: string): App {
-        this.objExpress.use(express.static('./public'));
+        this.objExpress.use(express.static(sPath));
         return this;
     }
 
