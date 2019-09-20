@@ -36,8 +36,8 @@ class AdminUserController extends BaseCtrl {
      * @param req
      * @param res
      */
-    public static async init(req: System.MainRequest.MainRequest, res: any): Promise<AdminUserController> {
-        const self = new AdminUserController(req);
+    public static async Init(req: System.MainRequest.MainRequest, res: any): Promise<AdminUserController> {
+        const self = new AdminUserController(req, res);
 
         // Инициализация бизнес моделей
         self.userM = new UserM(req);
@@ -69,7 +69,7 @@ class AdminUserController extends BaseCtrl {
  * Получить список пользователей
  */
 router.post(AdminUserController.sBaseUrl + '/get-users', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -94,7 +94,7 @@ router.post(AdminUserController.sBaseUrl + '/get-users', async (req: System.Main
  */
 router.post(AdminUserController.sBaseUrl + '/get-user', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -118,7 +118,7 @@ router.post(AdminUserController.sBaseUrl + '/get-user', async (req: System.MainR
  */
 router.post(AdminUserController.sBaseUrl + '/get-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -141,7 +141,7 @@ router.post(AdminUserController.sBaseUrl + '/get-group', async (req: System.Main
  */
 router.post(AdminUserController.sBaseUrl + '/get-ctrl-access', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -164,7 +164,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access', async (req: Syste
  */
 router.post(AdminUserController.sBaseUrl + '/get-user-groups', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -189,7 +189,7 @@ router.post(AdminUserController.sBaseUrl + '/get-user-groups', async (req: Syste
  */
 router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-of-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -212,7 +212,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-of-group', async (r
  */
 router.post(AdminUserController.sBaseUrl + '/get-group-list', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -235,7 +235,7 @@ router.post(AdminUserController.sBaseUrl + '/get-group-list', async (req: System
  */
 router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-list', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
 
@@ -262,7 +262,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-list', async (req: 
  */
 router.post(AdminUserController.sBaseUrl + '/save-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
@@ -285,7 +285,7 @@ router.post(AdminUserController.sBaseUrl + '/save-group', async (req: System.Mai
  */
 router.post(AdminUserController.sBaseUrl + '/save-ctrl-access', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
@@ -308,7 +308,7 @@ router.post(AdminUserController.sBaseUrl + '/save-ctrl-access', async (req: Syst
  */
 router.post(AdminUserController.sBaseUrl + '/save-access-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessUpdate(); // Проверка доступа
 
@@ -337,7 +337,7 @@ router.post(AdminUserController.sBaseUrl + '/save-access-group', async (req: Sys
  */
 router.post(AdminUserController.sBaseUrl + '/add-ctrl-access', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
@@ -360,7 +360,7 @@ router.post(AdminUserController.sBaseUrl + '/add-ctrl-access', async (req: Syste
  */
 router.post(AdminUserController.sBaseUrl + '/add-user-to-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
@@ -383,7 +383,7 @@ router.post(AdminUserController.sBaseUrl + '/add-user-to-group', async (req: Sys
  */
 router.post(AdminUserController.sBaseUrl + '/add-ctrl-access-to-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessCreate(); // Проверка доступа
 
@@ -412,7 +412,7 @@ router.post(AdminUserController.sBaseUrl + '/add-ctrl-access-to-group', async (r
  */
 router.post(AdminUserController.sBaseUrl + '/del-user-from-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 
@@ -435,7 +435,7 @@ router.post(AdminUserController.sBaseUrl + '/del-user-from-group', async (req: S
  */
 router.post(AdminUserController.sBaseUrl + '/del-ctrl-access', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 
@@ -458,7 +458,7 @@ router.post(AdminUserController.sBaseUrl + '/del-ctrl-access', async (req: Syste
  */
 router.post(AdminUserController.sBaseUrl + '/del-ctrl-access-from-group', async (req: System.MainRequest.MainRequest, res: any, next: any) => {
 
-    let self = await AdminUserController.init(req, res);
+    let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessDelete(); // Проверка доступа
 

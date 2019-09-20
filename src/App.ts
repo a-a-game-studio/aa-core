@@ -12,7 +12,8 @@ import * as Controller from './Namespace/Controller'
 
 // Базовый модуль
 import * as IndexController from './Module/Common/Controller/IndexController';
-import { MigratorConfig } from 'knex';
+
+import UserController from "./Module/User/UserController";
 
 /**
  * Класс приложения со всеми компонентами
@@ -27,6 +28,7 @@ export class App {
     protected bUseRabbitSender: boolean;  // флаг использования RabbitSender
     protected bUseReddis: boolean; // флаг использования Reddis
     protected bUseAuthSys: boolean; // флаг использования AuthSys
+    protected bUserCtrl: boolean; // флаг использования UserCtrl
 
     public objExpress: express.Express;
     public errorSys: AAClasses.Components.ErrorSys
@@ -40,6 +42,7 @@ export class App {
         this.bUseRabbitSender = false;
         this.bUseReddis = false;
         this.bUseAuthSys = false;
+        this.bUserCtrl = false;
 
         this.objExpress = express(); // уст. Express
 
@@ -211,6 +214,23 @@ export class App {
         /* проверка авторизации на уровне приложения */
         this.objExpress.use(await auth.faMiddleware);
         this.bUseAuthSys = true;
+
+        return this;
+    }
+
+    /**
+     * Использовать контролер пользователя
+     */
+    public fUseUserCtrl(): App {
+
+        if (!this.bUseAuthSys) {
+            console.log('faUserCtrl: AuthSys is not used');
+            process.exit(1);
+        };
+
+        /* проверка авторизации на уровне приложения */
+        this.objExpress.use(UserController);
+        this.bUserCtrl = true;
 
         return this;
     }

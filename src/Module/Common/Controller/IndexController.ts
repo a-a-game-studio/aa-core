@@ -9,30 +9,25 @@ var router = express.Router();
 /**
  * Контроллер проверки отвечает API или нет
  */
-class IndexController extends BaseCtrl
-{
+class IndexController extends BaseCtrl {
 
-    constructor(req:any){
-        super(req);
-
-        console.log('Проверка работы API Сервера');
-    }
+   
 }
 
 /**
  * Проверка на работоспособность
  */
-router.post('/post', function(req: System.MainRequest.MainRequest, res: any, next: any) {
-    let self = new IndexController(req);
+router.post('/post', function (req: System.MainRequest.MainRequest, res: any, next: any) {
+    let self = new IndexController(req, res);
     res.send('POST API сервер работает');
 });
 
 /**
  * Проверка на работоспособность
  */
-router.get('/', function(req: System.MainRequest.MainRequest, res: any, next: any) {
-    let self = new IndexController(req);
+router.get('/', function (req: System.MainRequest.MainRequest, res: any, next: any) {
+    let self = new IndexController(req, res);
     res.send('API сервер работает');
 });
 
-export {router};
+export { router };

@@ -28,7 +28,8 @@ async function faRunServer() {
     /* Иницализируем модуль аторизации */
     await app.faUseAuthSys(listDBData);
 
-    app.fUseAdminUser()
+    app.fUseAdminUser() // Контролер администрирования пользователей
+        .fUseUserCtrl() // Контролер пльзователя
         .fStart(); // Запускаем приложение
 
 } // faRunServer
