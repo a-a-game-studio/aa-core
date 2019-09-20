@@ -22,10 +22,10 @@ export class App {
     protected bodyMaxSize: string = '50mb'; // размер body
     protected conf:  System.MainRequest.ConfI; // конфиг
 
-    protected bUseMySql: boolean;
-    protected bUseRabbitSender: boolean;
-    protected bUseReddis: boolean;
-    protected bUseAuthSys: boolean;
+    protected bUseMySql: boolean; // флаг использования MySql
+    protected bUseRabbitSender: boolean;  // флаг использования RabbitSender
+    protected bUseReddis: boolean; // флаг использования Reddis
+    protected bUseAuthSys: boolean; // флаг использования AuthSys
 
     public objExpress: express.Express;
 
@@ -197,6 +197,25 @@ export class App {
         // Модуль для администрирования пользователей
         this.objExpress.use(Controller.AdminUserController.router);
 
+        return this;
+    }
+
+    /**
+     * Использовать статические файлы
+     * @param sPath 
+     */
+    public fUseStatic(sPath: string): App {
+        this.objExpress.use(express.static('./public'));
+        return this;
+    }
+
+    /**
+     * ИСпользовать динамически шаблоны ejs
+     * @param sPath 
+     */
+    public fUseViews(sPath: string): App {
+        this.objExpress.set('views', sPath);
+        this.objExpress.set('view engine', 'ejs');
         return this;
     }
 
