@@ -1,7 +1,7 @@
 import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const db = require('knex');
+import * as db from "knex";
 
 import * as express from 'express';
 // Подключене системных файлов
@@ -11,16 +11,17 @@ import * as Controller from './Namespace/Controller'
 
 // Базовый модуль
 import * as IndexController from './Module/Common/Controller/IndexController';
+import { MigratorConfig } from 'knex';
 
 /**
  * Класс приложения со всеми компонентами
  */
-
 export class App {
 
     protected iPort: number; // порт подключения
     protected bodyMaxSize: string = '50mb'; // размер body
-    protected conf:  System.MainRequest.ConfI; // конфиг
+    protected conf: System.MainRequest.ConfI; // конфиг
+    protected objDb: db;
 
     protected bUseMySql: boolean; // флаг использования MySql
     protected bUseRabbitSender: boolean;  // флаг использования RabbitSender
@@ -28,6 +29,8 @@ export class App {
     protected bUseAuthSys: boolean; // флаг использования AuthSys
 
     public objExpress: express.Express;
+
+
 
 
     constructor(conf: System.MainRequest.ConfI, iPort: number = 3005) {
@@ -42,6 +45,7 @@ export class App {
         this.conf = conf; // уст. конфиг
 
         this.iPort = iPort; // уст. порт
+
 
         /* Подключаем конфиг */
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
@@ -64,7 +68,7 @@ export class App {
                 responseSys: null,
                 bAuth: false
             }
-        
+
             req.sys.errorSys = new ErrorSys(this.conf.env);
             next();
         });
@@ -121,8 +125,9 @@ export class App {
      * Использовать MySql
      */
     public fUseMySql(): App {
+        this.objDb = db(this.conf.mysql);
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
-            req.infrastructure.mysql = db(this.conf.mysql);
+            req.infrastructure.mysql = this.objDb;
             next();
         }); // уст. конфиг
 
@@ -225,4 +230,36 @@ export class App {
         return this;
     }
 
+    /**
+     * Установка приложения
+     */
+    public async faInstall(): Promise<App> {
+        console.log('Start install app...');
+        console.log('Start migrate DB...');
+
+        if (!this.bUseMySql) throw 'MySql is not use';
+        
+        await this.objDb.migrate.latest();
+        console.log('Migrate done!');
+
+        console.log('Install app done!');
+
+        return this;
+    }
+
+    /**
+     * Создать миграцию
+     * @param name: string - Название миграции
+     */
+    public async faMakeMigration(name: string): Promise<App> {
+        if (!this.bUseMySql) throw 'MySql is not use';
+
+        await this.objDb.migrate.make(name);
+        return this;
+    }
+
 }
+
+
+
+

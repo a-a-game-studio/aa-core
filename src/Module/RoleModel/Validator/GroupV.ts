@@ -24,7 +24,7 @@ export namespace getGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -66,7 +66,7 @@ export namespace getAllGroups {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -103,7 +103,7 @@ export namespace saveGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================

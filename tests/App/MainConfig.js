@@ -5,19 +5,22 @@ module.exports = {
         "client": "mysql",
         "connection": {
             "host": "localhost",
-            "user": "db_user",
-            "password": "db_pass",
-            "database": "db_name"
+            "user": "root",
+            "password": "",
+            "database": "app1"
         },
         "pool": { "min": 0, "max": 7 },
         "migrations": {
             "tableName": "knex_migrations",
             "directory": "./src/Infrastructure/SQL/Migrations"
         },
+        "directory": "./src/Infrastructure/SQL/Migrations",
+        "loadExtensions": "ts",
         "acquireConnectionTimeout": 60000
     },
 
 
+    //docker run --name some-redis -d redis redis-server --appendonly yes
     redis: { // Конфигруация редиса
         "url": "redis://127.0.0.1:6379"
     },

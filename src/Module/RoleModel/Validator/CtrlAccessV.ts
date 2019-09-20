@@ -24,7 +24,7 @@ export namespace getCtrlAccessByAlias {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req:MainRequest.MainRequest, data:any){
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -65,7 +65,7 @@ export namespace getAllCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req:MainRequest.MainRequest, data:any){
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -101,7 +101,7 @@ export namespace saveCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req:MainRequest.MainRequest, data:any){
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -169,7 +169,7 @@ export namespace addCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req:MainRequest.MainRequest, data:any){
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -228,7 +228,7 @@ export namespace delCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req:MainRequest.MainRequest, data:any){
         let rules = new Components.ModelRulesC();
 
         // =======================================

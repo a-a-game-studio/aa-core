@@ -4,16 +4,37 @@
 
 ## Пример использования
 ``` typescript
-    import { App, System } from '@a-a-game-studio/aa-core/lib';
+    import { App } from '../../src/App';
+    const config = require('./MainConfig.js');
 
-    let conf: System.MainRequest.ConfI;
-    const app = new App(conf)
-        .fDisableCors() // отключаем cors
-        .fUseBodyParser() // используем дефолтный BodyParser
-        .fStart(); // Запускаем приложение
+    async function faRunServer() {
+
+        console.log('Starting App...');
+
+        const app = new App(config)
+            .fUseMySql(); // используем MySql
+
+        await app.faInstall(); // устанавливаем приложение
+
+        app.fDisableCors() // отключаем cors
+            .fUseBodyParser() // используем дефолтный BodyParser
+            .fUseDefaultIndex() // используем дефолтный index
+            .fUseReddis() // Reddis
+            .fUseAuthSys() // авторизация
+            .fUseAdminUser() // администриование пользователей
+            .fStart(); // Запускаем приложение
+
+    } // faRunServer
+
+    faRunServer();
 ```
 
 ``` bash
+    Starting App...
+    Start install app...
+    Start migrate DB...
+    Migrate done!
+    Install app done!
     server start at http://localhost:3005
 ```
 

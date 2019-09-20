@@ -27,7 +27,7 @@ export namespace getUserList {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -79,7 +79,7 @@ export namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -123,7 +123,7 @@ export namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -168,7 +168,7 @@ export namespace addUserToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -221,7 +221,7 @@ export namespace delUserFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -275,7 +275,7 @@ export namespace getApiKeyByPhoneAndSms {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest, data: any) {
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
