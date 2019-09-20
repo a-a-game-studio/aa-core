@@ -32,6 +32,18 @@ export class AuthSysMiddleware {
 
         req.sys.userSys = userSys;
 
+        /* находим пользователя по ключу */
+        if (req.sys.token) {
+            await req.sys.userSys.actions.infoA.faGetUserInfoByToken(req.sys.token);
+        }
+
+        /* флаг авторизации */
+        if (req.sys.userSys.is()) {
+            req.sys.bAuth = true;
+
+            req.sys.systemCore = new AAClasses.SysteCoreModule.SystemCore(req.sys.errorSys, req.sys.userSys, listDB);
+        }
+
         next();
     }
 

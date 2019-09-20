@@ -59,7 +59,8 @@ export interface MainRequest extends Request {
         bAuth: boolean, /* флаг авторизации */
         errorSys: AAClasses.Components.ErrorSys,
         userSys: UserSys,
-        responseSys: ResponseSys
+        responseSys: ResponseSys,
+        systemCore: AAClasses.SysteCoreModule.SystemCore
     };
     conf: ConfI;
     infrastructure: {

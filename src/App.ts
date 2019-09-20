@@ -71,7 +71,8 @@ export class App {
                 errorSys: null,
                 userSys: null,
                 responseSys: null,
-                bAuth: false
+                bAuth: false,
+                systemCore: null,
             }
 
             req.sys.errorSys = this.errorSys;

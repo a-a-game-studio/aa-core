@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+//import * as _ from 'lodash';
 
 // Системные сервисы
 import { MainRequest } from './MainRequest';
@@ -176,7 +176,9 @@ export class UserSys extends AAClasses.UserModule.User {
 
 		let idsGroupList = [];
 		if (ok) { // Получаем ID групп в которых состоит пользователь
-			idsGroupList = _.values(this.userGroupsList);
+			for(let k in this.userGroupsList) {
+				idsGroupList.push(this.userGroupsList[k]);
+			}
 		}
 
 		let ifCtrlAccess = false;
