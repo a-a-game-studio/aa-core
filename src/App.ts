@@ -1,4 +1,5 @@
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 import * as db from "knex";
@@ -69,7 +70,7 @@ export class App {
                 bAuth: false
             }
 
-            req.sys.errorSys = new ErrorSys(this.conf.env);
+            req.sys.errorSys = new AAClasses.Components.ErrorSys(this.conf.env);
             next();
         });
 

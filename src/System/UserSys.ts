@@ -1,54 +1,49 @@
-
-// Библиотеки
 import * as _ from 'lodash';
 
 // Системные сервисы
 import { MainRequest } from './MainRequest';
 
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
 // SQL Запросы
-import {UserSQL} from '../Infrastructure/SQL/Repository/UserSQL';
-import {UserGroupSQL} from '../Infrastructure/SQL/Repository/UserGroupSQL';
-import {AccessGroupSQL} from '../Infrastructure/SQL/Repository/AccessGroupSQL';
-import {CtrlAccessSQL} from '../Infrastructure/SQL/Repository/CtrlAccessSQL';
+import { UserSQL } from '../Infrastructure/SQL/Repository/UserSQL';
+import { UserGroupSQL } from '../Infrastructure/SQL/Repository/UserGroupSQL';
+import { AccessGroupSQL } from '../Infrastructure/SQL/Repository/AccessGroupSQL';
+import { CtrlAccessSQL } from '../Infrastructure/SQL/Repository/CtrlAccessSQL';
 
 /**
  * Клас который глобально знает все данные пользователя
  */
-export class UserSys
-{
+export class UserSys extends AAClasses.UserModule.User {
 
-	public idUser:number; // ID пользователя
+	public idUser: number; // ID пользователя
 
-	private token:string; // APIKEY
+	private token: string; // APIKEY
 
-	private userInfoList:any; // Информация о пользователе
-	private userGroupsList:any; // Роли пользователя
+	private userInfoList: any; // Информация о пользователе
+	private userGroupsList: any; // Роли пользователя
 
-	private ctrlAccessList:any; // Список модулей
-	private aliasCtrlAccess:string; // Псевдоним модуля где мы находимся
-	private idCtrlAccess:number; // ID модуля где мы находимся
-	private accessCRUDList:any; // Доступ CRUD к модулю
+	private ctrlAccessList: any; // Список модулей
+	private aliasCtrlAccess: string; // Псевдоним модуля где мы находимся
+	private idCtrlAccess: number; // ID модуля где мы находимся
+	private accessCRUDList: any; // Доступ CRUD к модулю
 
-	private req:MainRequest; // Объект запроса пользователя
+	private req: MainRequest; // Объект запроса пользователя
 
 
-	private userSQL:UserSQL;
+	private userSQL: UserSQL;
 
-	private errorSys:Components.ErrorSys;
+	private userGroupSQL: UserGroupSQL;
 
-	private userGroupSQL:UserGroupSQL;
+	private accessGroupSQL: AccessGroupSQL;
 
-	private accessGroupSQL:AccessGroupSQL;
+	private ctrlAccessSQL: CtrlAccessSQL;
 
-	private ctrlAccessSQL:CtrlAccessSQL;
+	public constructor(req: MainRequest, listDB: AAClasses.SysteCoreModule.ListDB) {
 
-	public constructor (req:MainRequest) {
+		super(req.sys.errorSys, listDB)
 
 		this.req = req;
-
-		this.errorSys = req.sys.errorSys;
 
 		this.userSQL = new UserSQL(req);
 		this.userGroupSQL = new UserGroupSQL(req);
@@ -64,7 +59,7 @@ export class UserSys
 
 		this.token = req.sys.token;
 
-		if( !this.token ){
+		if (!this.token) {
 			this.token = '';
 			this.errorSys.devWarning('token', 'token - пустой');
 		}
@@ -77,21 +72,21 @@ export class UserSys
 	 *
 	 * @return void
 	 */
-	public async init(){
+	public async init() {
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
 		// Проверяем token
 		let ifAuth = await this.userSQL.isAuth(this.token);
 
-		if( ifAuth ){ // Ставим в общий слой видимости флаг авторизации
+		if (ifAuth) { // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
 		}
 
-		let userInfoList:any = {};
-		if( ok && ifAuth ){ // Получаем информацию о пользователе по token
+		let userInfoList: any = {};
+		if (ok && ifAuth) { // Получаем информацию о пользователе по token
 			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
 
-			if( !userInfoList ){
+			if (!userInfoList) {
 				ok = false;
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
@@ -100,12 +95,12 @@ export class UserSys
 			}
 		}
 
-		let userGroupsList = {};
-		if( ok && ifAuth ){ // Получаем роли пользователя
+		let userGroupsList: any = {};
+		if (ok && ifAuth) { // Получаем роли пользователя
 
 			userGroupsList = await this.userGroupSQL.getUserGroupsByUserID(this.idUser);
 
-			if( !userGroupsList ){
+			if (!userGroupsList) {
 				ok = false;
 				this.errorSys.error('get_user_roles_in_auth', 'Не возомжно получить роли пользователя при авторизации');
 			}
@@ -113,45 +108,47 @@ export class UserSys
 
 
 		this.userGroupsList = {};
-		if( ok && ifAuth ){ // Проиндексировать группы по: имени группы
-			_.forEach(userGroupsList, (v, k) => {
-				let idGroup = v['group_id'];
-				let aliasGroup = v['alias'];
+		if (ok && ifAuth) { // Проиндексировать группы по: имени группы
+			for (let k in userGroupsList) {
+				let idGroup = userGroupsList[k]['group_id'];
+				let aliasGroup = userGroupsList[k]['alias'];
 
-				if( aliasGroup ){
+				if (aliasGroup) {
 					this.userGroupsList[aliasGroup] = idGroup;
 				}
-			});
+			}
+
 		}
 
 
 
-		let ctrlAccessListTemp = {};
-		if( ok ){ // Получаем все модули
+		let ctrlAccessListTemp: any = {};
+		if (ok) { // Получаем все модули
 
 			ctrlAccessListTemp = await this.ctrlAccessSQL.getAllCtrlAccess();
 
-			if( !userGroupsList ){
+			if (!userGroupsList) {
 				ok = false;
 				this.errorSys.error('get_all_ctrl_access', 'Не получилось получить список модулей');
 			}
 		}
 
 
-		if( ok ){ // Проиндексировать модули по: alias модуля
+		if (ok) { // Проиндексировать модули по: alias модуля
 
-			_.forEach(ctrlAccessListTemp, (v, k) =>{
-				let idCtrlAccess = v['id'];
-				let aliasCtrlAccess = v['alias'];
+			for (let k in ctrlAccessListTemp) {
+				let idCtrlAccess = ctrlAccessListTemp[k]['id'];
+				let aliasCtrlAccess = ctrlAccessListTemp[k]['alias'];
 
-				if( aliasCtrlAccess ){
+				if (aliasCtrlAccess) {
 					this.ctrlAccessList[aliasCtrlAccess] = idCtrlAccess;
 				}
-			});
+			}
+
 		}
 
-		if( ok && ifAuth ){ // Уведоиление об успешной авторизации пользователя в DEV режиме
-			this.errorSys.devNotice('is_user_init', 'Авторизация прошла успешно, пользователь - '+userInfoList['username']);
+		if (ok && ifAuth) { // Уведоиление об успешной авторизации пользователя в DEV режиме
+			this.errorSys.devNotice('is_user_init', 'Авторизация прошла успешно, пользователь - ' + userInfoList['username']);
 		} else {
 			this.errorSys.devWarning('is_user_init', 'Авторизация провалилась');
 		}
@@ -164,11 +161,11 @@ export class UserSys
 	 * @param string alias
 	 * @return boolean
 	 */
-	public async isAccessCtrl(alias:string): Promise<boolean>{
+	public async isAccessCtrl(alias: string): Promise<boolean> {
 
 		let ok = true;
 
-		if( this.ctrlAccessList[alias] ){ // Проверяем существование модуля
+		if (this.ctrlAccessList[alias]) { // Проверяем существование модуля
 			this.errorSys.devNotice('ctrl_access_exist', `Модуль - ${alias} найден`);
 			this.idCtrlAccess = this.ctrlAccessList[alias];
 			this.aliasCtrlAccess = alias;
@@ -178,27 +175,27 @@ export class UserSys
 		}
 
 		let idsGroupList = [];
-		if( ok ){ // Получаем ID групп в которых состоит пользователь
+		if (ok) { // Получаем ID групп в которых состоит пользователь
 			idsGroupList = _.values(this.userGroupsList);
 		}
 
 		let ifCtrlAccess = false;
-		if( ok ){ // Проверяем имеет ли пользователь доступ к модулю
+		if (ok) { // Проверяем имеет ли пользователь доступ к модулю
 
 			ifCtrlAccess = await this.accessGroupSQL.getAccess(idsGroupList, this.idCtrlAccess);
 
-			if( !ifCtrlAccess ){
+			if (!ifCtrlAccess) {
 				ok = false;
 				this.errorSys.error('get_access', 'Не возможно получить права на контрллер');
 			}
 		}
 
 		let accessCRUDList = [];
-		if( ok ){ // Получаем CRUD права на модуль
+		if (ok) { // Получаем CRUD права на модуль
 
 			accessCRUDList = await this.accessGroupSQL.getAccessCRUD(idsGroupList, this.idCtrlAccess);
 
-			if( !accessCRUDList ){
+			if (!accessCRUDList) {
 				ok = false;
 				this.errorSys.error('get_access_crud', 'Не возможно получить CRUD права на контрллер');
 			}
@@ -206,11 +203,11 @@ export class UserSys
 
 		this.accessCRUDList = accessCRUDList;
 
-		if( ifCtrlAccess ){
-            this.errorSys.devNotice("ctrl_access", `Доступ к ${alias} получен`);
-        } else {
-            this.errorSys.error('ctrl_access', `У вас нет доступа к ${alias}`);
-        }
+		if (ifCtrlAccess) {
+			this.errorSys.devNotice("ctrl_access", `Доступ к ${alias} получен`);
+		} else {
+			this.errorSys.error('ctrl_access', `У вас нет доступа к ${alias}`);
+		}
 
 		return ifCtrlAccess;
 	}
@@ -230,13 +227,13 @@ export class UserSys
 			'access_create'
 		]);
 
-		if( !this.accessCRUDList ){
+		if (!this.accessCRUDList) {
 			ok = false;
 			this.errorSys.error('crud_access_list', 'Нет списка прав');
 		}
 
-		if( ok ){
-			if( this.accessCRUDList['create'] ){
+		if (ok) {
+			if (this.accessCRUDList['create']) {
 				this.errorSys.devNotice('access_create', "Проверка прав на create прошла успешно");
 			} else {
 				ok = false;
@@ -261,13 +258,13 @@ export class UserSys
 			'access_read'
 		]);
 
-		if( !this.accessCRUDList ){
+		if (!this.accessCRUDList) {
 			ok = false;
 			this.errorSys.error('crud_access_list', 'Нет списка прав');
 		}
 
-		if( ok ){
-			if( this.accessCRUDList['read'] ){
+		if (ok) {
+			if (this.accessCRUDList['read']) {
 				this.errorSys.devNotice('access_read', "Проверка прав на read прошла успешно");
 			} else {
 				ok = false;
@@ -292,13 +289,13 @@ export class UserSys
 			'access_update'
 		]);
 
-		if( !this.accessCRUDList ){
+		if (!this.accessCRUDList) {
 			ok = false;
 			this.errorSys.error('crud_access_list', 'Нет списка прав');
 		}
 
-		if( ok ){
-			if( this.accessCRUDList['update'] ){
+		if (ok) {
+			if (this.accessCRUDList['update']) {
 				this.errorSys.devNotice('access_update', "Проверка прав на update прошла успешно");
 			} else {
 				ok = false;
@@ -323,13 +320,13 @@ export class UserSys
 			'access_delete'
 		]);
 
-		if( !this.accessCRUDList ){
+		if (!this.accessCRUDList) {
 			ok = false;
 			this.errorSys.error('crud_access_list', 'Нет списка прав');
 		}
 
-		if( ok ){
-			if( this.accessCRUDList['delete'] ){
+		if (ok) {
+			if (this.accessCRUDList['delete']) {
 				this.errorSys.devNotice('access_delete', "Проверка прав на delete прошла успешно");
 			} else {
 				ok = false;
@@ -340,37 +337,6 @@ export class UserSys
 		return ok;
 	}
 
-	/**
-	 * Проверка является ли пользователь организатором
-	 *
-	 * @return boolean
-	 */
-	public isOrg(): boolean {
-
-		let ok = this.errorSys.isOk();
-
-		this.errorSys.declare([
-			'is_org'
-		]);
-
-		if( ok && this.userGroupsList['organizers'] ){
-			this.errorSys.devNotice('is_org', 'Вы организатор');
-		} else {
-			ok = false;
-			this.errorSys.error('is_org', 'Вы не организатор');
-		}
-
-		return ok;
-	}
-
-	/**
-	 * Проверка является ли пользователь администратором организаторов на пр Ольга Проданова
-	 *
-	 * @return boolean
-	 */
-	public isOrgAdmin(): boolean {
-		return this.isAdmin() ? (true) : (false);
-	}
 
 	/**
 	 * Проверка является ли пользователь администратором
@@ -385,7 +351,7 @@ export class UserSys
 			'is_admin'
 		]);
 
-		if( ok && this.userGroupsList['admin'] ){
+		if (ok && this.userGroupsList['admin']) {
 			this.errorSys.devNotice('is_admin', 'Вы администратор');
 		} else {
 			ok = false;
@@ -406,11 +372,11 @@ export class UserSys
 			'is_auth'
 		]);
 
-		if( ok && await this.userSQL.isAuth(this.token) ){
-            this.errorSys.devNotice('is_auth', 'Вы авторизованы');
-        } else {
+		if (ok && await this.userSQL.isAuth(this.token)) {
+			this.errorSys.devNotice('is_auth', 'Вы авторизованы');
+		} else {
 			ok = false;
-            this.errorSys.error('is_auth', 'Вы не авторизованы');
+			this.errorSys.error('is_auth', 'Вы не авторизованы');
 		}
 
 		return ok;
@@ -422,14 +388,14 @@ export class UserSys
 	 *
 	 * @return string|null
 	 */
-	public fGetApikey(): string{
+	public fGetApikey(): string {
 		return this.token;
 	}
 
 	/**
 	 * Получить ID пользователя
 	 */
-	public getIdUser(): number{
+	public getIdUser(): number {
 		return this.idUser;
 	}
 

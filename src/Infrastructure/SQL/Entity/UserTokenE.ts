@@ -1,10 +1,5 @@
-
-// Системные сервисы
-import {UserSys} from '../../../System/UserSys';
-
-
 // Компоненты
-import {ModelRulesC, ModelRulesT} from '@a-a-game-studio/aa-components/lib';
+import { Components } from '@a-a-game-studio/aa-classes/lib';
 
 
 export class UserTokenE
@@ -13,15 +8,15 @@ export class UserTokenE
     public static NAME = 'aa_user_token';
 
 	public getRulesInsert(){
-        let rules = new ModelRulesC();
+        let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('user_id')
-            .type(ModelRulesT.int)
+            .type(Components.ModelRulesT.int)
             .error(UserTokenE.NAME+'.user_id')
         );
 
         rules.set(rules.rule('token')
-            .type(ModelRulesT.text)
+            .type(Components.ModelRulesT.text)
             .error(UserTokenE.NAME+'.token')
         );
 

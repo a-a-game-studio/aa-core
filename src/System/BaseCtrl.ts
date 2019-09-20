@@ -1,6 +1,7 @@
 // Системные сервисы
 import { ResponseSys } from './ResponseSys';
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
 import { MainRequest } from './MainRequest';
 
 import { UserSys } from './UserSys';
@@ -12,7 +13,7 @@ import { UserSys } from './UserSys';
 export default class BaseCtrl {
 
     public req: MainRequest;
-    public errorSys: ErrorSys;
+    public errorSys: AAClasses.Components.ErrorSys;
     public userSys: UserSys;
     public responseSys: ResponseSys;
 

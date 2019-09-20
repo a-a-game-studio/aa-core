@@ -33,10 +33,10 @@ export class RedisSys{
      * Получить ключи по шаблону
      * @param keys
      */
-    public keys(keys: string): Promise<[]> {
+    public keys(keys: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
 
-            this.redisClient.keys(keys, function (err: any, reply: []) {
+            this.redisClient.keys(keys, function (err: any, reply: any[]) {
                 if (err) {
                     reject(err);
                 }
@@ -61,7 +61,7 @@ export class RedisSys{
      * Удалить ключи по ID
      * @param keys
      */
-    public del(keys: []){
+    public del(keys: any[]){
         if( keys.length > 0 ){
             this.redisClient.del(keys);
         }

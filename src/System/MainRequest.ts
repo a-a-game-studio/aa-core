@@ -1,6 +1,6 @@
 
 // Подключение компонентной библиотеки
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
 import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
@@ -57,7 +57,7 @@ export interface MainRequest extends Request {
     sys: {
         token: string,
         bAuth: boolean, /* флаг авторизации */
-        errorSys: Components.ErrorSys,
+        errorSys: AAClasses.Components.ErrorSys,
         userSys: UserSys,
         responseSys: ResponseSys
     };
@@ -94,7 +94,7 @@ export function initMainRequest(conf: any): MainRequest {
 
     mainRequest.conf = conf;
 
-    mainRequest.sys.errorSys = new Components.ErrorSys(conf.env);
+    mainRequest.sys.errorSys = new AAClasses.Components.ErrorSys(conf.env);
     mainRequest.seo = new Seo();
 
     return mainRequest;

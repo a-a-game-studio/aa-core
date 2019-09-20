@@ -1,20 +1,19 @@
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import { MainRequest } from './MainRequest';
 
 /**
  * Системный сервис формирования ответа
  */
-export class ResponseSys
-{
-	private env:string;
-	private ifDevMode:boolean;
+export class ResponseSys {
+	private env: string;
+	private ifDevMode: boolean;
 
-	private errorSys:Components.ErrorSys;
+	private errorSys: AAClasses.Components.ErrorSys;
 
-	constructor(req:MainRequest){
+	constructor(req: MainRequest) {
 
 		this.env = req.conf.env;
-		if( this.env == 'local' || this.env == 'dev' ){
+		if (this.env == 'local' || this.env == 'dev') {
 			this.ifDevMode = true;
 		} else {
 			this.ifDevMode = false;
@@ -31,27 +30,27 @@ export class ResponseSys
 	 * @param string sMsg
 	 * @return array
 	 */
-	public response(data:any, sMsg:string): any{
+	public response(data: any, sMsg: string): any {
 
 
 
-		let out:any = {
-			'ok' : this.errorSys.isOk(),
-			'e' : !this.errorSys.isOk(),
-			'errors' : this.errorSys.getErrors(),
+		let out: any = {
+			'ok': this.errorSys.isOk(),
+			'e': !this.errorSys.isOk(),
+			'errors': this.errorSys.getErrors(),
 			// 'warning' : this.errorSys.getWarning(), // Временно убраны пользовательские предупреждения
 			// 'notice' : this.errorSys.getNotice(), // Временно убраны пользовательские предупреждения
-			'msg' : sMsg,
+			'msg': sMsg,
 		};
 
-		if( this.ifDevMode ){ // Выводит информацию для разработчиков и тестрировщиков
+		if (this.ifDevMode) { // Выводит информацию для разработчиков и тестрировщиков
 			out['dev_warning'] = this.errorSys.getDevWarning();
 			out['dev_notice'] = this.errorSys.getDevNotice();
 			out['dev_declare'] = this.errorSys.getDevDeclare();
 			out['dev_log'] = this.errorSys.getDevLog();
 		}
 
-		if( this.errorSys.isOk() ){
+		if (this.errorSys.isOk()) {
 			out['data'] = data;
 		} else {
 			out['data'] = null;
