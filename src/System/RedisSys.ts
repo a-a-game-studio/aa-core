@@ -1,22 +1,39 @@
-
 var redis = require("redis");
 
 /**
  * Обертка над редисом которая понимает async/await
  */
-export class RedisSys{
+export class RedisSys {
 
-    public redisClient:any;
+    public redisClient: any;
 
-    constructor(conf:any){
+    constructor(conf: any) {
+
+        console.log('Redis client try connect ...');
+
         this.redisClient = redis.createClient(conf);
+
+        this.redisClient.on('connect', function () {
+            console.log('Redis client connected');
+        });
+
+        this.redisClient.on("error", function (err: any) {
+            console.log("Redis client error");
+            console.log(err);
+
+            /* в случае отсутствия коннекта */
+            if (err['code'] == 'ECONNREFUSED') {
+                process.exit(1);
+            }
+        });
+
     }
 
     /**
      * Получить значение из редиса
      * @param key
      */
-    public get(key: string):Promise<string> {
+    public get(key: string): Promise<string> {
         return new Promise((resolve, reject) => {
 
             this.redisClient.get(key, function (err: any, reply: string) {
@@ -53,7 +70,7 @@ export class RedisSys{
      * @param val
      * @param time
      */
-    public set(key: string, val: string|number, time: number = 3600){
+    public set(key: string, val: string | number, time: number = 3600) {
         this.redisClient.set(key, val, 'EX', time);
     }
 
@@ -61,8 +78,8 @@ export class RedisSys{
      * Удалить ключи по ID
      * @param keys
      */
-    public del(keys: any[]){
-        if( keys.length > 0 ){
+    public del(keys: any[]) {
+        if (keys.length > 0) {
             this.redisClient.del(keys);
         }
     }

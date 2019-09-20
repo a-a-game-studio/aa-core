@@ -29,8 +29,10 @@ export class App {
     protected bUseReddis: boolean; // флаг использования Reddis
     protected bUseAuthSys: boolean; // флаг использования AuthSys
 
-    public objExpress: express.Express;
 
+
+    public objExpress: express.Express;
+    public errorSys: AAClasses.Components.ErrorSys
 
 
 
@@ -46,6 +48,8 @@ export class App {
         this.conf = conf; // уст. конфиг
 
         this.iPort = iPort; // уст. порт
+
+        this.errorSys = new AAClasses.Components.ErrorSys(this.conf.env);
 
 
         /* Подключаем конфиг */
@@ -70,7 +74,7 @@ export class App {
                 bAuth: false
             }
 
-            req.sys.errorSys = new AAClasses.Components.ErrorSys(this.conf.env);
+            req.sys.errorSys = this.errorSys;
             next();
         });
 
@@ -126,6 +130,12 @@ export class App {
      * Использовать MySql
      */
     public fUseMySql(): App {
+
+        if (!this.conf.mysql) {
+            console.log('Config mysql connection is empty');
+            process.exit(1);
+        };
+
         this.objDb = db(this.conf.mysql);
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
             req.infrastructure.mysql = this.objDb;
@@ -141,10 +151,16 @@ export class App {
      * Использовать Reddis
      */
     public fUseReddis(): App {
-        if (!this.conf.redis) throw 'Config redis connection is empty';
+
+        if (!this.conf.redis) {
+            console.log('Config redis connection is empty');
+            process.exit(1);
+        };
+
+        const reddis = new System.RedisSys(this.conf.redis);
 
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
-            req.infrastructure.redis = new System.RedisSys(this.conf.redis);
+            req.infrastructure.redis = reddis;
             next();
         }); // уст. конфиг
 
@@ -158,7 +174,10 @@ export class App {
      */
     public async faUseRabbitSender(): Promise<App> {
 
-        if (!this.conf.rabbit.connection) throw 'Config rabbit connection is empty';
+        if (!this.conf.rabbit.connection) {
+            console.log('Config rabbit connection is empty');
+            process.exit(1);
+        };
 
         let rabbitSender = await System.RabbitSenderSys.Init(
             this.conf.rabbit.connection,
@@ -178,13 +197,20 @@ export class App {
     /**
      * Использование AuthSys
      */
-    public fUseAuthSys(): App {
+    public async faUseAuthSys(listDBData: AAClasses.SysteCoreModule.ListDBI): Promise<App> {
 
-        if (!this.bUseReddis) throw 'Reddis is not use';
-        if (!this.bUseMySql) throw 'MySql is not use';
+        if (!this.bUseReddis) {
+            console.log('faUseAuthSys: Reddis is not used');
+            process.exit(1);
+        };
+        if (!this.bUseMySql) {
+            console.log('faUseAuthSys: MySql is not used');
+            process.exit(1);
+        };
 
+        const auth = new Middleware.AuthSysMiddleware(listDBData);
         /* проверка авторизации на уровне приложения */
-        this.objExpress.use(Middleware.AuthSysMiddleware);
+        this.objExpress.use(await auth.faMiddleware);
         this.bUseAuthSys = true;
 
         return this;
@@ -195,7 +221,10 @@ export class App {
      */
     public fUseAdminUser(): App {
 
-        if (!this.bUseAuthSys) throw 'AuthSys is not use';
+        if (!this.bUseAuthSys) {
+            console.log('fUseAdminUser: AuthSys is not used');
+            process.exit(1);
+        };
 
         // Модуль для администрирования пользователей
         this.objExpress.use(Controller.AdminUserController.router);
@@ -239,7 +268,7 @@ export class App {
         console.log('Start migrate DB...');
 
         if (!this.bUseMySql) throw 'MySql is not use';
-        
+
         await this.objDb.migrate.latest();
         console.log('Migrate done!');
 

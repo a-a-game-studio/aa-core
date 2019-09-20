@@ -1,4 +1,3 @@
-
 // Системные классы
 import BaseM from '../../../System/BaseM';
 

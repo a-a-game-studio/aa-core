@@ -17,9 +17,6 @@ import { RabbitSenderSys } from '../System/RabbitSenderSys';
 /* Конструктор Консольной команды */
 import BaseCommand from '../System/BaseCommand';
 
-/* Конструктор теста */
-import BaseTest from '../System/BaseTest';
-
 import BaseCtrl from '../System/BaseCtrl'
 
 import BaseSQL from '../System/BaseSQL'
@@ -35,7 +32,6 @@ export {
     S3objectParamsI, S3confI, S3,
     RabbitSenderSys,
     BaseCommand,
-    BaseTest,
     BaseCtrl,
     BaseSQL,
     BaseM

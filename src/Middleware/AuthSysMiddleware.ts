@@ -1,29 +1,38 @@
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
 import { MainRequest } from '../System/MainRequest';
 import { UserSys } from '../System/UserSys';
 
 /* проверка аутентификации на уровне приложения */
-export default async function AuthSysMiddleware(request: MainRequest, response: any, next: any) {
-    if (request.headers.token) {
-        request.sys.token = request.headers.token;
-    } else {
-        request.sys.token = '';
+export class AuthSysMiddleware {
+
+    protected listDBData: AAClasses.SysteCoreModule.ListDBI;
+
+    constructor(listDBData: AAClasses.SysteCoreModule.ListDBI) {
+        this.listDBData = listDBData;
+        this.faMiddleware = this.faMiddleware.bind(this);
     }
 
-    /* юзерь не авторизован */
-    request.sys.bAuth = false;
-    const userSys = new UserSys(request);
+    public async faMiddleware(req: MainRequest, response: any, next: any) {
 
-    // Инициализируем систему для пользователей
-    await userSys.init();
+        if (req.headers.token) {
+            req.sys.token = req.headers.token;
+        } else {
+            req.sys.token = '';
+        }
 
-    // if (await userSys.isAuth()) {
-    //     await userSys.init();
-    //     /* проставляем аторизацию */
-    //     request.sys.bAuth = true;
+        /* юзерь не авторизован */
+        req.sys.bAuth = false;
 
-    // }
-    request.sys.userSys = userSys;
+        const listDB = new AAClasses.SysteCoreModule.ListDB(this.listDBData);
+        const userSys = new UserSys(req, listDB);
 
+        // Инициализируем систему для пользователей
+        await userSys.init();
 
-    next();
+        req.sys.userSys = userSys;
+
+        next();
+    }
+
 }
