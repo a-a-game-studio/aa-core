@@ -5,7 +5,7 @@
 // Системные сервисы
 import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 import { RedisSys } from './RedisSys';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 
 
 

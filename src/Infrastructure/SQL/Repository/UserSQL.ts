@@ -5,7 +5,7 @@ const uniqid = require('uniqid');
 var md5 = require('md5');
 
 // Системные сервисыW
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
 import { UserE } from '../Entity/UserE';
 import { UserTokenE } from '../Entity/UserTokenE';

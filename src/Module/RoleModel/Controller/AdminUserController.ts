@@ -9,7 +9,7 @@ import { GroupM } from '../Model/GroupM';
 import { CtrlAccessM } from '../Model/CtrlAccessM';
 import { AccessGroupM } from '../Model/AccessGroupM';
 
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 import BaseCtrl from '../../../System/BaseCtrl';
 
 var router = express.Router();

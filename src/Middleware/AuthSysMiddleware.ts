@@ -1,4 +1,4 @@
-import MainRequest from '../System/MainRequest';
+import { MainRequest } from '../System/MainRequest';
 import { UserSys } from '../System/UserSys';
 
 /* проверка аутентификации на уровне приложения */

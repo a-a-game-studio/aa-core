@@ -1,5 +1,5 @@
 import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 import { UserSys } from './UserSys';
 /**
  * Конструктор для консольных комманд

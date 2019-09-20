@@ -1,6 +1,6 @@
 import { UserSys } from '../System/UserSys';
 import { ResponseSys } from '../System/ResponseSys';
-import MainRequest from '../System/MainRequest';
+import { MainRequest } from '../System/MainRequest';
 import { initMainRequest } from '../System/MainRequest';
 import { RedisSys } from '../System/RedisSys';
 import { S3objectParamsI, S3confI, S3 } from '../System/S3';

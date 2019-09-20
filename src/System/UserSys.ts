@@ -3,7 +3,7 @@
 import * as _ from 'lodash';
 
 // Системные сервисы
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 
 import * as Components from '@a-a-game-studio/aa-components/lib';
 

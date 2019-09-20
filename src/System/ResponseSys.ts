@@ -1,6 +1,5 @@
-
 import * as Components from '@a-a-game-studio/aa-components/lib';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 
 /**
  * Системный сервис формирования ответа

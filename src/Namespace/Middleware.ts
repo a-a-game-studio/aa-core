@@ -1,6 +1,3 @@
-// /* LEGO ошибок */
-import ErrorSysMiddleware from '../Middleware/ErrorSysMiddleware'
-
 /* Создает объект запроса */
 import RequestSysMiddleware from '../Middleware/RequestSysMiddleware'
 
@@ -11,7 +8,6 @@ import ResponseSysMiddleware from '../Middleware/ResponseSysMiddleware'
 import AuthSysMiddleware from '../Middleware/AuthSysMiddleware'
 
 export {
-    ErrorSysMiddleware,
     RequestSysMiddleware,
     ResponseSysMiddleware,
     AuthSysMiddleware

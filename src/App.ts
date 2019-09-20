@@ -1,22 +1,26 @@
-import * as express from 'express';
-import * as Controller from './Namespace/Controller'
-// Подключене системных файлов
-import * as Middleware from './Namespace/Middleware'
-// Базовый модуль
-import * as IndexController from './Module/Common/Controller/IndexController';
-import * as System from './Namespace/System'
-import MainRequest, { ConfI } from './System/MainRequest';
+import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('knex');
+
+import * as express from 'express';
+// Подключене системных файлов
+import * as Middleware from './Namespace/Middleware'
+import * as System from './Namespace/System'
+import * as Controller from './Namespace/Controller'
+
+// Базовый модуль
+import * as IndexController from './Module/Common/Controller/IndexController';
+
 /**
  * Класс приложения со всеми компонентами
  */
+
 export class App {
 
     protected iPort: number; // порт подключения
     protected bodyMaxSize: string = '50mb'; // размер body
-    protected conf: ConfI; // конфиг
+    protected conf:  System.MainRequest.ConfI; // конфиг
 
     protected bUseMySql: boolean;
     protected bUseRabbitSender: boolean;
@@ -26,7 +30,7 @@ export class App {
     public objExpress: express.Express;
 
 
-    constructor(conf: ConfI, iPort: number = 3005) {
+    constructor(conf: System.MainRequest.ConfI, iPort: number = 3005) {
 
         this.bUseMySql = false;
         this.bUseRabbitSender = false;
@@ -39,7 +43,8 @@ export class App {
 
         this.iPort = iPort; // уст. порт
 
-        this.objExpress.use((req: MainRequest, resp: any, next: any) => {
+        /* Подключаем конфиг */
+        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
             req.conf = this.conf;
             req.infrastructure = {
                 mysql: null,
@@ -50,7 +55,19 @@ export class App {
         }); // уст. конфиг
 
         /* LEGO ошибок */
-        this.objExpress.use(Middleware.ErrorSysMiddleware);
+        this.objExpress.use((req: System.MainRequest.MainRequest, response: any, next: any) => {
+
+            req.sys = {
+                apikey: '',
+                errorSys: null,
+                userSys: null,
+                responseSys: null,
+                bAuth: false
+            }
+        
+            req.sys.errorSys = new ErrorSys(this.conf.env);
+            next();
+        });
 
         /* запрос */
         this.objExpress.use(Middleware.RequestSysMiddleware);
@@ -58,13 +75,8 @@ export class App {
         /* ответ */
         this.objExpress.use(Middleware.ResponseSysMiddleware);
 
-
-
         /* дефолтный index page */
         this.objExpress.use(IndexController.router);
-
-        // Модуль для администрирования пользователей
-        this.objExpress.use(Controller.AdminUserController.router);
 
     }
 
@@ -112,7 +124,7 @@ export class App {
      * Использовать MySql
      */
     public fUseMySql(): App {
-        this.objExpress.use((req: MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
             req.infrastructure.mysql = db(this.conf.mysql);
             next();
         }); // уст. конфиг
@@ -126,10 +138,9 @@ export class App {
      * Использовать Reddis
      */
     public fUseReddis(): App {
-        if(!this.conf.redis) throw 'Config redis connection is empty';
+        if (!this.conf.redis) throw 'Config redis connection is empty';
 
-
-        this.objExpress.use((req: MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = new System.RedisSys(this.conf.redis);
             next();
         }); // уст. конфиг
@@ -144,14 +155,14 @@ export class App {
      */
     public async faUseRabbitSender(): Promise<App> {
 
-        if(!this.conf.rabbit.connection) throw 'Config rabbit connection is empty';
+        if (!this.conf.rabbit.connection) throw 'Config rabbit connection is empty';
 
         let rabbitSender = await System.RabbitSenderSys.Init(
             this.conf.rabbit.connection,
             this.conf.rabbit.queryList
         );
 
-        this.objExpress.use((req: MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
             req.infrastructure.rabbit = rabbitSender;
             next();
         }); // уст. конфиг
@@ -166,13 +177,25 @@ export class App {
      */
     public fUseAuthSys(): App {
 
-        if(!this.bUseReddis) throw 'Reddis is not use';
-        if(!this.bUseMySql) throw 'MySql is not use';
-        
+        if (!this.bUseReddis) throw 'Reddis is not use';
+        if (!this.bUseMySql) throw 'MySql is not use';
+
         /* проверка авторизации на уровне приложения */
         this.objExpress.use(Middleware.AuthSysMiddleware);
-        
         this.bUseAuthSys = true;
+
+        return this;
+    }
+
+    /**
+     * Использованеи модуля администрования пользователей
+     */
+    public fUseAdminUser(): App {
+
+        if (!this.bUseAuthSys) throw 'AuthSys is not use';
+
+        // Модуль для администрирования пользователей
+        this.objExpress.use(Controller.AdminUserController.router);
 
         return this;
     }

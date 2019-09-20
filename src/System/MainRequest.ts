@@ -49,7 +49,7 @@ export interface ConfI { // Конфигурация
 
 };
 
-export default interface MainRequest extends Request {
+export interface MainRequest extends Request {
     headers: { [key: string]: any };
     body: any;
     method: string;

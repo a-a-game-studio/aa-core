@@ -1,4 +1,4 @@
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 import { GroupI } from '../Entity/GroupsE';
 import BaseSQL from '../../../System/BaseSQL';
 /**

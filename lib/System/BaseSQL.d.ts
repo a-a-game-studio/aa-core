@@ -1,6 +1,6 @@
 import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 import { RedisSys } from './RedisSys';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 import { ModelValidatorSys } from '@a-a-game-studio/aa-components/lib';
 import { UserSys } from './UserSys';
 /**

@@ -3,7 +3,7 @@
 import * as _ from 'lodash';
 
 // Системные сервисы
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
 import {AccessGroupE} from '../Entity/AccessGroupE';

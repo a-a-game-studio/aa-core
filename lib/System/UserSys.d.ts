@@ -1,4 +1,4 @@
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 /**
  * Клас который глобально знает все данные пользователя
  */
