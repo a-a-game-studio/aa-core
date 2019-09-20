@@ -44,7 +44,7 @@ export default interface MainRequest extends Request {
     body: any;
     method: string;
     sys: {
-        apikey: string;
+        token: string;
         bAuth: boolean;
         errorSys: Components.ErrorSys;
         userSys: UserSys;

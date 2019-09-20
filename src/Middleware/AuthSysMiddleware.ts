@@ -3,10 +3,10 @@ import { UserSys } from '../System/UserSys';
 
 /* проверка аутентификации на уровне приложения */
 export default async function AuthSysMiddleware(request: MainRequest, response: any, next: any) {
-    if (request.headers.apikey) {
-        request.sys.apikey = request.headers.apikey;
+    if (request.headers.token) {
+        request.sys.token = request.headers.token;
     } else {
-        request.sys.apikey = '';
+        request.sys.token = '';
     }
 
     /* юзерь не авторизован */

@@ -255,8 +255,8 @@ export namespace delUserFromGroup {
 
 
 // =======================================================
-/** Получить apikey по телефону и СМС */
-export namespace getApiKeyByPhoneAndSms {
+/** Получить token по телефону и СМС */
+export namespace getTokenByPhoneAndSms {
 
     /** Параметры api запроса */
     export interface RequestI {
@@ -266,7 +266,7 @@ export namespace getApiKeyByPhoneAndSms {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        state_apikey: string; // api key
+        state_token: string; // api key
     }
 
     /**

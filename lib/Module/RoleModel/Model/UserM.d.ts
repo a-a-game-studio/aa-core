@@ -40,8 +40,8 @@ export declare class UserM extends BaseM {
      */
     delUserFromGroup(data: V.delUserFromGroup.RequestI): Promise<V.delUserFromGroup.ResponseI>;
     /**
-     *  выдает инфу по юзеру по apikey
+     *  выдает инфу по юзеру по token
      */
-    fGetUserInfoByApiKey(apikey?: string): Promise<any>;
-    getApiKeyByPhoneAndSms(data: V.getApiKeyByPhoneAndSms.RequestI): Promise<V.getApiKeyByPhoneAndSms.ResponseI>;
+    fGetUserInfoByToken(token?: string): Promise<any>;
+    getTokenByPhoneAndSms(data: V.getTokenByPhoneAndSms.RequestI): Promise<V.getTokenByPhoneAndSms.ResponseI>;
 }

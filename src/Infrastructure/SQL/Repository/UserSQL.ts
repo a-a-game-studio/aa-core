@@ -152,14 +152,14 @@ export class UserSQL extends BaseSQL
     }
 
 
-    /* выдает инфу по юзеру по apikey */
-    public async fGetUserInfoByApiKey(apikey = ''):Promise<any>{
+    /* выдает инфу по юзеру по token */
+    public async fGetUserInfoByToken(token = ''):Promise<any>{
         let ok = true;
         let resp:{[key:string]:any} = null;
 
         // Декларация ошибок
         this.errorSys.declare([
-            'user_info_by_apikey'
+            'user_info_by_token'
         ]);
 
         if( ok ){
@@ -179,7 +179,7 @@ export class UserSQL extends BaseSQL
 
             try{
                 resp = (await this.db.raw(sql,{
-                    'token': apikey
+                    'token': token
                 }))[0];
 
 
@@ -191,7 +191,7 @@ export class UserSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('user_info_by_apikey', 'Не удалось получить информацию о пользователе');
+                this.errorSys.error('user_info_by_token', 'Не удалось получить информацию о пользователе');
             }
         }
 
@@ -199,9 +199,9 @@ export class UserSQL extends BaseSQL
     }
 
     /**
-     * проверка на то что есть apikey в базе
+     * проверка на то что есть token в базе
      */
-    public async isAuth(apikey:string = ''): Promise<boolean>{
+    public async isAuth(token:string = ''): Promise<boolean>{
 
         let bResp = false;
         let sql = '';
@@ -216,11 +216,11 @@ export class UserSQL extends BaseSQL
         
 
         /* если ключ больше 4 */
-        if( apikey.length > 4) {
+        if( token.length > 4) {
 
-            if ( await this.redisSys.get('is_auth_' + apikey)  ) {
+            if ( await this.redisSys.get('is_auth_' + token)  ) {
                 bResp = true;
-                this.errorSys.devNotice(`cache:UserSQL.isAuth(${apikey})`, 'Взято из кеша');
+                this.errorSys.devNotice(`cache:UserSQL.isAuth(${token})`, 'Взято из кеша');
             } else {
                 //Получаем одного пользователя
                 sql = `
@@ -233,18 +233,18 @@ export class UserSQL extends BaseSQL
                 
                 try{
                     resp = (await this.db.raw(sql, {
-                        'token': apikey
+                        'token': token
                     }))[0];
 
 
                     if (resp.length > 0) {
                         bResp = true;
-                        this.redisSys.set('is_auth_' + apikey, 1, 3600);
+                        this.redisSys.set('is_auth_' + token, 1, 3600);
                     }
 
                 } catch (e){
                     ok = false;
-                    this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
+                    this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
                 }
 
             }
@@ -333,15 +333,15 @@ export class UserSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
+                this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
             }
         }
 
         return resp;
     }
 
-	/* выдает apikey по user_id */
-    public async getUserApiKey(user_id:number):Promise<string>{
+	/* выдает token по user_id */
+    public async getUserToken(user_id:number):Promise<string>{
 
         let ok = true;
         let resp:any[] = null;
@@ -374,7 +374,7 @@ export class UserSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
+                this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
             }
         }
 
@@ -384,10 +384,10 @@ export class UserSQL extends BaseSQL
 
 	/* вставляет ключ для юзера */
 	/* ничего не проверяет только вставляет */
-    public async insertUserApiKey(user_id:number): Promise<string>{
+    public async insertUserToken(user_id:number): Promise<string>{
         let ok = true;
         let sql = '';
-        let apikey = this.generateApiKey();
+        let token = this.generateToken();
 
         // Декларация ошибок
         this.errorSys.declare([
@@ -400,7 +400,7 @@ export class UserSQL extends BaseSQL
         let resp = null;
         try{
             resp = await this.db('user_token').insert({
-                api_key: apikey,
+                api_key: token,
                 user_id: user_id,
             });
 
@@ -410,7 +410,7 @@ export class UserSQL extends BaseSQL
         }
 
         if ( ok ) {
-            return apikey;
+            return token;
         } else {
             return null;
         }
@@ -418,8 +418,8 @@ export class UserSQL extends BaseSQL
     }
 
 
-	/* генерирует apikey */
-    public generateApiKey(max:number = 20)
+	/* генерирует token */
+    public generateToken(max:number = 20)
     {
 		/* md5 от текущей даты-вермени + рандом */
         return uniqid(md5(new Date().getTime()));
@@ -457,7 +457,7 @@ export class UserSQL extends BaseSQL
 
         } catch (e){
             ok = false;
-            this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
+            this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
         }
 
         return resp;

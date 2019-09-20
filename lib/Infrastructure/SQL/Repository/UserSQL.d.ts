@@ -24,18 +24,18 @@ export declare class UserSQL extends BaseSQL {
      * @return array|null
      */
     getUserByID(idUser: number): Promise<any>;
-    fGetUserInfoByApiKey(apikey?: string): Promise<any>;
+    fGetUserInfoByToken(token?: string): Promise<any>;
     /**
-     * проверка на то что есть apikey в базе
+     * проверка на то что есть token в базе
      */
-    isAuth(apikey?: string): Promise<boolean>;
+    isAuth(token?: string): Promise<boolean>;
     /**
      * выдает id юзера по телефону и смс из таблицы user_sms_code
      */
     getUserIdByPhoneAndSms(tel: number, sms: number): Promise<number>;
     getUserByUsername(username: string): Promise<any[]>;
-    getUserApiKey(user_id: number): Promise<string>;
-    insertUserApiKey(user_id: number): Promise<string>;
-    generateApiKey(max?: number): any;
+    getUserToken(user_id: number): Promise<string>;
+    insertUserToken(user_id: number): Promise<string>;
+    generateToken(max?: number): any;
     fGetUserInfoById(userId: number): Promise<any[]>;
 }

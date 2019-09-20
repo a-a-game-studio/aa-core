@@ -21,7 +21,7 @@ export class UserSys
 
 	public idUser:number; // ID пользователя
 
-	private apikey:string; // APIKEY
+	private token:string; // APIKEY
 
 	private userInfoList:any; // Информация о пользователе
 	private userGroupsList:any; // Роли пользователя
@@ -60,13 +60,13 @@ export class UserSys
 		this.userGroupsList = {};
 		this.accessCRUDList = {};
 
-		/* вылавливаем apikey */
+		/* вылавливаем token */
 
-		this.apikey = req.sys.apikey;
+		this.token = req.sys.token;
 
-		if( !this.apikey ){
-			this.apikey = '';
-			this.errorSys.devWarning('apikey', 'apikey - пустой');
+		if( !this.token ){
+			this.token = '';
+			this.errorSys.devWarning('token', 'token - пустой');
 		}
 
 	}
@@ -80,16 +80,16 @@ export class UserSys
 	public async init(){
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
-		// Проверяем apikey
-		let ifAuth = await this.userSQL.isAuth(this.apikey);
+		// Проверяем token
+		let ifAuth = await this.userSQL.isAuth(this.token);
 
 		if( ifAuth ){ // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
 		}
 
 		let userInfoList:any = {};
-		if( ok && ifAuth ){ // Получаем информацию о пользователе по apikey
-			userInfoList = await this.userSQL.fGetUserInfoByApiKey(this.apikey);
+		if( ok && ifAuth ){ // Получаем информацию о пользователе по token
+			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
 
 			if( !userInfoList ){
 				ok = false;
@@ -406,7 +406,7 @@ export class UserSys
 			'is_auth'
 		]);
 
-		if( ok && await this.userSQL.isAuth(this.apikey) ){
+		if( ok && await this.userSQL.isAuth(this.token) ){
             this.errorSys.devNotice('is_auth', 'Вы авторизованы');
         } else {
 			ok = false;
@@ -418,12 +418,12 @@ export class UserSys
 
 
 	/**
-	 * возвращает apikey
+	 * возвращает token
 	 *
 	 * @return string|null
 	 */
 	public fGetApikey(): string{
-		return this.apikey;
+		return this.token;
 	}
 
 	/**

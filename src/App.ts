@@ -62,7 +62,7 @@ export class App {
         this.objExpress.use((req: System.MainRequest.MainRequest, response: any, next: any) => {
 
             req.sys = {
-                apikey: '',
+                token: '',
                 errorSys: null,
                 userSys: null,
                 responseSys: null,

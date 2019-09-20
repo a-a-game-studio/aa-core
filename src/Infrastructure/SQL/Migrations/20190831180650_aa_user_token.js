@@ -12,7 +12,7 @@ exports.up = async function(knex, Promise) {
             .comment('ID пользователя');
 
         table.string('token', 50).index('token')
-            .comment('apikey - ключ доступа пользователя');
+            .comment('token - ключ доступа пользователя');
 
         table.dateTime('created_at').index('created_at')
             .notNullable()

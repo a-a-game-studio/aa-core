@@ -222,22 +222,22 @@ export class UserM extends BaseM
 
 
     /**
-     *  выдает инфу по юзеру по apikey 
+     *  выдает инфу по юзеру по token 
      */
-    public async fGetUserInfoByApiKey(apikey = '') {
+    public async fGetUserInfoByToken(token = '') {
         let resp;
         // Декларирование ошибок
         this.errorSys.declare([
-            'invalid_apikey', // Что-то не так с длиной ключа
+            'invalid_token', // Что-то не так с длиной ключа
             'invalid_user', //Пользователь не найден
         ]);
         try {
-            if (apikey.length < 4) {
-                this.errorSys.error('invalid_apikey', 'Что-то не так с длиной ключа');
-                throw "invalid_apikey";
+            if (token.length < 4) {
+                this.errorSys.error('invalid_token', 'Что-то не так с длиной ключа');
+                throw "invalid_token";
             }
 
-            resp = await this.userSQL.fGetUserInfoByApiKey(apikey);
+            resp = await this.userSQL.fGetUserInfoByToken(token);
 
             if (!resp) {
                 this.errorSys.error('invalid_user', 'Пользователь не найден');
@@ -268,9 +268,9 @@ export class UserM extends BaseM
 		apiKey: string
 		}
      */
-    public async getApiKeyByPhoneAndSms(data:V.getApiKeyByPhoneAndSms.RequestI): Promise<V.getApiKeyByPhoneAndSms.ResponseI> {
+    public async getTokenByPhoneAndSms(data:V.getTokenByPhoneAndSms.RequestI): Promise<V.getTokenByPhoneAndSms.ResponseI> {
 
-        data = <V.getApiKeyByPhoneAndSms.RequestI>V.getApiKeyByPhoneAndSms.valid(this.req, data);
+        data = <V.getTokenByPhoneAndSms.RequestI>V.getTokenByPhoneAndSms.valid(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -292,23 +292,23 @@ export class UserM extends BaseM
             }
         }
 
-        let apikey = null;
-        if( ok ){ // Получить apikey пользователя
+        let token = null;
+        if( ok ){ // Получить token пользователя
             /* проверяем есть ли уже такой юзера с ключем */
-            apikey = await this.userSQL.getUserApiKey(idUser);
+            token = await this.userSQL.getUserToken(idUser);
 
-            if (!apikey) {
+            if (!token) {
                 /* если в первый раз */
                 /* юзер есть генерим ему apiKey тк это действие делается после регистрации */
-                apikey = await this.userSQL.insertUserApiKey(idUser);
+                token = await this.userSQL.insertUserToken(idUser);
             }
         }
 
 
-        let out:V.getApiKeyByPhoneAndSms.ResponseI = null;
+        let out:V.getTokenByPhoneAndSms.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                state_apikey:apikey
+                state_token:token
             };
         }
 

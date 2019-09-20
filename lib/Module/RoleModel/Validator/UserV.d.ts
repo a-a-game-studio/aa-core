@@ -106,8 +106,8 @@ export declare namespace delUserFromGroup {
         [key: string]: any;
     };
 }
-/** Получить apikey по телефону и СМС */
-export declare namespace getApiKeyByPhoneAndSms {
+/** Получить token по телефону и СМС */
+export declare namespace getTokenByPhoneAndSms {
     /** Параметры api запроса */
     interface RequestI {
         tel: number;
@@ -115,7 +115,7 @@ export declare namespace getApiKeyByPhoneAndSms {
     }
     /** Параметры api ответа */
     interface ResponseI {
-        state_apikey: string;
+        state_token: string;
     }
     /**
      * Валидация

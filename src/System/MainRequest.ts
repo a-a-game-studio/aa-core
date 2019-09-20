@@ -55,7 +55,7 @@ export interface MainRequest extends Request {
     method: string;
 
     sys: {
-        apikey: string,
+        token: string,
         bAuth: boolean, /* флаг авторизации */
         errorSys: Components.ErrorSys,
         userSys: UserSys,
@@ -77,7 +77,7 @@ export function initMainRequest(conf: any): MainRequest {
     let mainRequest: any = {
         headers: null,
         sys: {
-            apikey: '',
+            token: '',
             bAuth: false, /* флаг авторизации */
             errorSys: null,
             userSys: null,

@@ -4,7 +4,7 @@ import { MainRequest } from './MainRequest';
  */
 export declare class UserSys {
     idUser: number;
-    private apikey;
+    private token;
     private userInfoList;
     private userGroupsList;
     private ctrlAccessList;
@@ -83,7 +83,7 @@ export declare class UserSys {
      */
     isAuth(): Promise<boolean>;
     /**
-     * возвращает apikey
+     * возвращает token
      *
      * @return string|null
      */
