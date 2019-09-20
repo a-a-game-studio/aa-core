@@ -8,7 +8,7 @@ import { ResponseSys } from './ResponseSys';
 import { Request } from 'express';
 import { Seo } from './Seo';
 
-export interface ConfI{ // Конфигурация
+export interface ConfI { // Конфигурация
     env: string; // Тип окружения
     // ================================
     mysql: { // Конфиг для MySql
@@ -35,6 +35,7 @@ export interface ConfI{ // Конфигурация
 
     rabbit?: {
         connection: string;
+        queryList: string[];
     };
 
     S3?: {
@@ -61,9 +62,9 @@ export default interface MainRequest extends Request {
         responseSys: ResponseSys
     };
     conf: ConfI;
-    infrastructure:{
-        mysql:any;
-        redis:any;
+    infrastructure: {
+        mysql: any;
+        redis: any;
         rabbit: any;
     }
 }
@@ -81,13 +82,13 @@ export function initMainRequest(conf: any): MainRequest {
             errorSys: null,
             userSys: null,
             responseSys: null,
-            aaQuerySys:null
+            aaQuerySys: null
         },
-        conf:null,
-        infrastructure:{
-            mysql:null,
-            redis:null,
-            rabbit:null,
+        conf: null,
+        infrastructure: {
+            mysql: null,
+            redis: null,
+            rabbit: null,
         }
     };
 
