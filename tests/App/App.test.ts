@@ -21,7 +21,7 @@ async function faRunServer() {
     app.fDisableCors() // отключаем cors
         .fUseBodyParser() // используем дефолтный BodyParser
         .fUseDefaultIndex()
-        //.fUseReddis()
+        .fUseReddis()
         ;
 
     /* Иницализируем модуль аторизации */
