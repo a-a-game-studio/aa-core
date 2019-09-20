@@ -75,9 +75,6 @@ export class App {
         /* ответ */
         this.objExpress.use(Middleware.ResponseSysMiddleware);
 
-        /* дефолтный index page */
-        this.objExpress.use(IndexController.router);
-
     }
 
     /**
@@ -216,6 +213,15 @@ export class App {
     public fUseViews(sPath: string): App {
         this.objExpress.set('views', sPath);
         this.objExpress.set('view engine', 'ejs');
+        return this;
+    }
+
+    /**
+     * Использовать дефолтный index page
+     */
+    public fUseDefaultIndex(): App {
+        /* дефолтный index page */
+        this.objExpress.use(IndexController.router);
         return this;
     }
 
