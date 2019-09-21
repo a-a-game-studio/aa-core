@@ -1,11 +1,11 @@
-exports.up = async function(knex, Promise) {
+exports.up = async function(knex: any, Promise: any) {
     const hasAccessGroup = await knex.schema.hasTable('aa_access_group');
 
     if (hasAccessGroup) {
         // await knex.schema.dropTable('aa_access_group');
     }
 
-    await knex.schema.createTable('aa_access_group', table => {
+    await knex.schema.createTable('aa_access_group', (table: any) => {
         table.increments('id');
 
         table.integer('group_id').index('group_id')
@@ -59,7 +59,7 @@ exports.up = async function(knex, Promise) {
     
 };
 
-exports.down = async knex => {
+exports.down = async (knex: any) => {
     const hasAccessGroup = await knex.schema.hasTable('aa_access_group');
     if (hasAccessGroup) {
         // await knex.schema.dropTable('aa_access_group');

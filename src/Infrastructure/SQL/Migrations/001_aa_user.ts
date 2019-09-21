@@ -1,7 +1,7 @@
 
 const md5 = require('md5');
 
-exports.up = async function (knex, Promise) {
+exports.up = async function (knex: any, Promise: any) {
 
     const hasUser = await knex.schema.hasTable('aa_user');
 
@@ -9,7 +9,7 @@ exports.up = async function (knex, Promise) {
         // await knex.schema.dropTable('aa_user');
     }
 
-    await knex.schema.createTable('aa_user', table => {
+    await knex.schema.createTable('aa_user', (table: any) => {
         table.increments('id');
 
         table.string('name', 100).index('name')
@@ -63,7 +63,7 @@ exports.up = async function (knex, Promise) {
 
 };
 
-exports.down = async knex => {
+exports.down = async (knex: any) => {
     const hasUser = await knex.schema.hasTable('aa_user');
     if (hasUser) {
         // await knex.schema.dropTable('aa_user');
