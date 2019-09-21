@@ -1,5 +1,7 @@
 var redis = require("redis");
-
+export interface RedisConf {
+    url: string;
+}
 /**
  * Обертка над редисом которая понимает async/await
  * 
@@ -9,27 +11,36 @@ var redis = require("redis");
 export class RedisSys {
 
     public redisClient: any;
+    private bUse: boolean;
+    private conf: RedisConf;
 
-    constructor(conf: any) {
+    constructor(conf: RedisConf, bUse: boolean = true) {
+        this.bUse = bUse;
+        this.conf = conf;
+        this.fSetUse(bUse);
+    }
 
-        console.log('Redis client try connect ...');
+    /**
+     * Если нужно использовать редис
+     * в противном случае используется как заглушка
+     * @param bUse 
+     */
+    public fSetUse(bUse: boolean) {
+        this.bUse = bUse;
+        if (bUse) {
+            console.log('Redis client try connect ...');
 
-        this.redisClient = redis.createClient(conf);
+            this.redisClient = redis.createClient(this.conf);
 
-        this.redisClient.on('connect', function () {
-            console.log('Redis client connected');
-        });
+            this.redisClient.on('connect', function () {
+                console.log('Redis client connected');
+            });
 
-        this.redisClient.on("error", function (err: any) {
-            console.log("Redis client error");
-            console.log(err);
-
-            /* в случае отсутствия коннекта */
-            /*  if (err['code'] == 'ECONNREFUSED') {
-                 process.exit(1);
-             } */
-        });
-
+            this.redisClient.on("error", function (err: any) {
+                console.log("Redis client error");
+                console.log(err);
+            });
+        }
     }
 
     /**
@@ -38,15 +49,17 @@ export class RedisSys {
      */
     public get(key: string): Promise<string> {
         return new Promise((resolve, reject) => {
-
-            this.redisClient.get(key, function (err: any, reply: string) {
-                if (err) {
-                    resolve('');
-                }
-                resolve(reply);
-
-            });
-        })
+            if (this.bUse) {
+                this.redisClient.get(key, function (err: any, reply: string) {
+                    if (err) {
+                        resolve(null);
+                    }
+                    resolve(reply);
+                });
+            } else {
+                resolve(null);
+            }
+        });
     };
 
     /**
@@ -55,16 +68,17 @@ export class RedisSys {
      */
     public keys(keys: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
-
-            this.redisClient.keys(keys, function (err: any, reply: any[]) {
-                if (err) {
-                    reject(err);
-                }
-                resolve(reply);
-
-            });
-
-        })
+            if (this.bUse) {
+                this.redisClient.keys(keys, function (err: any, reply: any[]) {
+                    if (err) {
+                        resolve(null);
+                    }
+                    resolve(reply);
+                });
+            } else {
+                resolve(null);
+            }
+        });
     };
 
     /**
@@ -74,7 +88,9 @@ export class RedisSys {
      * @param time
      */
     public set(key: string, val: string | number, time: number = 3600) {
-        this.redisClient.set(key, val, 'EX', time);
+        if (this.bUse) {
+            this.redisClient.set(key, val, 'EX', time);
+        }
     }
 
     /**
@@ -82,8 +98,10 @@ export class RedisSys {
      * @param keys
      */
     public del(keys: any[]) {
-        if (keys.length > 0) {
-            this.redisClient.del(keys);
+        if (this.bUse) {
+            if (keys.length > 0) {
+                this.redisClient.del(keys);
+            }
         }
     }
 }

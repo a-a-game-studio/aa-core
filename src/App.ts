@@ -1,4 +1,4 @@
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import { SysteCoreModule, Components } from '@a-a-game-studio/aa-classes/lib';
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -23,6 +23,7 @@ export class App {
     protected iPort: number; // порт подключения
     protected bodyMaxSize: string = '50mb'; // размер body
     protected conf: System.MainRequest.ConfI; // конфиг
+    protected reddis: System.RedisSys; // Redis
 
     protected bUseMySql: boolean; // флаг использования MySql
     protected bUseRabbitSender: boolean;  // флаг использования RabbitSender
@@ -31,7 +32,7 @@ export class App {
     protected bUserCtrl: boolean; // флаг использования UserCtrl
 
     public objExpress: express.Express;
-    public errorSys: AAClasses.Components.ErrorSys
+    public errorSys: Components.ErrorSys
 
     public objDb: db; // подключение к базе
 
@@ -50,8 +51,9 @@ export class App {
 
         this.iPort = iPort; // уст. порт
 
-        this.errorSys = new AAClasses.Components.ErrorSys(this.conf.env);
+        this.errorSys = new Components.ErrorSys(this.conf.env);
 
+        this.reddis = new System.RedisSys(this.conf.redis);
 
         /* Подключаем конфиг */
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
@@ -159,10 +161,10 @@ export class App {
             process.exit(1);
         };
 
-        const reddis = new System.RedisSys(this.conf.redis);
+        this.reddis.fSetUse(true);
 
         this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
-            req.infrastructure.redis = reddis;
+            req.infrastructure.redis = this.reddis;
             next();
         }); // уст. конфиг
 
@@ -199,7 +201,7 @@ export class App {
     /**
      * Использование AuthSys
      */
-    public async faUseAuthSys(listDBData: AAClasses.SysteCoreModule.ListDBI): Promise<App> {
+    public async faUseAuthSys(authSysMiddleware: Middleware.AuthSysMiddleware): Promise<App> {
 
         if (!this.bUseReddis) {
             console.log('faUseAuthSys: Reddis is not used');
@@ -210,9 +212,8 @@ export class App {
             process.exit(1);
         };
 
-        const auth = new Middleware.AuthSysMiddleware(listDBData);
         /* проверка авторизации на уровне приложения */
-        this.objExpress.use(await auth.faMiddleware);
+        this.objExpress.use(await authSysMiddleware.faMiddleware);
         this.bUseAuthSys = true;
 
         return this;
