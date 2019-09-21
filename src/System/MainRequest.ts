@@ -67,7 +67,8 @@ export interface MainRequest extends Request {
         mysql: any;
         redis: any;
         rabbit: any;
-    }
+    },
+    seo?: Seo;
 }
 
 /**

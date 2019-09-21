@@ -58,6 +58,7 @@ export interface MainRequest extends Request {
         redis: any;
         rabbit: any;
     };
+    seo?: Seo;
 }
 /**
  * Инициализация MainRequest для консольных запросов
