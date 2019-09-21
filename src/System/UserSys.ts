@@ -108,9 +108,7 @@ export class UserSys extends AAClasses.UserModule.User {
 					this.userGroupsList[aliasGroup] = idGroup;
 				}
 			}
-
 		}
-
 
 
 		let ctrlAccessListTemp: any = {};
@@ -126,7 +124,6 @@ export class UserSys extends AAClasses.UserModule.User {
 
 
 		if (ok) { // Проиндексировать модули по: alias модуля
-
 			for (let k in ctrlAccessListTemp) {
 				let idCtrlAccess = ctrlAccessListTemp[k]['id'];
 				let aliasCtrlAccess = ctrlAccessListTemp[k]['alias'];
@@ -135,7 +132,6 @@ export class UserSys extends AAClasses.UserModule.User {
 					this.ctrlAccessList[aliasCtrlAccess] = idCtrlAccess;
 				}
 			}
-
 		}
 
 	}

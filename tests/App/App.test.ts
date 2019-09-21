@@ -1,6 +1,8 @@
 import { App } from '../../src/App';
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import { UserSQL } from "../../src/Module/User/UserSQL";
+import * as Middleware from '../../src/Namespace/Middleware';
+
 const config = require('./MainConfig.js');
 
 console.log('Starting App...');
@@ -17,6 +19,8 @@ async function faRunServer() {
         fileDB: new AAClasses.FileModule.FileDB(app.errorSys),
     }
 
+    const authSysMiddleware = new Middleware.AuthSysMiddleware(listDBData);
+
     await app.faInstall();
 
     app.fDisableCors() // отключаем cors
@@ -26,7 +30,7 @@ async function faRunServer() {
         ;
 
     /* Иницализируем модуль аторизации */
-    await app.faUseAuthSys(listDBData);
+    await app.faUseAuthSys(authSysMiddleware);
 
     app.fUseAdminUser() // Контролер администрирования пользователей
         .fUseUserCtrl() // Контролер пользователя

@@ -1,4 +1,4 @@
-import {SysteCoreModule} from '@a-a-game-studio/aa-classes/lib';
+import { SysteCoreModule } from '@a-a-game-studio/aa-classes/lib';
 
 import { MainRequest } from '../System/MainRequest';
 import { UserSys } from '../System/UserSys';
@@ -7,10 +7,13 @@ import { UserSys } from '../System/UserSys';
 export class AuthSysMiddleware {
 
     protected listDBData: SysteCoreModule.ListDBI;
+    protected listDB: SysteCoreModule.ListDB;
 
     constructor(listDBData: SysteCoreModule.ListDBI) {
         this.listDBData = listDBData;
         this.faMiddleware = this.faMiddleware.bind(this);
+        this.fInitUser = this.fInitUser.bind(this);
+        this.fInitSystemCore = this.fInitSystemCore.bind(this);
     }
 
     /**
@@ -30,25 +33,53 @@ export class AuthSysMiddleware {
         /* юзерь не авторизован */
         req.sys.bAuth = false;
 
-        const listDB = new SysteCoreModule.ListDB(this.listDBData);
-        const userSys = new UserSys(req, listDB);
+        /* список подключений к DB */
+        this.listDB = this.fInitListDB();
 
+        /* подключам юзера */
+        req.sys.userSys = this.fInitUser(req);
         // Инициализируем систему для пользователей
-        await userSys.init();
-
-        req.sys.userSys = userSys;
+        await req.sys.userSys.init();
 
         /* находим пользователя по ключу */
         if (req.sys.token) {
             await req.sys.userSys.actions.infoA.faGetUserInfoByToken(req.sys.token);
         }
 
-        /* флаг авторизации */
+        /* Инициализация SystemCore */
         if (req.sys.userSys.is()) {
-            req.sys.systemCore = new SysteCoreModule.SystemCore(req.sys.errorSys, req.sys.userSys, listDB);
+            req.sys.systemCore = this.fInitSystemCore(req);
         }
 
         next();
+    }
+
+    /**
+     * Ф-я подключения ListDB
+     * ее стоит преопределять когда меняешь класс ListDB
+     * @param req 
+     */
+    protected fInitListDB(): SysteCoreModule.ListDB {
+        return new SysteCoreModule.ListDB(this.listDBData);
+    }
+
+    /**
+     * Ф-я подключения пользователя
+     * ее стоит преопределять когда меняешь класс UserSys
+     * @param req 
+     */
+    protected fInitUser(req: MainRequest): UserSys {
+        return new UserSys(req, this.listDB);
+    }
+
+    /**
+     * Ф-я подключения SystemCore
+     * ее стоит преопределять когда меняешь класс SystemCore
+     * @param req: MainRequest 
+     */
+    protected fInitSystemCore(req: MainRequest): SysteCoreModule.SystemCore {
+        return new SysteCoreModule
+                .SystemCore(req.sys.errorSys, req.sys.userSys, this.listDB);
     }
 
 }

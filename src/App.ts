@@ -211,6 +211,7 @@ export class App {
             console.log('faUseAuthSys: MySql is not used');
             process.exit(1);
         };
+    
 
         /* проверка авторизации на уровне приложения */
         this.objExpress.use(await authSysMiddleware.faMiddleware);
