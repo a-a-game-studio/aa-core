@@ -2,7 +2,7 @@ exports.up = async function(knex, Promise) {
     const hasAccessGroup = await knex.schema.hasTable('aa_access_group');
 
     if (hasAccessGroup) {
-        await knex.schema.dropTable('aa_access_group');
+        // await knex.schema.dropTable('aa_access_group');
     }
 
     await knex.schema.createTable('aa_access_group', table => {
@@ -62,7 +62,7 @@ exports.up = async function(knex, Promise) {
 exports.down = async knex => {
     const hasAccessGroup = await knex.schema.hasTable('aa_access_group');
     if (hasAccessGroup) {
-        await knex.schema.dropTable('aa_access_group');
+        // await knex.schema.dropTable('aa_access_group');
     }
 
     return knex.schema;

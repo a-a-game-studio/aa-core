@@ -6,7 +6,7 @@ exports.up = async function (knex, Promise) {
     const hasUser = await knex.schema.hasTable('aa_user');
 
     if (hasUser) {
-        await knex.schema.dropTable('aa_user');
+        // await knex.schema.dropTable('aa_user');
     }
 
     await knex.schema.createTable('aa_user', table => {
@@ -66,7 +66,7 @@ exports.up = async function (knex, Promise) {
 exports.down = async knex => {
     const hasUser = await knex.schema.hasTable('aa_user');
     if (hasUser) {
-        await knex.schema.dropTable('aa_user');
+        // await knex.schema.dropTable('aa_user');
     }
 
     return knex.schema;

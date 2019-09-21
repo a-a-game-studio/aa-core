@@ -3,7 +3,7 @@ exports.up = async function(knex, Promise) {
     const hasUserSmsCode = await knex.schema.hasTable('aa_user_sms_code');
 
     if (hasUserSmsCode) {
-        await knex.schema.dropTable('aa_user_sms_code');
+        // await knex.schema.dropTable('aa_user_sms_code');
     }
 
     await knex.schema.createTable('aa_user_sms_code', table => {
@@ -42,7 +42,7 @@ exports.up = async function(knex, Promise) {
 exports.down = async knex => {
     const hasUserSmsCode = await knex.schema.hasTable('aa_user_sms_code');
     if (hasUserSmsCode) {
-        await knex.schema.dropTable('aa_user_sms_code');
+        // await knex.schema.dropTable('aa_user_sms_code');
     }
 
     return knex.schema;

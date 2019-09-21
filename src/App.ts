@@ -14,6 +14,7 @@ import * as Controller from './Namespace/Controller'
 import * as IndexController from './Module/Common/Controller/IndexController';
 
 import UserController from "./Module/User/UserController";
+import { AppDefaultMigration } from './AppDefaultMigration';
 
 /**
  * Класс приложения со всеми компонентами
@@ -307,6 +308,14 @@ export class App {
 
         await this.objDb.migrate.make(name);
         return this;
+    }
+
+    /**
+     * Выпольнить дефлтную миграцию
+     */
+    public async faRunDefaultMigration() {
+        const migrator = new AppDefaultMigration(this.objDb);
+        await migrator.faRun();
     }
 
 }

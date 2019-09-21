@@ -1,18 +1,18 @@
 exports.up = async function(knex, Promise) {
-    const hasUserGroup = await knex.schema.hasTable('aa_user_group');
+    const hasUserToken = await knex.schema.hasTable('aa_user_token');
 
-    if (hasUserGroup) {
-        await knex.schema.dropTable('aa_user_group');
+    if (hasUserToken) {
+        // await knex.schema.dropTable('aa_user_token');
     }
 
-    await knex.schema.createTable('aa_user_group', table => {
+    await knex.schema.createTable('aa_user_token', table => {
         table.increments('id');
 
         table.integer('user_id').index('user_id')
             .comment('ID пользователя');
 
-        table.integer('group_id').index('group_id')
-            .comment('ID группы');
+        table.string('token', 50).index('token')
+            .comment('token - ключ доступа пользователя');
 
         table.dateTime('created_at').index('created_at')
             .notNullable()
@@ -27,22 +27,13 @@ exports.up = async function(knex, Promise) {
         table.comment('Связывает пользователя и группу');
         table.collate('utf8_bin');
     });
-
-    await knex('aa_user_group')
-        .insert([
-            {
-                user_id: 1,
-                group_id: 1,
-            },
-        ])
-    ;
     
 };
 
 exports.down = async knex => {
-    const hasUser = await knex.schema.hasTable('aa_user_group');
-    if (hasUser) {
-        await knex.schema.dropTable('aa_user_group');
+    const hasUserToken = await knex.schema.hasTable('aa_user_token');
+    if (hasUserToken) {
+        // await knex.schema.dropTable('aa_user_token');
     }
 
     return knex.schema;

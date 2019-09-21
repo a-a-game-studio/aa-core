@@ -21,12 +21,12 @@ class MyAuthSysMiddleware extends Middleware.AuthSysMiddleware {
     }
 }
 
+const app = new App(config)
+        .fUseMySql();
+
 /* Ф-я запуска приложения */
 async function faRunServer() {
     console.log('Starting App...');
-
-    const app = new App(config)
-        .fUseMySql();
 
     /* модули доступа к данным */
     const listDBData: AAClasses.SysteCoreModule.ListDBI = {
@@ -54,7 +54,9 @@ async function faRunServer() {
 
 } // faRunServer
 
-faRunServer();
+// faRunServer();
+
+app.faRunDefaultMigration();
 
 
 
