@@ -18,7 +18,7 @@ export declare namespace getCtrlAccessOfGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -38,7 +38,7 @@ export declare namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -58,7 +58,7 @@ export declare namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -82,7 +82,7 @@ export declare namespace saveAccessGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -103,7 +103,7 @@ export declare namespace addCtrlAccessToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -124,7 +124,7 @@ export declare namespace delCtrlAccessFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }

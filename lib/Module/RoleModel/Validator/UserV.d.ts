@@ -20,7 +20,7 @@ export declare namespace getUserList {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -40,7 +40,7 @@ export declare namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -60,7 +60,7 @@ export declare namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -81,7 +81,7 @@ export declare namespace addUserToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -102,7 +102,7 @@ export declare namespace delUserFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -123,7 +123,7 @@ export declare namespace getTokenByPhoneAndSms {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }

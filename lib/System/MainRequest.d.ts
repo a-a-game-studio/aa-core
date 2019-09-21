@@ -1,4 +1,4 @@
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 import { Request } from 'express';
@@ -28,6 +28,7 @@ export interface ConfI {
     };
     rabbit?: {
         connection: string;
+        queryList: string[];
     };
     S3?: {
         endpoint: string;
@@ -37,7 +38,7 @@ export interface ConfI {
     };
     seo?: Seo;
 }
-export default interface MainRequest extends Request {
+export interface MainRequest extends Request {
     headers: {
         [key: string]: any;
     };
@@ -46,9 +47,10 @@ export default interface MainRequest extends Request {
     sys: {
         token: string;
         bAuth: boolean;
-        errorSys: Components.ErrorSys;
+        errorSys: AAClasses.Components.ErrorSys;
         userSys: UserSys;
         responseSys: ResponseSys;
+        systemCore: AAClasses.SysteCoreModule.SystemCore;
     };
     conf: ConfI;
     infrastructure: {

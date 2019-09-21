@@ -16,7 +16,7 @@ export declare namespace getCtrlAccessByAlias {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -35,7 +35,7 @@ export declare namespace getAllCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -58,7 +58,7 @@ export declare namespace saveCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -80,7 +80,7 @@ export declare namespace addCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -100,7 +100,7 @@ export declare namespace delCtrlAccess {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }

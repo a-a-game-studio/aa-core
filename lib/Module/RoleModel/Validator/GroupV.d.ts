@@ -16,7 +16,7 @@ export declare namespace getGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -35,7 +35,7 @@ export declare namespace getAllGroups {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -58,7 +58,7 @@ export declare namespace saveGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest, data: any): {
+    function valid(req: MainRequest.MainRequest, data: any): {
         [key: string]: any;
     };
 }

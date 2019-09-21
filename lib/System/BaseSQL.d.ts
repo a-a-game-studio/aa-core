@@ -1,7 +1,6 @@
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import { RedisSys } from './RedisSys';
 import { MainRequest } from './MainRequest';
-import { ModelValidatorSys } from '@a-a-game-studio/aa-components/lib';
 import { UserSys } from './UserSys';
 /**
  * SQL Запросы
@@ -9,8 +8,8 @@ import { UserSys } from './UserSys';
 export default class BaseSQL {
     protected db: any;
     protected redisSys: RedisSys;
-    protected modelValidatorSys: ModelValidatorSys;
-    protected errorSys: ErrorSys;
+    protected modelValidatorSys: AAClasses.Components.ModelValidatorSys;
+    protected errorSys: AAClasses.Components.ErrorSys;
     protected userSys: UserSys;
     constructor(req: MainRequest);
     /**

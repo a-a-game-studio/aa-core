@@ -25,7 +25,7 @@ export declare class RabbitSenderSys {
 /**
  * Очередь
  */
-declare class RabbitQueue {
+export declare class RabbitQueue {
     sQuery: string;
     conn: any;
     sendToQueue(msg: any): void;
@@ -33,4 +33,3 @@ declare class RabbitQueue {
     constructor(sQuery: any, conn: any, channel: any);
     static init(conn: any, sQuery: any): Promise<RabbitQueue>;
 }
-export {};
