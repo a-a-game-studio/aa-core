@@ -2,12 +2,28 @@ import { App } from '../../src/App';
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import { UserSQL } from "../../src/Module/User/UserSQL";
 import * as Middleware from '../../src/Namespace/Middleware';
-
+import { MainRequest, UserSys } from '../../src/Namespace/System';
 const config = require('./MainConfig.js');
 
-console.log('Starting App...');
+/* Пример переопредления класса пользователя */
+class MyUserSys extends UserSys {
+    constructor(req: MainRequest.MainRequest, listDB: AAClasses.BaseModule.ListDB){
+        super(req, listDB);
+        console.log('Change UserActions');        
+    }
+}
 
+/* Пример переопределения AuthSysMiddleware */
+class MyAuthSysMiddleware extends Middleware.AuthSysMiddleware {
+    protected fInitUser(req: MainRequest.MainRequest): UserSys {
+        console.log('Init UserSys');        
+        return new MyUserSys(req, this.listDB);
+    }
+}
+
+/* Ф-я запуска приложения */
 async function faRunServer() {
+    console.log('Starting App...');
 
     const app = new App(config)
         .fUseMySql();
@@ -19,7 +35,7 @@ async function faRunServer() {
         fileDB: new AAClasses.FileModule.FileDB(app.errorSys),
     }
 
-    const authSysMiddleware = new Middleware.AuthSysMiddleware(listDBData);
+    const authSysMiddleware = new MyAuthSysMiddleware(listDBData);
 
     await app.faInstall();
 

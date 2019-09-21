@@ -56,7 +56,7 @@ export class AuthSysMiddleware {
 
     /**
      * Ф-я подключения ListDB
-     * ее стоит преопределять когда меняешь класс ListDB
+     * ее стоит преопределять когда наследуешь класс ListDB
      * @param req 
      */
     protected fInitListDB(): SysteCoreModule.ListDB {
@@ -65,7 +65,7 @@ export class AuthSysMiddleware {
 
     /**
      * Ф-я подключения пользователя
-     * ее стоит преопределять когда меняешь класс UserSys
+     * ее стоит преопределять когда наследуешь класс UserSys
      * @param req 
      */
     protected fInitUser(req: MainRequest): UserSys {
@@ -74,7 +74,7 @@ export class AuthSysMiddleware {
 
     /**
      * Ф-я подключения SystemCore
-     * ее стоит преопределять когда меняешь класс SystemCore
+     * ее стоит преопределять когда наследуешь класс SystemCore
      * @param req: MainRequest 
      */
     protected fInitSystemCore(req: MainRequest): SysteCoreModule.SystemCore {

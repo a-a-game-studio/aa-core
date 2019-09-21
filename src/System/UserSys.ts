@@ -82,9 +82,9 @@ export class UserSys extends AAClasses.UserModule.User {
 
 		if (ifAuth) { // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
+			this.idUser = this.data.id;
 		}
 
-		this.idUser = this.data.id;		
 
 		let userGroupsList: any = {};
 		if (ok && ifAuth) { // Получаем роли пользователя
@@ -157,7 +157,7 @@ export class UserSys extends AAClasses.UserModule.User {
 
 		let idsGroupList = [];
 		if (ok) { // Получаем ID групп в которых состоит пользователь
-			for(let k in this.userGroupsList) {
+			for (let k in this.userGroupsList) {
 				idsGroupList.push(this.userGroupsList[k]);
 			}
 		}
