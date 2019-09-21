@@ -1,18 +1,14 @@
 import { BaseCtrl } from "../../Namespace/System";
 import { UserModule } from '@a-a-game-studio/aa-classes/lib';
-
-
 const express = require('express');
-
 const router = express.Router();
-
-
-const rootPath = '/user';
 
 /**
  * Контроллер 
  */
-class UserController extends BaseCtrl {
+export class UserController extends BaseCtrl {
+    
+    static sBaseUrl = '/user';
 
     /**
      * index page
@@ -81,7 +77,7 @@ class UserController extends BaseCtrl {
 /**
  * Индексная страница
  */
-router.get(rootPath + '/', async (req: any, res: any) => {
+router.get(UserController.sBaseUrl  + '/', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
     await self.Index();
 });
@@ -89,7 +85,7 @@ router.get(rootPath + '/', async (req: any, res: any) => {
 /**
  * Информация о харегисрированном пользователе
  */
-router.post(rootPath + '/getUserInfo', async (req: any, res: any) => {
+router.post(UserController.sBaseUrl  + '/getUserInfo', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
     await self.getUserInfo();
 });
@@ -97,7 +93,7 @@ router.post(rootPath + '/getUserInfo', async (req: any, res: any) => {
 /**
  * Регистрация по логину и паролю
  */
-router.post(rootPath + '/registerByLoginAndPass', async (req: any, res: any) => {
+router.post(UserController.sBaseUrl  + '/registerByLoginAndPass', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
     await self.registerByLoginAndPass();
 });
@@ -105,7 +101,7 @@ router.post(rootPath + '/registerByLoginAndPass', async (req: any, res: any) => 
 /**
  * Обновление
  */
-router.post(rootPath + '/update', async (req: any, res: any) => {
+router.post(UserController.sBaseUrl  + '/update', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
     await self.update();
 });
