@@ -25,9 +25,9 @@ export class RedisSys {
             console.log(err);
 
             /* в случае отсутствия коннекта */
-            if (err['code'] == 'ECONNREFUSED') {
-                process.exit(1);
-            }
+            /*  if (err['code'] == 'ECONNREFUSED') {
+                 process.exit(1);
+             } */
         });
 
     }

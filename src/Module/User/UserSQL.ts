@@ -1,13 +1,13 @@
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import { UserModule, Components } from '@a-a-game-studio/aa-classes/lib';
 import * as db from "knex";
 import { PassToHash, generateToken } from '../../System/HashFunc';
 
 
-export class UserSQL extends AAClasses.UserModule.UserDB {
+export class UserSQL extends UserModule.UserDB {
 
     protected db: db;
 
-    constructor(errorSys: AAClasses.Components.ErrorSys, db: db) {
+    constructor(errorSys: Components.ErrorSys, db: db) {
         super(errorSys);
         this.db = db;
     }
@@ -17,12 +17,12 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
     * Получить пользователя по его id
     * @param userId 
     */
-    public async faGetInfoById(userId: number): Promise<AAClasses.UserModule.UserI> {
-        let res: AAClasses.UserModule.UserI;
+    public async faGetInfoById(userId: number): Promise<UserModule.UserI> {
+        let res: UserModule.UserI;
         const errorString = this.fClassName() + '.' + this.fMethodName();
 
         let sql = `SELECT * from 
-                ${AAClasses.UserModule.UserE.NAME} u 
+                ${UserModule.UserE.NAME} u 
             where u.id = :userId 
             LIMIT 1`;
         try {
@@ -41,13 +41,13 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
     * Получить пользователя по его token
     * @param userId 
     */
-    public async faGetUserInfoByToken(sToken: string): Promise<AAClasses.UserModule.UserI> {
-        let res: AAClasses.UserModule.UserI;
+    public async faGetUserInfoByToken(sToken: string): Promise<UserModule.UserI> {
+        let res: UserModule.UserI;
         const errorString = this.fClassName() + '.' + this.fMethodName();
 
-        let sql = `SELECT u.* FROM ${AAClasses.UserModule.UserE.NAME} u
+        let sql = `SELECT u.* FROM ${UserModule.UserE.NAME} u
 
-            JOIN ${AAClasses.UserModule.UserTokenE.NAME} ut
+            JOIN ${UserModule.UserTokenE.NAME} ut
             ON ut.user_id=u.id
             
             WHERE ut.token = :token LIMIT 1`;
@@ -68,11 +68,11 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
      * Список пользователей
      * @param arg 
      */
-    public async faGetUserList(arg: AAClasses.Components.SimpleI.listArg): Promise<AAClasses.UserModule.UserI[]> {
-        let res: AAClasses.UserModule.UserI[];
+    public async faGetUserList(arg: Components.SimpleI.listArg): Promise<UserModule.UserI[]> {
+        let res: UserModule.UserI[];
         const errorString = this.fClassName() + '.' + this.fMethodName();
 
-        let sql = `SELECT * from ${AAClasses.UserModule.UserE.NAME} u  LIMIT 10`;
+        let sql = `SELECT * from ${UserModule.UserE.NAME} u  LIMIT 10`;
         try {
             let result = await this.db.raw(sql, {
 
@@ -101,7 +101,7 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
 
             /* inser user */
 
-            let newUser: AAClasses.UserModule.UserI = {
+            let newUser: UserModule.UserI = {
                 login: sLogin,
                 pass: PassToHash(sPass),
                 hash: generateToken()
@@ -112,7 +112,7 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
                 throw 'validation error';
             }
 
-            let d = await this.db(AAClasses.UserModule.UserE.NAME)
+            let d = await this.db(UserModule.UserE.NAME)
                 .insert(this.modelValidatorSys.getResult());
 
             if (!d) {
@@ -122,7 +122,7 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
             let userId = d[0];
 
             /* insert token */
-            await this.db(AAClasses.UserModule.UserTokenE.NAME)
+            await this.db(UserModule.UserTokenE.NAME)
                 .insert({
                     user_id: userId,
                     token: token,
@@ -147,9 +147,9 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
         let res = '';
         const errorString = this.fClassName() + '.' + this.fMethodName();
 
-        let sql = `SELECT ut.token FROM ${AAClasses.UserModule.UserE.NAME} u
+        let sql = `SELECT ut.token FROM ${UserModule.UserE.NAME} u
 
-            JOIN ${AAClasses.UserModule.UserTokenE.NAME} ut
+            JOIN ${UserModule.UserTokenE.NAME} ut
                 ON u.id=ut.user_id
             
             WHERE            
@@ -176,7 +176,7 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
      * Обновлене инфы об юзере
      * @param data 
     */
-    public async faUpdate(data: AAClasses.UserModule.UserI): Promise<boolean> {
+    public async faUpdate(data: UserModule.UserI): Promise<boolean> {
         const errorString = this.fClassName() + '.' + this.fMethodName();
 
         try {
@@ -186,7 +186,7 @@ export class UserSQL extends AAClasses.UserModule.UserDB {
                 throw 'validation error';
             }
 
-            await this.db(AAClasses.UserModule.UserE.NAME)
+            await this.db(UserModule.UserE.NAME)
                 .where({
                     id: data.id
                 })

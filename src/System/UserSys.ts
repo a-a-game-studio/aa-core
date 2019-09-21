@@ -75,25 +75,16 @@ export class UserSys extends AAClasses.UserModule.User {
 	public async init() {
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
+		await this.actions.infoA.faGetUserInfoByToken(this.token);
+
 		// Проверяем token
-		let ifAuth = await this.userSQL.isAuth(this.token);
+		let ifAuth = this.is();
 
 		if (ifAuth) { // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
 		}
 
-		let userInfoList: any = {};
-		if (ok && ifAuth) { // Получаем информацию о пользователе по token
-			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
-
-			if (!userInfoList) {
-				ok = false;
-				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
-			} else {
-				this.userInfoList = userInfoList;
-				this.idUser = userInfoList['id'];
-			}
-		}
+		this.idUser = this.data.id;		
 
 		let userGroupsList: any = {};
 		if (ok && ifAuth) { // Получаем роли пользователя
@@ -145,12 +136,6 @@ export class UserSys extends AAClasses.UserModule.User {
 				}
 			}
 
-		}
-
-		if (ok && ifAuth) { // Уведоиление об успешной авторизации пользователя в DEV режиме
-			this.errorSys.devNotice('is_user_init', 'Авторизация прошла успешно, пользователь - ' + userInfoList['username']);
-		} else {
-			this.errorSys.devWarning('is_user_init', 'Авторизация провалилась');
 		}
 
 	}
