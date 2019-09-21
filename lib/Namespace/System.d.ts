@@ -9,5 +9,5 @@ import BaseCommand from '../System/BaseCommand';
 import BaseCtrl from '../System/BaseCtrl';
 import BaseSQL from '../System/BaseSQL';
 import BaseM from '../System/BaseM';
-import { Seo } from '../System/Seo';
-export { UserSys, ResponseSys, MainRequest, initMainRequest, RedisSys, S3objectParamsI, S3confI, S3, RabbitSenderSys, BaseCommand, BaseCtrl, BaseSQL, BaseM, Seo, };
+import * as SeoModule from '../System/Seo';
+export { UserSys, ResponseSys, MainRequest, initMainRequest, RedisSys, S3objectParamsI, S3confI, S3, RabbitSenderSys, BaseCommand, BaseCtrl, BaseSQL, BaseM, SeoModule, };

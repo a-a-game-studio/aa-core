@@ -23,7 +23,7 @@ import BaseSQL from '../System/BaseSQL'
 
 import BaseM from '../System/BaseM'
 
-import { Seo } from '../System/Seo';
+import * as SeoModule from '../System/Seo';
 
 export {
     UserSys,
@@ -37,5 +37,5 @@ export {
     BaseCtrl,
     BaseSQL,
     BaseM,
-    Seo,
+    SeoModule,
 }
