@@ -7,16 +7,16 @@ const config = require('./MainConfig.js');
 
 /* Пример переопредления класса пользователя */
 class MyUserSys extends UserSys {
-    constructor(req: MainRequest.MainRequest, listDB: AAClasses.BaseModule.ListDB){
+    constructor(req: MainRequest.MainRequest, listDB: AAClasses.BaseModule.ListDB) {
         super(req, listDB);
-        console.log('Change UserActions');        
+        console.log('Change UserActions');
     }
 }
 
 /* Пример переопределения AuthSysMiddleware */
 class MyAuthSysMiddleware extends Middleware.AuthSysMiddleware {
     protected fInitUser(req: MainRequest.MainRequest): UserSys {
-        console.log('Init UserSys');        
+        console.log('Init UserSys');
         return new MyUserSys(req, this.listDB);
     }
 }

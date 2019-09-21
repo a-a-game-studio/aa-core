@@ -36,7 +36,11 @@
     "build": "tsc",
     "test": "ts-mocha",
     "watch": "./node_modules/.bin/nodemon -e ts -w ./src -x npm run start",
-    "start": "./node_modules/.bin/ts-node-dev ./tests/App/App.test.ts"
+    "start": "./node_modules/.bin/ts-node-dev ./tests/App/App.test.ts",
+    "run_test": "./node_modules/.bin/ts-node",
+    "migration:create": "./node_modules/.bin/knex migrate:make",
+    "migration:up": "./node_modules/.bin/knex migrate:latest",
+    "migration:down": "./node_modules/.bin/knex migrate:rollback"
   },
   "dependencies": {
     "@a-a-game-studio/aa-classes": "^1.0.9",
