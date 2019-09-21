@@ -289,7 +289,10 @@ export class App {
         console.log('Start install app...');
         console.log('Start migrate DB...');
 
-        if (!this.bUseMySql) throw 'MySql is not use';
+        if (!this.bUseMySql) {
+            console.log('faInstall: MySql is not use');
+            process.exit(1);
+        };
 
         await this.objDb.migrate.latest();
         console.log('Migrate done!');
