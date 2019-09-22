@@ -204,15 +204,10 @@ export class App {
      */
     public async faUseAuthSys(authSysMiddleware: Middleware.AuthSysMiddleware): Promise<App> {
 
-        if (!this.bUseReddis) {
-            console.log('faUseAuthSys: Reddis is not used');
-            process.exit(1);
-        };
         if (!this.bUseMySql) {
             console.log('faUseAuthSys: MySql is not used');
             process.exit(1);
         };
-    
 
         /* проверка авторизации на уровне приложения */
         this.objExpress.use(await authSysMiddleware.faMiddleware);
