@@ -26,12 +26,14 @@ exports.up = async function (knex: any, Promise: any) {
             .comment('Псевдоним');
 
         table.string('email', 100).unique('email')
-            .notNullable()
             .comment('Электронная почта');
 
         table.string('pswd', 32).index('pswd')
             .notNullable()
-            .comment('Пароль');       
+            .comment('Пароль'); 
+
+        table.string('phone', 32)
+            .comment('Телефон');       
 
         table.dateTime('created_at').index('created_at')
             .notNullable()
