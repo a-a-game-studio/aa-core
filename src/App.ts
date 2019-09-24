@@ -1,4 +1,4 @@
-import { SysteCoreModule, Components } from '@a-a-game-studio/aa-classes/lib';
+import { SysteCoreModule, Components, WalletModule, FileModule } from '@a-a-game-studio/aa-classes/lib';
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -15,6 +15,9 @@ import * as IndexController from './Module/Common/Controller/IndexController';
 
 import UserController from "./Module/User/UserController";
 import { AppDefaultMigration } from './AppDefaultMigration';
+import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
+import { UserSQL } from './Module/User/UserSQL';
+
 
 /**
  * Класс приложения со всеми компонентами
@@ -31,11 +34,15 @@ export class App {
     protected bUseReddis: boolean; // флаг использования Reddis
     protected bUseAuthSys: boolean; // флаг использования AuthSys
     protected bUserCtrl: boolean; // флаг использования UserCtrl
+    protected bUseAAClasses: boolean; // флаг использования UserCtrl
 
     public objExpress: express.Express;
     public errorSys: Components.ErrorSys
 
     public objDb: db; // подключение к базе
+
+    protected listDBData: ListDBI;
+    protected listDB: ListDB;
 
 
     constructor(conf: System.MainRequest.ConfI, iPort: number = 3005) {
@@ -45,6 +52,7 @@ export class App {
         this.bUseReddis = false;
         this.bUseAuthSys = false;
         this.bUserCtrl = false;
+        this.bUseAAClasses = false;
 
         this.objExpress = express(); // уст. Express
 
@@ -202,7 +210,7 @@ export class App {
     /**
      * Использование AuthSys
      */
-    public async faUseAuthSys(authSysMiddleware: Middleware.AuthSysMiddleware): Promise<App> {
+    public async faUseAuthSys(): Promise<App> {
 
         if (!this.bUseMySql) {
             console.log('faUseAuthSys: MySql is not used');
@@ -210,7 +218,7 @@ export class App {
         };
 
         /* проверка авторизации на уровне приложения */
-        this.objExpress.use(await authSysMiddleware.faMiddleware);
+        this.objExpress.use(Middleware.AuthSysMiddleware);
         this.bUseAuthSys = true;
 
         return this;
@@ -316,7 +324,34 @@ export class App {
         await migrator.faRun();
     }
 
-    
+    /**
+     * Использовать AAClasses
+     * его нудно переопределять есть используются extended AAClasses
+     */
+    public fUseAAClasss(): App {
+        if (!this.bUseMySql) throw 'MySql is not use';
+        /* модули доступа к данным */
+        this.listDBData = {
+            userDB: new UserSQL(this.errorSys, this.objDb),
+            walletDB: new WalletModule.WalletDB(this.errorSys),
+            fileDB: new FileModule.FileDB(this.errorSys),
+        }
+
+        this.listDB = new ListDB(this.listDBData);
+
+        /* Подключаем конфиг */
+        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+            req.listDB = this.listDB;
+            next();
+        }); // уст. конфиг
+
+        this.bUseAAClasses = true;
+
+
+        return this;
+    }
+
+
 
 }
 

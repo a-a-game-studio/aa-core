@@ -5,7 +5,7 @@ import RequestSysMiddleware from '../Middleware/RequestSysMiddleware'
 import ResponseSysMiddleware from '../Middleware/ResponseSysMiddleware'
 
 // /* проверка авторизации на уровне приложения */
-import { AuthSysMiddleware } from '../Middleware/AuthSysMiddleware'
+import  AuthSysMiddleware  from '../Middleware/AuthSysMiddleware'
 
 export {
     RequestSysMiddleware,
