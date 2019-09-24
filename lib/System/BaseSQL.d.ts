@@ -1,4 +1,4 @@
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import * as Components from '@a-a-game-studio/aa-components/lib';
 import { RedisSys } from './RedisSys';
 import { MainRequest } from './MainRequest';
 import { UserSys } from './UserSys';
@@ -8,8 +8,8 @@ import { UserSys } from './UserSys';
 export default class BaseSQL {
     protected db: any;
     protected redisSys: RedisSys;
-    protected modelValidatorSys: AAClasses.Components.ModelValidatorSys;
-    protected errorSys: AAClasses.Components.ErrorSys;
+    protected modelValidatorSys: Components.ModelValidatorSys;
+    protected errorSys: Components.ErrorSys;
     protected userSys: UserSys;
     constructor(req: MainRequest);
     /**

@@ -1,10 +1,13 @@
-import { BaseCtrl } from "../../Namespace/System";
+import { BaseCtrl, MainRequest } from "../../Namespace/System";
+import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 declare const router: any;
 /**
  * Контроллер
  */
 export declare class UserController extends BaseCtrl {
     static sBaseUrl: string;
+    protected user: User;
+    constructor(req: MainRequest.MainRequest, resp: any);
     /**
      * index page
      */

@@ -1,9 +1,8 @@
 import { MainRequest } from './MainRequest';
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 /**
  * Клас который глобально знает все данные пользователя
  */
-export declare class UserSys extends AAClasses.UserModule.User {
+export declare class UserSys {
     idUser: number;
     private token;
     private userInfoList;
@@ -13,11 +12,13 @@ export declare class UserSys extends AAClasses.UserModule.User {
     private idCtrlAccess;
     private accessCRUDList;
     private req;
+    private errorSys;
     private userSQL;
+    private userTokenSQL;
     private userGroupSQL;
     private accessGroupSQL;
     private ctrlAccessSQL;
-    constructor(req: MainRequest, listDB: AAClasses.SysteCoreModule.ListDB);
+    constructor(req: MainRequest);
     /**
      * Инициализация данных пользователя
      * тольrо если this.isAuth() == true

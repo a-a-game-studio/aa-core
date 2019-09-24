@@ -3,6 +3,7 @@ import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 import { Request } from 'express';
 import { Seo } from './Seo';
+import { ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
 export interface ConfI {
     env: string;
     mysql: {
@@ -59,6 +60,7 @@ export interface MainRequest extends Request {
         rabbit: any;
     };
     seo?: Seo;
+    listDB?: ListDB;
 }
 /**
  * Инициализация MainRequest для консольных запросов

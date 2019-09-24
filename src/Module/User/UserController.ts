@@ -1,5 +1,6 @@
-import { BaseCtrl } from "../../Namespace/System";
+import { BaseCtrl, MainRequest } from "../../Namespace/System";
 import { UserModule } from '@a-a-game-studio/aa-classes/lib';
+import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 const express = require('express');
 const router = express.Router();
 
@@ -9,6 +10,14 @@ const router = express.Router();
 export class UserController extends BaseCtrl {
     
     static sBaseUrl = '/user';
+
+    protected user: User;
+
+    constructor(req: MainRequest.MainRequest, resp: any) {
+        super(req, resp);
+        this.user = new User(this.errorSys,req.listDB);
+        this.user.actions.infoA.faGetInfoById(this.userSys.idUser);
+    }
 
     /**
      * index page
@@ -23,7 +32,7 @@ export class UserController extends BaseCtrl {
      * Ифнормация об пользователе
      */
     public async getUserInfo() {
-        let data = this.userSys.data;
+        let data = this.user.data;
         try {
             delete data.pass;
         } catch (e) {
@@ -31,7 +40,7 @@ export class UserController extends BaseCtrl {
         }
 
         this.resp.send(
-            this.responseSys.response(data, 'проверка авторизации')
+            this.responseSys.response({}, 'проверка авторизации')
         );
     }
 
@@ -50,7 +59,7 @@ export class UserController extends BaseCtrl {
         let reqData = <UserModule.UserR.registerByLoginAndPassREQ>this.req.body;
 
         let data = {
-            token: await this.userSys.actions.registerA.faRegisterByLoginAndPass(reqData)
+            token: await this.user.actions.registerA.faRegisterByLoginAndPass(reqData)
         };
 
         this.resp.send(
@@ -65,7 +74,7 @@ export class UserController extends BaseCtrl {
         /* определяем входные данные */
         let reqData = <UserModule.UserR.updateREQ>this.req.body;
 
-        await this.userSys.actions.updateA.faUpdate(reqData.user);
+        await this.user.actions.updateA.faUpdate(reqData.user);
 
         this.resp.send(
             this.responseSys.response(data, 'update')

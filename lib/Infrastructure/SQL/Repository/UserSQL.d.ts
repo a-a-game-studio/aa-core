@@ -25,17 +25,5 @@ export declare class UserSQL extends BaseSQL {
      */
     getUserByID(idUser: number): Promise<any>;
     fGetUserInfoByToken(token?: string): Promise<any>;
-    /**
-     * проверка на то что есть token в базе
-     */
-    isAuth(token?: string): Promise<boolean>;
-    /**
-     * выдает id юзера по телефону и смс из таблицы user_sms_code
-     */
-    getUserIdByPhoneAndSms(tel: number, sms: number): Promise<number>;
-    getUserByUsername(username: string): Promise<any[]>;
-    getUserToken(user_id: number): Promise<string>;
-    insertUserToken(user_id: number): Promise<string>;
-    generateToken(max?: number): any;
     fGetUserInfoById(userId: number): Promise<any[]>;
 }

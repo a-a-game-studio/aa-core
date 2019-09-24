@@ -5,9 +5,9 @@ import * as V from '../Validator/UserV';
  * Внутри метода делаем нужную бизнес логику
  */
 export declare class UserM extends BaseM {
-    /** @var SQL\UserSQL userSQL */
     private userSQL;
-    /** @var SQL\UserGroupSQL userGroupSQL */
+    private userSMSCode;
+    private userTokenSQL;
     private userGroupSQL;
     constructor(req: any);
     getUserList(data: V.getUserList.RequestI): Promise<V.getUserList.ResponseI>;
@@ -43,5 +43,9 @@ export declare class UserM extends BaseM {
      *  выдает инфу по юзеру по token
      */
     fGetUserInfoByToken(token?: string): Promise<any>;
+    /**
+     * Получить apikey по номеру телефона или SMS
+     * @param data
+     */
     getTokenByPhoneAndSms(data: V.getTokenByPhoneAndSms.RequestI): Promise<V.getTokenByPhoneAndSms.ResponseI>;
 }
