@@ -4,6 +4,7 @@ import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 const express = require('express');
 const router = express.Router();
 
+
 /**
  * Контроллер 
  */
