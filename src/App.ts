@@ -328,7 +328,7 @@ export class App {
      * Использовать AAClasses
      * его нудно переопределять есть используются extended AAClasses
      */
-    public fUseAAClasss(): App {
+    public fUseAAClasses(): App {
         if (!this.bUseMySql) throw 'MySql is not use';
         /* модули доступа к данным */
         this.listDBData = {
