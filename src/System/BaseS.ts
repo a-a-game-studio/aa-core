@@ -1,7 +1,8 @@
 // Системные сервисы
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
 import { UserSys } from './UserSys';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 
 /**
  * Клас для сервисов которые проксируют запросы к базе данных
@@ -10,7 +11,7 @@ import MainRequest from './MainRequest';
  */
 export default class BaseS {
 
-    public errorSys: ErrorSys;
+    public errorSys: AAClasses.Components.ErrorSys;
     public userSys: UserSys;
     public req: MainRequest;
 

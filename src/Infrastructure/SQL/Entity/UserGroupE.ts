@@ -1,10 +1,6 @@
-
-// Системные сервисы
-import {UserSys} from '../../../System/UserSys';
-
-
 // Компоненты
-import {ModelRulesC, ModelRulesT} from '@a-a-game-studio/aa-components/lib';
+import { Components } from '@a-a-game-studio/aa-classes/lib';
+
 
 
 export class UserGroupE
@@ -13,15 +9,15 @@ export class UserGroupE
     public static NAME = 'aa_user_group';
 
 	public getRulesInsert(){
-        let rules = new ModelRulesC();
+        let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('user_id')
-            .type(ModelRulesT.int)
+            .type(Components.ModelRulesT.int)
             .error(UserGroupE.NAME+'.user_id')
         );
 
         rules.set(rules.rule('group_id')
-            .type(ModelRulesT.int)
+            .type(Components.ModelRulesT.int)
             .error(UserGroupE.NAME+'.group_id')
         );
 

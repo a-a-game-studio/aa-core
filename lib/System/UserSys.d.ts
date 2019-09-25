@@ -1,10 +1,11 @@
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 /**
  * Клас который глобально знает все данные пользователя
  */
-export declare class UserSys {
+export declare class UserSys extends AAClasses.UserModule.User {
     idUser: number;
-    private apikey;
+    private token;
     private userInfoList;
     private userGroupsList;
     private ctrlAccessList;
@@ -13,11 +14,10 @@ export declare class UserSys {
     private accessCRUDList;
     private req;
     private userSQL;
-    private errorSys;
     private userGroupSQL;
     private accessGroupSQL;
     private ctrlAccessSQL;
-    constructor(req: MainRequest);
+    constructor(req: MainRequest, listDB: AAClasses.SysteCoreModule.ListDB);
     /**
      * Инициализация данных пользователя
      * тольrо если this.isAuth() == true
@@ -61,18 +61,6 @@ export declare class UserSys {
      */
     isAccessDelete(): boolean;
     /**
-     * Проверка является ли пользователь организатором
-     *
-     * @return boolean
-     */
-    isOrg(): boolean;
-    /**
-     * Проверка является ли пользователь администратором организаторов на пр Ольга Проданова
-     *
-     * @return boolean
-     */
-    isOrgAdmin(): boolean;
-    /**
      * Проверка является ли пользователь администратором
      *
      * @return boolean
@@ -83,7 +71,7 @@ export declare class UserSys {
      */
     isAuth(): Promise<boolean>;
     /**
-     * возвращает apikey
+     * возвращает token
      *
      * @return string|null
      */

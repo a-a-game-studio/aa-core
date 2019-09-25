@@ -1,15 +1,13 @@
 import * as amqp from 'amqplib/callback_api';
-import MainRequest from './MainRequest';
-
 
 /**
  * Отправщик сообщений в очередь
  */
 export class RabbitSenderSys {
 
-
-    protected connection:any;
-    public aQuery:{[key:string]:RabbitQueue};
+    protected connection: any;
+    
+    public aQuery: { [key: string]: RabbitQueue };
 
     constructor(connection: any) {
         this.connection = connection;
@@ -20,7 +18,7 @@ export class RabbitSenderSys {
      * Отправить сообщение в очередь
      * @param msg
      */
-    public sendToQueue(sQueue:string, msg: any) {
+    public sendToQueue(sQueue: string, msg: any) {
 
         this.aQuery[sQueue].sendToQueue(JSON.stringify(msg));
     }
@@ -38,7 +36,7 @@ export class RabbitSenderSys {
      * Асинхронный конструктор
      * @param query
      */
-    static async Init(confConnect:string, queryList: string[]): Promise<RabbitSenderSys> {
+    static Init(confConnect: string, queryList: string[]): Promise<RabbitSenderSys> {
         return new Promise((resolve, reject) => {
 
             try {
@@ -49,7 +47,7 @@ export class RabbitSenderSys {
                     }
 
                     let rabbitSender = new RabbitSenderSys(connection);
-                    for(let kQuery in queryList){
+                    for (let kQuery in queryList) {
                         let sQuery = queryList[kQuery];
 
                         rabbitSender.aQuery[sQuery] = await RabbitQueue.init(connection, sQuery);
@@ -73,7 +71,7 @@ export class RabbitSenderSys {
 /**
  * Очередь
  */
-class RabbitQueue {
+export class RabbitQueue {
     public sQuery: string; // имя очереди
     public conn: any; // соединение
 
@@ -86,7 +84,7 @@ class RabbitQueue {
 
     public channel: any; // канал
 
-    constructor(sQuery: any, conn:any, channel:any) {
+    constructor(sQuery: any, conn: any, channel: any) {
         this.conn = conn;
         this.sQuery = sQuery;
         this.channel = channel;
@@ -94,7 +92,7 @@ class RabbitQueue {
 
 
 
-    static async init(conn:any, sQuery:any):Promise<RabbitQueue>{
+    static init(conn: any, sQuery: any): Promise<RabbitQueue> {
         return new Promise((resolve, reject) => {
 
             try {

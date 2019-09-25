@@ -1,4 +1,5 @@
 import BaseM from '../../../System/BaseM';
+import * as V from '../Validator/CtrlAccessV';
 /**
  * Контроллеры доступа по модулям
  * Внутри метода делаем нужную бизнес логику
@@ -15,43 +16,32 @@ export declare class CtrlAccessM extends BaseM {
      * @param array data
      * @return array|null
      */
-    getAllCtrlAccess(data: {
-        [key: string]: any;
-    }): any;
+    getAllCtrlAccess(data: V.getAllCtrlAccess.RequestI): Promise<V.getAllCtrlAccess.ResponseI>;
     /**
      * Получить иформацию по контроллеру
      *
      * @param array data
      * @return array|null
      */
-    getCtrlAccessByAlias(data: {
-        [key: string]: any;
-    }): any;
+    getCtrlAccessByAlias(data: V.getCtrlAccessByAlias.RequestI): Promise<V.getCtrlAccessByAlias.ResponseI>;
     /**
      * Изменить данные контроллера доступа
      *
      * @param array data
      * @return array|null
      */
-    saveCtrlAccess(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    saveCtrlAccess(data: V.saveCtrlAccess.RequestI): Promise<V.saveCtrlAccess.ResponseI>;
     /**
      * Добавить контроллер доступа
      *
      * @param array data
-     * @return array|null
      */
-    addCtrlAccess(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    addCtrlAccess(data: V.addCtrlAccess.RequestI): Promise<V.addCtrlAccess.ResponseI>;
     /**
      * Удалить контроллер доступа
      *
      * @param array data
      * @return array|null
      */
-    delCtrlAccess(data: {
-        [key: string]: any;
-    }): Promise<any>;
+    delCtrlAccess(data: V.delCtrlAccess.RequestI): Promise<V.delCtrlAccess.ResponseI>;
 }

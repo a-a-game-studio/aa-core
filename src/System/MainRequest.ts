@@ -1,13 +1,14 @@
 
 // Подключение компонентной библиотеки
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
 import { UserSys } from './UserSys';
 import { ResponseSys } from './ResponseSys';
 
 import { Request } from 'express';
+import { Seo } from './Seo';
 
-export interface ConfI{ // Конфигурация
+export interface ConfI { // Конфигурация
     env: string; // Тип окружения
     // ================================
     mysql: { // Конфиг для MySql
@@ -34,6 +35,7 @@ export interface ConfI{ // Конфигурация
 
     rabbit?: {
         connection: string;
+        queryList: string[];
     };
 
     S3?: {
@@ -43,26 +45,30 @@ export interface ConfI{ // Конфигурация
         secret: string;
     },
 
+    seo?: Seo;
+
 };
 
-export default interface MainRequest extends Request {
+export interface MainRequest extends Request {
     headers: { [key: string]: any };
     body: any;
     method: string;
 
     sys: {
-        apikey: string,
+        token: string,
         bAuth: boolean, /* флаг авторизации */
-        errorSys: Components.ErrorSys,
+        errorSys: AAClasses.Components.ErrorSys,
         userSys: UserSys,
-        responseSys: ResponseSys
+        responseSys: ResponseSys,
+        systemCore: AAClasses.SysteCoreModule.SystemCore
     };
-    conf: ConfI
-    infrastructure:{
-        mysql:any;
-        redis:any;
+    conf: ConfI;
+    infrastructure: {
+        mysql: any;
+        redis: any;
         rabbit: any;
-    }
+    },
+    seo?: Seo;
 }
 
 /**
@@ -73,24 +79,25 @@ export function initMainRequest(conf: any): MainRequest {
     let mainRequest: any = {
         headers: null,
         sys: {
-            apikey: '',
+            token: '',
             bAuth: false, /* флаг авторизации */
             errorSys: null,
             userSys: null,
             responseSys: null,
-            aaQuerySys:null
+            aaQuerySys: null
         },
-        conf:null,
-        infrastructure:{
-            mysql:null,
-            redis:null,
-            rabbit:null,
+        conf: null,
+        infrastructure: {
+            mysql: null,
+            redis: null,
+            rabbit: null,
         }
     };
 
     mainRequest.conf = conf;
 
-    mainRequest.sys.errorSys = new Components.ErrorSys(conf.env);
+    mainRequest.sys.errorSys = new AAClasses.Components.ErrorSys(conf.env);
+    mainRequest.seo = new Seo();
 
     return mainRequest;
 }

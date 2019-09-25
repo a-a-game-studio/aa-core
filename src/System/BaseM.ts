@@ -1,13 +1,14 @@
 // Системные сервисы
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
 import { UserSys } from './UserSys';
-import MainRequest from './MainRequest';
+import { MainRequest } from './MainRequest';
 /**
  * Базовая модель
  */
 export default class BaseM {
 
-    public errorSys: ErrorSys;
+    public errorSys: AAClasses.Components.ErrorSys;
     public userSys: UserSys;
     public req: MainRequest;
 

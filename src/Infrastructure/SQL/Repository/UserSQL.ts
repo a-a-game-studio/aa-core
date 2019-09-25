@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 var md5 = require('md5');
 
 // Системные сервисыW
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
 import { UserE } from '../Entity/UserE';
 import { UserTokenE } from '../Entity/UserTokenE';
@@ -153,14 +153,14 @@ export class UserSQL extends BaseSQL
     }
 
 
-    /* выдает инфу по юзеру по apikey */
-    public async fGetUserInfoByApiKey(apikey = ''):Promise<any>{
+    /* выдает инфу по юзеру по token */
+    public async fGetUserInfoByToken(token = ''):Promise<any>{
         let ok = true;
         let resp:{[key:string]:any} = null;
 
         // Декларация ошибок
         this.errorSys.declare([
-            'user_info_by_apikey'
+            'user_info_by_token'
         ]);
 
         if( ok ){
@@ -180,7 +180,7 @@ export class UserSQL extends BaseSQL
 
             try{
                 resp = (await this.db.raw(sql,{
-                    'token': apikey
+                    'token': token
                 }))[0];
 
 
@@ -192,7 +192,7 @@ export class UserSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('user_info_by_apikey', 'Не удалось получить информацию о пользователе');
+                this.errorSys.error('user_info_by_token', 'Не удалось получить информацию о пользователе');
             }
         }
 
@@ -232,7 +232,7 @@ export class UserSQL extends BaseSQL
 
         } catch (e){
             ok = false;
-            this.errorSys.error('api_key_in_db', 'Не удалось проверить apikey');
+            this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
         }
 
         return resp;

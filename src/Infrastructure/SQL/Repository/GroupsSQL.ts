@@ -4,7 +4,7 @@ import * as redisSys  from '../../../System/RedisSys';
 
 // Системные сервисы
 
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
 import {GroupsE, GroupI} from '../Entity/GroupsE';

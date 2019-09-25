@@ -1,4 +1,4 @@
-import MainRequest from '../System/MainRequest';
+import { MainRequest } from '../System/MainRequest';
 
 import { ResponseSys } from '../System/ResponseSys';
 
@@ -8,8 +8,6 @@ export default function ResponseSysMiddleware(request: MainRequest, response: an
 
     const responseSys = new ResponseSys(request);
     request.sys.responseSys = responseSys;
-
-
 
     next();
 }

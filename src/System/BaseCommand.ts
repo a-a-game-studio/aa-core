@@ -1,13 +1,6 @@
-
-// Глобальные сервисы
-
-
 // Системные сервисы
-import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
-import { RedisSys } from './RedisSys';
-import MainRequest from './MainRequest';
-
-
+import { MainRequest } from './MainRequest';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
 import { UserSys } from './UserSys';
 
@@ -18,7 +11,7 @@ export default class BaseCommand {
 
     public db: any;
 
-    public errorSys: ErrorSys;
+    public errorSys: AAClasses.Components.ErrorSys;
     public userSys: UserSys;
 
     constructor(req: MainRequest) {

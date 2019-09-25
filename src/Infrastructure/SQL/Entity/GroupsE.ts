@@ -1,9 +1,5 @@
-// Системные сервисы
-import {UserSys} from '../../../System/UserSys';
-
-
 // Компоненты
-import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
+import { Components } from '@a-a-game-studio/aa-classes/lib';
 
 /**
  * Описание полей группы
@@ -27,7 +23,7 @@ export class GroupsE
      * Обновление ключевых записей таблицы
      */
 	public getRulesUpdate(){
-        let rules = new ModelRulesC();
+        let rules = new Components.ModelRulesC();
 
 
         rules.set(rules.rule('alias')

@@ -1,4 +1,5 @@
-import MainRequest from '../../../System/MainRequest';
+import { MainRequest } from '../../../System/MainRequest';
+import { CtrlAccessI } from '../Entity/CtrlAccessE';
 import BaseSQL from '../../../System/BaseSQL';
 /**
  * Здесь методы для SQL запросов
@@ -40,9 +41,7 @@ export declare class CtrlAccessSQL extends BaseSQL {
      *
      * @return boolean
      */
-    addCtrlAccess(data: {
-        [key: string]: any;
-    }): Promise<boolean>;
+    addCtrlAccess(data: CtrlAccessI): Promise<number>;
     /**
      * удалить контроллер доступа по ID
      *

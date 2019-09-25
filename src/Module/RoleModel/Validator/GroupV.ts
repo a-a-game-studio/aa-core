@@ -10,12 +10,12 @@ export namespace getGroupByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id:number; // ID группы
+        group_id: number; // ID группы
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        one_group:GroupI; // Информация по группе
+        one_group: GroupI; // Информация по группе
     }
 
     /**
@@ -24,7 +24,7 @@ export namespace getGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -39,7 +39,7 @@ export namespace getGroupByID {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -57,7 +57,7 @@ export namespace getAllGroups {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        list_group:GroupI; // Информация по группе
+        list_group: GroupI; // Информация по группе
     }
 
     /**
@@ -66,12 +66,12 @@ export namespace getAllGroups {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();
@@ -86,15 +86,15 @@ export namespace saveGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id:number; // ID группы
-        name?:string; // Наименование группы
-        alias?:string; // Псевдоним
-        descript?:string; // Описание
+        group_id: number; // ID группы
+        name?: string; // Наименование группы
+        alias?: string; // Псевдоним
+        descript?: string; // Описание
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        cmd_save_group:boolean; // Информация по группе
+        cmd_save_group: boolean; // Информация по группе
     }
 
     /**
@@ -103,7 +103,7 @@ export namespace saveGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req:MainRequest, data:any){
+    export function valid(req: MainRequest.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -136,7 +136,7 @@ export namespace saveGroup {
 
         // =======================================
 
-        let validator =  new Components.ModelValidatorSys(req.sys.errorSys);
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
         validator.fValid(rules.get(), data);
 
         return validator.getResult();

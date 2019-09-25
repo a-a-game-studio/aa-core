@@ -1,5 +1,3 @@
-
-
 //Конфигурация
 module.exports = {
     env: 'prod', // Тип окружения
@@ -40,7 +38,7 @@ module.exports = {
             query1:'query1' // Очередь для картинок каталога
         },
         // Соединение с кроликом
-        connection: 'amqp://devs3.63pokupki.ru:5672'
+        connection: 'amqp://localhost:5672'
     },
 
     S3: {

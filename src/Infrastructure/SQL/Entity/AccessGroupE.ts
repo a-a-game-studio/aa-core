@@ -1,37 +1,36 @@
 
 // Системные сервисы
-import {UserSys} from '../../../System/UserSys';
+import { UserSys } from '../../../System/UserSys';
 
-// Компоненты
-import {ModelRulesC} from '@a-a-game-studio/aa-components/lib';
+import { Components } from '@a-a-game-studio/aa-classes/lib';
+
 
 
 /**
  * Описание полей группы
  */
-export interface AccessGroupI{
-	id?:number; // ID доступа
-	group_id?:number; //ID группы
-	ctrl_access_id?:number; // ID контроллера
-	create_access?:boolean; // Права на создание
-	read_access?:boolean; // Права на чтение
-	update_access?:boolean; // Права на обновление
-	delete_access?:boolean; // Права на удаление
+export interface AccessGroupI {
+    id?: number; // ID доступа
+    group_id?: number; //ID группы
+    ctrl_access_id?: number; // ID контроллера
+    create_access?: boolean; // Права на создание
+    read_access?: boolean; // Права на чтение
+    update_access?: boolean; // Права на обновление
+    delete_access?: boolean; // Права на удаление
 }
 
 /**
  * Сущьность доступа группе пользователей
  */
-export class AccessGroupE
-{
+export class AccessGroupE {
     //Имя таблицы
     public static NAME = 'aa_access_group';
 
     /**
      * Обновление ключевых записей таблицы
      */
-	public getRulesUpdate(){
-        let rules = new ModelRulesC();
+    public getRulesUpdate() {
+        let rules = new Components.ModelRulesC();
 
 
         rules.set(rules.rule('create_access')
@@ -60,8 +59,8 @@ export class AccessGroupE
     /**
      *  Правила создания записей в таблице
      */
-	public getRulesInsert(){
-        let rules = new ModelRulesC();
+    public getRulesInsert() {
+        let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('group_id')
             .type('int')

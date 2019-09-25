@@ -1,4 +1,3 @@
-
 // Подключене системных файлов для экспорта
 import * as Controller from './Namespace/Controller'
 
@@ -9,11 +8,22 @@ import * as System from './Namespace/System'
 import * as Middleware from './Namespace/Middleware'
 
 // Подключение компонентной библиотеки
-import * as Components from '@a-a-game-studio/aa-components/lib';
+import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+
+import * as SeoModule from "./System/Seo";
+
+import { App } from "./App";
+import { AppDefaultMigration } from './AppDefaultMigration';
+
+import * as User from "./Namespace/User";
 
 export {
     Controller,
     System,
-    Components, // Общие компоненты
-    Middleware
+    AAClasses, // Общие компоненты
+    Middleware,
+    SeoModule,
+    App, // готовое собранно приложение
+    AppDefaultMigration,
+    User,
 }
