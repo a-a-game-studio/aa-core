@@ -1,7 +1,5 @@
 
-// Глобальные сервисы
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
-
+import *  as Components  from '@a-a-game-studio/aa-components/lib';
 
 // Системные сервисы
 import { RedisSys } from './RedisSys';
@@ -18,13 +16,13 @@ export default class BaseSQL {
     protected db: any;
     protected redisSys: RedisSys;
 
-    protected modelValidatorSys:  AAClasses.Components.ModelValidatorSys;
-    protected errorSys: AAClasses.Components.ErrorSys;
+    protected modelValidatorSys:  Components.ModelValidatorSys;
+    protected errorSys: Components.ErrorSys;
     protected userSys: UserSys;
 
     constructor(req: MainRequest) {
 
-        this.modelValidatorSys = new AAClasses.Components.ModelValidatorSys(req.sys.errorSys);
+        this.modelValidatorSys = new Components.ModelValidatorSys(req.sys.errorSys);
         this.errorSys = req.sys.errorSys;
         this.userSys = req.sys.userSys;
 

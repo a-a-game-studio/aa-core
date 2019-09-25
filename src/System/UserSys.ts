@@ -3,7 +3,6 @@
 // Системные сервисы
 import { MainRequest } from './MainRequest';
 
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
 // SQL Запросы
 import {UserSQL} from '../Infrastructure/SQL/Repository/UserSQL';
@@ -79,11 +78,23 @@ export class UserSys {
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
 		// Проверяем apikey
-		let ifAuth = await this.userTokenSQL.isAuth(this.apikey);
+		let ifAuth = await this.userTokenSQL.isAuth(this.token);
 
 		if (ifAuth) { // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
-			this.idUser = this.data.id;
+		}
+
+		let userInfoList: any = {};
+		if (ok && ifAuth) { // Получаем информацию о пользователе по token
+			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
+
+			if (!userInfoList) {
+				ok = false;
+				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
+			} else {
+				this.userInfoList = userInfoList;
+				this.idUser = userInfoList['id'];
+			}
 		}
 
 

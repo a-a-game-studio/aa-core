@@ -229,7 +229,7 @@ export class UserGroupSQL extends BaseSQL
                         user_id: idUser,
                         group_id: idGroup
                     })
-                    .del(this.modelValidatorSys.getResult());
+                    .del();
 
             } catch (e){
                 ok = false;
