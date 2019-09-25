@@ -9,6 +9,7 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 
 // SQL Запросы
 import {UserSQL} from '../Infrastructure/SQL/Repository/UserSQL';
+import {UserTokenSQL} from '../Infrastructure/SQL/Repository/UserTokenSQL';
 import {UserGroupSQL} from '../Infrastructure/SQL/Repository/UserGroupSQL';
 import {AccessGroupSQL} from '../Infrastructure/SQL/Repository/AccessGroupSQL';
 import {CtrlAccessSQL} from '../Infrastructure/SQL/Repository/CtrlAccessSQL';
@@ -35,6 +36,7 @@ export class UserSys
 
 
 	private userSQL:UserSQL;
+	private userTokenSQL:UserTokenSQL;
 
 	private errorSys:Components.ErrorSys;
 
@@ -81,7 +83,7 @@ export class UserSys
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
 		// Проверяем apikey
-		let ifAuth = await this.userSQL.isAuth(this.apikey);
+		let ifAuth = await this.userTokenSQL.isAuth(this.apikey);
 
 		if( ifAuth ){ // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
@@ -406,7 +408,7 @@ export class UserSys
 			'is_auth'
 		]);
 
-		if( ok && await this.userSQL.isAuth(this.apikey) ){
+		if( ok && await this.userTokenSQL.isAuth(this.apikey) ){
             this.errorSys.devNotice('is_auth', 'Вы авторизованы');
         } else {
 			ok = false;

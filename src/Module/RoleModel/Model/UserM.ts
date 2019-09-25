@@ -4,6 +4,8 @@ import BaseM from '../../../System/BaseM';
 
 // Классы SQL Запросов
 import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
+import { UserTokenSQL } from '../../../Infrastructure/SQL/Repository/UserTokenSQL';
+import { UserSMSCodeSQL } from '../../../Infrastructure/SQL/Repository/UserSMSCodeSQL';
 import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQL';
 
 // Валидация
@@ -18,16 +20,18 @@ import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
  */
 export class UserM extends BaseM
 {
-    /** @var SQL\UserSQL userSQL */
-    private userSQL: UserSQL;
 
-    /** @var SQL\UserGroupSQL userGroupSQL */
+    private userSQL: UserSQL;
+    private userSMSCode: UserSMSCodeSQL;
+    private userTokenSQL: UserTokenSQL;
     private userGroupSQL: UserGroupSQL;
 
     constructor(req:any) {
         super(req);
 
         this.userSQL = new UserSQL(req);
+        this.userTokenSQL = new UserTokenSQL(req);
+        this.userSMSCode = new UserSMSCodeSQL(req);
         this.userGroupSQL = new UserGroupSQL(req);
     }
 
@@ -253,28 +257,15 @@ export class UserM extends BaseM
     }
 
 
-    /* выдает ключ по теелфону и смс паролю */
-	/*
-		request {
-			phone: string
-			sms: string
-		}
-		response {
-			error: {
-				phone: boolean //ошибка в логине
-				sms: boolean //ошибка в пароле
-				auth: boolean //ошибка в авторизации
-		},
-		apiKey: string
-		}
+    /**
+     * Получить apikey по номеру телефона или SMS
+     * @param data 
      */
     public async getApiKeyByPhoneAndSms(data:V.getApiKeyByPhoneAndSms.RequestI): Promise<V.getApiKeyByPhoneAndSms.ResponseI> {
 
         data = <V.getApiKeyByPhoneAndSms.RequestI>V.getApiKeyByPhoneAndSms.valid(this.req, data);
 
         let ok = this.errorSys.isOk();
-
-        
 
         // Декларирование ошибок
         this.errorSys.declareEx({
@@ -284,7 +275,7 @@ export class UserM extends BaseM
         let idUser = 0;
         if( ok ){ /* пытаемся получить apiKey моделью */
 
-            idUser = await this.userSQL.getUserIdByPhoneAndSms(data.tel, data.sms);
+            idUser = await this.userSMSCode.getUserIdByPhoneAndSms(data.tel, data.sms);
 
             if(!idUser){
                 ok = false;
@@ -295,12 +286,12 @@ export class UserM extends BaseM
         let apikey = null;
         if( ok ){ // Получить apikey пользователя
             /* проверяем есть ли уже такой юзера с ключем */
-            apikey = await this.userSQL.getUserApiKey(idUser);
+            apikey = await this.userTokenSQL.getUserApiKey(idUser);
 
             if (!apikey) {
                 /* если в первый раз */
                 /* юзер есть генерим ему apiKey тк это действие делается после регистрации */
-                apikey = await this.userSQL.insertUserApiKey(idUser);
+                apikey = await this.userTokenSQL.insertUserApiKey(idUser);
             }
         }
 
@@ -315,5 +306,6 @@ export class UserM extends BaseM
         return out;
 
     }
+
 
 }
