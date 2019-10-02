@@ -1,5 +1,6 @@
 import { MainRequest } from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
+import { UserI } from '../Entity/UserE';
 /**
  * Здесь методы для SQL запросов
  */
@@ -26,4 +27,26 @@ export declare class UserSQL extends BaseSQL {
     getUserByID(idUser: number): Promise<any>;
     fGetUserInfoByToken(token?: string): Promise<any>;
     fGetUserInfoById(userId: number): Promise<any[]>;
+    /**
+     * Для авторизации
+     * Выдает токен по логину и паролю
+     * @param login
+     * @param pass
+     * @returns token
+     */
+    faGetTokenByLoginAndPass(sLogin: string, sPass: string): Promise<string>;
+    /**
+     * Регистрация по логину и паролю
+     * @param login
+     * @param pass
+     * @param passConfirm
+     *
+     * @returns token: string
+     */
+    faRegisterByLoginAndPass(sLogin: string, sPass: string): Promise<string>;
+    /**
+     * Обновлене инфы об юзере
+     * @param data
+     */
+    faUpdate(data: UserI): Promise<boolean>;
 }

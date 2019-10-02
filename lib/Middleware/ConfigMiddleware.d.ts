@@ -1,2 +1,2 @@
-import * as Core from '../index';
-export default function ConfigMiddleware(request: Core.System.MainRequest, response: any, next: any): Promise<void>;
+import { MainRequest } from '../System/MainRequest';
+export default function ConfigMiddleware(req: MainRequest, res: any, next: any): Promise<void>;

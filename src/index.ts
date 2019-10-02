@@ -15,7 +15,6 @@ import * as SeoModule from "./System/Seo";
 import { App } from "./App";
 import { AppDefaultMigration } from './AppDefaultMigration';
 
-import * as User from "./Namespace/User";
 
 export {
     Controller,
@@ -25,5 +24,4 @@ export {
     SeoModule,
     App, // готовое собранно приложение
     AppDefaultMigration,
-    User,
 }

@@ -5,7 +5,6 @@ import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import * as SeoModule from "./System/Seo";
 import { App } from "./App";
 import { AppDefaultMigration } from './AppDefaultMigration';
-import * as User from "./Namespace/User";
 export { Controller, System, AAClasses, // Общие компоненты
 Middleware, SeoModule, App, // готовое собранно приложение
-AppDefaultMigration, User, };
+AppDefaultMigration, };

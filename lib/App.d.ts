@@ -57,14 +57,6 @@ export declare class App {
      */
     faUseAuthSys(): Promise<App>;
     /**
-     * Использовать контролер пользователя
-     */
-    fUseUserCtrl(): App;
-    /**
-     * Использованеи модуля администрования пользователей
-     */
-    fUseAdminUser(): App;
-    /**
      * Использовать статические файлы
      * @param sPath
      */

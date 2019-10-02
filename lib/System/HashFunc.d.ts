@@ -6,8 +6,8 @@
  * @param pass
  * @returns hash
  */
-export declare function PassToHash(pass: string): string;
+export declare function fPassToHash(pass: string): string;
 /**
  * Генерирует токен
  */
-export declare function generateToken(): string;
+export declare function fGenerateToken(): string;
