@@ -52,6 +52,8 @@ export class UserSys {
 		this.accessGroupSQL = new AccessGroupSQL(req);
 		this.ctrlAccessSQL = new CtrlAccessSQL(req);
 
+		this.userTokenSQL = new UserTokenSQL(req);
+
 
 		this.ctrlAccessList = {};
 		this.userGroupsList = {};
