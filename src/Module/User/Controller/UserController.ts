@@ -1,4 +1,4 @@
-import { BaseCtrl, MainRequest } from "../../Namespace/System";
+import { BaseCtrl, MainRequest } from "../../../Namespace/System";
 import { UserModule } from '@a-a-game-studio/aa-classes/lib';
 import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 const express = require('express');
@@ -116,7 +116,4 @@ router.post(UserController.sBaseUrl  + '/update', async (req: any, res: any) => 
     await self.update();
 });
 
-
-
-
-export default router;
+export { router };

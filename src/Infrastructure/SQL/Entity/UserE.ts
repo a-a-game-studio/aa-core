@@ -8,7 +8,13 @@ export interface UserI{
     id?:number;
     login?:string;
     name?:string;
+    surname?: string;
+    patronymic?: string;
     email?:string;
+    phone?: string;
+    avatar?: string;
+    pswd?: string;
+    hash?: string;
 }
 
 
@@ -45,4 +51,31 @@ export class UserE
         return rules.get();
     }
 
+    /** Правила обновления таблицы */
+    public getRulesUpdate(){
+
+        let rules = new Components.ModelRulesC();
+
+        rules.set(rules.rule('email')
+            .typeText()
+            .error(UserE.NAME + ' - email')
+        );
+
+        rules.set(rules.rule('name')
+            .typeText()
+            .error(UserE.NAME + ' - name')
+        );
+
+        rules.set(rules.rule('surname')
+            .typeText()
+            .error(UserE.NAME + ' - surname')
+        );
+        
+        rules.set(rules.rule('patronymic')
+            .typeText()
+            .error(UserE.NAME + ' - surname')
+        );
+
+        return rules.get();
+    }
 }

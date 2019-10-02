@@ -13,10 +13,10 @@ import * as Controller from './Namespace/Controller'
 // Базовый модуль
 import * as IndexController from './Module/Common/Controller/IndexController';
 
-import UserController from "./Module/User/UserController";
+
 import { AppDefaultMigration } from './AppDefaultMigration';
 import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
-import { UserSQL } from './Module/User/UserSQL';
+
 
 
 /**
@@ -225,39 +225,6 @@ export class App {
     }
 
     /**
-     * Использовать контролер пользователя
-     */
-    public fUseUserCtrl(): App {
-
-        if (!this.bUseAuthSys) {
-            console.log('faUserCtrl: AuthSys is not used');
-            process.exit(1);
-        };
-
-        /* проверка авторизации на уровне приложения */
-        this.objExpress.use(UserController);
-        this.bUserCtrl = true;
-
-        return this;
-    }
-
-    /**
-     * Использованеи модуля администрования пользователей
-     */
-    public fUseAdminUser(): App {
-
-        if (!this.bUseAuthSys) {
-            console.log('fUseAdminUser: AuthSys is not used');
-            process.exit(1);
-        };
-
-        // Модуль для администрирования пользователей
-        this.objExpress.use(Controller.AdminUserController.router);
-
-        return this;
-    }
-
-    /**
      * Использовать статические файлы
      * @param sPath 
      */
@@ -332,7 +299,6 @@ export class App {
         if (!this.bUseMySql) throw 'MySql is not use';
         /* модули доступа к данным */
         this.listDBData = {
-            userDB: new UserSQL(this.errorSys, this.objDb),
             walletDB: new WalletModule.WalletDB(this.errorSys),
             fileDB: new FileModule.FileDB(this.errorSys),
         }

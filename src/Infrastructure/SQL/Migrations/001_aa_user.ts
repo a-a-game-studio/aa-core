@@ -33,7 +33,10 @@ exports.up = async function (knex: any, Promise: any) {
             .comment('Пароль'); 
 
         table.string('phone', 32)
-            .comment('Телефон');       
+            .comment('Телефон');
+            
+        table.string('hash', 55)
+            .comment('уникальный хеш - постоянный токен');
 
         table.dateTime('created_at').index('created_at')
             .notNullable()

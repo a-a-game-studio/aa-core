@@ -1,0 +1,20 @@
+ 
+import { MainRequest, initMainRequest } from '../System/MainRequest';
+import * as AAComponents from '@a-a-game-studio/aa-components/lib';
+
+/* LEGO ошибок */
+export default function InitBaseSysMiddleware(req: MainRequest, response: any, next: any) {
+
+    req.sys = {
+        token: '',
+        errorSys: null,
+        userSys: null,
+        responseSys: null,
+        bAuth: false,
+        systemCore:null,
+    }
+
+    req.sys.errorSys = new AAComponents.ErrorSys(req.conf.env);
+
+    next();
+}

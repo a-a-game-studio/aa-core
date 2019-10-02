@@ -2,14 +2,15 @@
  * Модуль для работы с паролем и токеном
  */
 
-const md5 = require("md5");
 const uniqid = require('uniqid');
+const uuidv4 = require('uuid/v4');
+var md5 = require('md5');
 /**
  * Выдает зашифрованный пароль
  * @param pass 
  * @returns hash
  */
-export function PassToHash(pass: string): string {
+export function fPassToHash(pass: string): string {
     return md5(pass);
 }
 
@@ -17,6 +18,6 @@ export function PassToHash(pass: string): string {
 /**
  * Генерирует токен
  */
-export function generateToken(): string {
-    return PassToHash(uniqid() + String(new Date()));
+export function fGenerateToken(): string {
+    return uniqid(uuidv4()+'-');
 }

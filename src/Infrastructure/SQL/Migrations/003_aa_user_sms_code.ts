@@ -34,7 +34,7 @@ exports.up = async function(knex: any, Promise: any) {
             .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
             .comment('Время обновления записи');
             
-        table.comment('Связывает пользователя и группу');
+        table.comment('Таблица SMS кодов пользователя');
         table.collate('utf8_bin');
     });
 };

@@ -1,16 +1,16 @@
 
 // Библиотеки
 const utf8 = require('utf8');
-const uniqid = require('uniqid');
-const uuidv4 = require('uuid/v4');
-var md5 = require('md5');
+
 
 // Системные сервисыW
 import { MainRequest } from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
-import { UserE } from '../Entity/UserE';
+import { UserE, UserI } from '../Entity/UserE';
 import { UserTokenE } from '../Entity/UserTokenE';
 import { UserSmsCodeE } from '../Entity/UserSmsCodeE';
+
+import * as HashFunc from '../../../System/HashFunc';
 
 
 /**
@@ -104,7 +104,6 @@ export class UserSQL extends BaseSQL
         return resp;
     }
 
-
     /**
      * Получить пользователя по ID
      *
@@ -136,13 +135,7 @@ export class UserSQL extends BaseSQL
         try{
             resp = (await this.db.raw(sql, {
                 'user_id': idUser
-            }))[0];
-
-            if (resp.length > 0) {
-                resp = resp[0];
-            } else {
-                resp = null;
-            }
+            }))[0][0];
 
         } catch (e){
             ok = false;
@@ -237,5 +230,131 @@ export class UserSQL extends BaseSQL
 
         return resp;
     }
+
+    /**
+     * Для авторизации
+     * Выдает токен по логину и паролю
+     * @param login 
+     * @param pass 
+     * @returns token
+     */
+    public async faGetTokenByLoginAndPass(sLogin: string, sPass: string): Promise<string> {
+        let res = '';
+
+        let sql = `SELECT ut.token FROM ${UserE.NAME} u
+
+            JOIN ${UserTokenE.NAME} ut
+                ON u.id=ut.user_id
+            
+            WHERE            
+                u.login= :login
+                AND
+                u.pass= :pass 
+            LIMIT 1`;
+
+        try {
+            let result = await this.db.raw(sql, {
+                'login': sLogin,
+                'pass': HashFunc.fPassToHash(sPass),
+            });
+            res = result[0][0]['token'];
+        } catch (e) {
+            this.errorSys.errorEx(e, 'get_token_by_login_and_pass', 'Не удалось получить токен по логину и паролю');
+        }
+
+        return res;
+    }
+
+    // =================================
+    // INSERT
+    // =================================
+
+    /**
+     * Регистрация по логину и паролю
+     * @param login 
+     * @param pass 
+     * @param passConfirm 
+     * 
+     * @returns token: string
+     */
+    public async faRegisterByLoginAndPass(sLogin: string, sPass: string): Promise<string> {
+        let token = HashFunc.fGenerateToken();
+
+        let userE = new UserE();
+
+        try {
+
+            /* inser user */
+            let newUser: UserI = {
+                login: sLogin,
+                pswd: HashFunc.fPassToHash(sPass),
+                hash: token
+            }
+
+            // Валидируем входящие данные
+            if (!this.modelValidatorSys.fValid(userE.getRulesInsert(), newUser)) {
+                throw 'validation error';
+            }
+
+            let d = await this.db(UserE.NAME)
+                .insert(this.modelValidatorSys.getResult());
+
+            if (!d) {
+                throw 'err insert';
+            }
+
+            let userId = d[0];
+
+            /* insert token */
+            await this.db(UserTokenE.NAME)
+                .insert({
+                    user_id: userId,
+                    token: token,
+                });
+
+
+        } catch (e) {
+            this.errorSys.error('register_user_by_login_and_pswd', 'Ошибка регистрации пользователя');
+        }
+
+        return token;
+    }
+
+    // =================================
+    // UPDATE
+    // =================================
+
+    /**
+     * Обновлене инфы об юзере
+     * @param data 
+     */
+    public async faUpdate(data: UserI): Promise<boolean> {
+
+        let userE = new UserE();
+        try {
+
+            // Валидируем входящие данные
+            if (!this.modelValidatorSys.fValid(userE.getRulesUpdate(), data)) {
+                throw 'validation error';
+            }
+
+            await this.db(UserE.NAME)
+                .where({
+                    id: data.id
+                })
+                .update(this.modelValidatorSys.getResult());
+
+        } catch (e) {
+            this.errorSys.errorEx(e, 'save_user', 'Не удалось сохранить пользователя');
+        }
+
+        return this.errorSys.isOk();
+    }
+
+    
+
+
+   
+
 
 }
