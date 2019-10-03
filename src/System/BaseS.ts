@@ -1,5 +1,5 @@
 // Системные сервисы
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import *  as Components  from '@a-a-game-studio/aa-components/lib';
 
 import { UserSys } from './UserSys';
 import { MainRequest } from './MainRequest';
@@ -11,7 +11,7 @@ import { MainRequest } from './MainRequest';
  */
 export default class BaseS {
 
-    public errorSys: AAClasses.Components.ErrorSys;
+    public errorSys: Components.ErrorSys;
     public userSys: UserSys;
     public req: MainRequest;
 

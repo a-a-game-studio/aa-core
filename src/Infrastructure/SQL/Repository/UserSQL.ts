@@ -197,7 +197,7 @@ export class UserSQL extends BaseSQL
     public async fGetUserInfoById(userId:number)
     {
         let ok = true;
-        let resp:any[] = null;
+        let resp = null;
 
         // Декларация ошибок
         this.errorSys.declare([
@@ -241,16 +241,15 @@ export class UserSQL extends BaseSQL
     public async faGetTokenByLoginAndPass(sLogin: string, sPass: string): Promise<string> {
         let res = '';
 
-        let sql = `SELECT ut.token FROM ${UserE.NAME} u
-
-            JOIN ${UserTokenE.NAME} ut
-                ON u.id=ut.user_id
-            
+        let sql = `
+            SELECT ut.token FROM ${UserE.NAME} u
+            JOIN ${UserTokenE.NAME} ut ON u.id=ut.user_id
             WHERE            
                 u.login= :login
-                AND
+            AND
                 u.pass= :pass 
-            LIMIT 1`;
+            LIMIT 1
+        `;
 
         try {
             let result = await this.db.raw(sql, {

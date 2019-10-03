@@ -2,9 +2,7 @@ import { UserSys } from '../System/UserSys'
 
 import { ResponseSys } from '../System/ResponseSys'
 
-import * as MainRequest from '../System/MainRequest'
-
-import { initMainRequest } from '../System/MainRequest'
+import { MainRequest, ConfI, initMainRequest } from '../System/MainRequest'
 
 import { RedisSys } from '../System/RedisSys';
 
@@ -38,4 +36,5 @@ export {
     BaseSQL,
     BaseM,
     SeoModule,
+    ConfI
 }

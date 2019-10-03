@@ -3,6 +3,7 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import { MainRequest } from '../../../Namespace/System';
 import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { System } from '../../..';
 
 // =======================================================
 /** Получить Список пользователей */
@@ -27,7 +28,7 @@ export namespace getUserList {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -79,7 +80,7 @@ export namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -123,7 +124,7 @@ export namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -168,7 +169,7 @@ export namespace addUserToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -221,7 +222,7 @@ export namespace delUserFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -275,7 +276,7 @@ export namespace getTokenByPhoneAndSms {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================

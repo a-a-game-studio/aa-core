@@ -1,9 +1,9 @@
 import { BaseCtrl, MainRequest } from "../../../Namespace/System";
 import { UserModule } from '@a-a-game-studio/aa-classes/lib';
-import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 const express = require('express');
 const router = express.Router();
 
+import { UserM } from '../Model/UserM';
 
 /**
  * Контроллер 
@@ -12,74 +12,32 @@ export class UserController extends BaseCtrl {
     
     static sBaseUrl = '/user';
 
-    protected user: User;
-
-    constructor(req: MainRequest.MainRequest, resp: any) {
-        super(req, resp);
-        this.user = new User(this.errorSys,req.listDB);
-        this.user.actions.infoA.faGetInfoById(this.userSys.idUser);
-    }
+    public userM: UserM;
 
     /**
-     * index page
+     * Конструктор
+     *
+     * @param req
+     * @param res
      */
-    public async Index() {
-        this.resp.send(
-            this.responseSys.response({}, 'UserController')
-        );
-    }
+    public static async Init(req: MainRequest, res: any): Promise<UserController> {
+        const self = new UserController(req, res);
 
-    /**
-     * Ифнормация об пользователе
-     */
-    public async getUserInfo() {
-        let data = this.user.data;
-        try {
-            delete data.pass;
-        } catch (e) {
+        // Инициализация бизнес моделей
+        self.userM = new UserM(req);
 
-        }
+        //==================================================
 
-        this.resp.send(
-            this.responseSys.response({}, 'проверка авторизации')
-        );
-    }
+        // Проверка авторизации
+        await self.userSys.isAuth();
 
+        // Проверка права доступа на модуль
+        await self.userSys.isAccessCtrl('admin_user');
 
-    /**
-     * Регистрация по логину и паролю
-     * @param login 
-     * @param pass 
-     * @param passConfirm 
-     * 
-     * @returns token: string
-     */
-    public async registerByLoginAndPass() {
+        // Проверка являетесь ли вы администратором
+        self.userSys.isAdmin();
 
-        /* определяем входные данные */
-        let reqData = <UserModule.UserR.registerByLoginAndPassREQ>this.req.body;
-
-        let data = {
-            token: await this.user.actions.registerA.faRegisterByLoginAndPass(reqData)
-        };
-
-        this.resp.send(
-            this.responseSys.response(data, 'проверка авторизации')
-        );
-    }
-
-    public async update() {
-        let data: null;
-        const errorString = this.fClassName() + '.' + this.fMethodName();
-
-        /* определяем входные данные */
-        let reqData = <UserModule.UserR.updateREQ>this.req.body;
-
-        await this.user.actions.updateA.faUpdate(reqData.user);
-
-        this.resp.send(
-            this.responseSys.response(data, 'update')
-        );
+        return self;
     }
 
 }
@@ -87,33 +45,89 @@ export class UserController extends BaseCtrl {
 /**
  * Индексная страница
  */
-router.get(UserController.sBaseUrl  + '/', async (req: any, res: any) => {
+router.get('/user/', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
-    await self.Index();
+
+    let ok = self.userSys.isAccessRead(); // Проверка доступа
+
+    let out = null;
+    if (ok) { // Получаем список пользователей
+        try {
+            await self.userM.getUserInfo(req.body);
+        } catch (e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
+    }
+
+    res.send(
+        self.responseSys.response(out, 'Список пользователей')
+    );
 });
 
 /**
  * Информация о харегисрированном пользователе
  */
-router.post(UserController.sBaseUrl  + '/getUserInfo', async (req: any, res: any) => {
+router.post('/user/get-user-info', async (req: any, res: any) => {
+
     const self = <UserController>await UserController.Init(req, res);
-    await self.getUserInfo();
+    let ok = self.userSys.isAccessRead(); // Проверка доступа
+
+    let out = null;
+    if (ok) { // Получаем список пользователей
+        try {
+            await self.userM.getUserInfo(req.body);
+        } catch (e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
+    }
+
+    res.send(
+        self.responseSys.response(out, 'Список пользователей')
+    );
 });
 
 /**
  * Регистрация по логину и паролю
  */
-router.post(UserController.sBaseUrl  + '/registerByLoginAndPass', async (req: any, res: any) => {
+router.post('/user/register', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
-    await self.registerByLoginAndPass();
+
+    let ok = self.userSys.isAccessRead(); // Проверка доступа
+
+    let out = null;
+    if (ok) { // Получаем список пользователей
+        try {
+            // await self.userM.registerByLoginAndPass(req.body);
+        } catch (e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
+    }
+
+    res.send(
+        self.responseSys.response(out, 'Список пользователей')
+    );
 });
 
 /**
- * Обновление
+ * Сохранение данных пользователя
  */
-router.post(UserController.sBaseUrl  + '/update', async (req: any, res: any) => {
+router.post('/user/save', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
-    await self.update();
+
+    let ok = self.userSys.isAccessRead(); // Проверка доступа
+
+    let out = null;
+    if (ok) { // Получаем список пользователей
+        try {
+            await self.userM.save(req.body);
+        } catch (e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
+    }
+
+    res.send(
+        self.responseSys.response(out, 'Список пользователей')
+    );
 });
 
 export { router };
