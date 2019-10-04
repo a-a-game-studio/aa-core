@@ -1,15 +1,15 @@
 
 const md5 = require('md5');
 
-exports.up = async function (knex: any, Promise: any) {
+exports.up = async function (knex, Promise) {
 
     const hasUser = await knex.schema.hasTable('aa_user');
 
     if (hasUser) {
-        // await knex.schema.dropTable('aa_user');
+        await knex.schema.dropTable('aa_user');
     }
 
-    await knex.schema.createTable('aa_user', (table: any) => {
+    await knex.schema.createTable('aa_user', (table) => {
         table.increments('id');
 
         table.string('name', 100).index('name')
@@ -40,11 +40,10 @@ exports.up = async function (knex: any, Promise: any) {
             .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
             .comment('Время создания записи');
 
-        table.integer('city').index('city')
-            .comment('Город');
-
-        table.date('birthday')
-            .comment('День рождения');
+        table.dateTime('updated_at').index('updated_at')
+            .notNullable()
+            .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+            .comment('Время обновления записи');
 
         table.comment('Таблица пользователь');
         table.collate('utf8_bin');
@@ -65,7 +64,7 @@ exports.up = async function (knex: any, Promise: any) {
 
 };
 
-exports.down = async (knex: any) => {
+exports.down = async (knex) => {
     const hasUser = await knex.schema.hasTable('aa_user');
     if (hasUser) {
         // await knex.schema.dropTable('aa_user');

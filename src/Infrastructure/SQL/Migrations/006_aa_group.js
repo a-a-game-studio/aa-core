@@ -1,12 +1,12 @@
 
-exports.up = async function(knex: any, Promise: any) {
+exports.up = async function(knex, Promise) {
     const hasGroup = await knex.schema.hasTable('aa_group');
 
     if (hasGroup) {
-        // await knex.schema.dropTable('aa_group');
+        await knex.schema.dropTable('aa_group');
     }
 
-    await knex.schema.createTable('aa_group', (table: any) => {
+    await knex.schema.createTable('aa_group', (table) => {
         table.increments('id');
 
         table.string('name', 100).index('name')
@@ -54,7 +54,7 @@ exports.up = async function(knex: any, Promise: any) {
     ;
 };
 
-exports.down = async (knex: any) => {
+exports.down = async (knex) => {
     const hasUser = await knex.schema.hasTable('aa_group');
     if (hasUser) {
         // await knex.schema.dropTable('aa_group');
