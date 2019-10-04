@@ -1,5 +1,5 @@
 import { ResponseSys } from './ResponseSys';
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import * as Components from '@a-a-game-studio/aa-components/lib';
 import { MainRequest } from './MainRequest';
 import { UserSys } from './UserSys';
 /**
@@ -7,7 +7,7 @@ import { UserSys } from './UserSys';
  */
 export default class BaseCtrl {
     req: MainRequest;
-    errorSys: AAClasses.Components.ErrorSys;
+    errorSys: Components.ErrorSys;
     userSys: UserSys;
     responseSys: ResponseSys;
     protected resp: any;

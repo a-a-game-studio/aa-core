@@ -26,12 +26,12 @@ export class UserSMSCodeSQL extends BaseSQL
     /** 
      * выдает id юзера по телефону и смс из таблицы user_sms_code
      */
-    public async getUserIdByPhoneAndSms(tel:number, sms:number): Promise<number>{
+    public async getUserIdByPhoneAndSms(phone:number, sms:number): Promise<number>{
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
         this.errorSys.declareEx({
-            'get_user_id_by_tel_and_sms':'Не удалось найти пользователя с таким телефоном'
+            'get_user_id_by_phone_and_sms':'Не удалось найти пользователя с таким телефоном'
         });
         
         let idUser:number = 0;
@@ -41,7 +41,7 @@ export class UserSMSCodeSQL extends BaseSQL
                     usc.user_id 
                 FROM ${UserSmsCodeE.NAME} usc
                 WHERE
-                    usc.tel= :tel
+                    usc.phone= :phone
                 AND
                     usc.code= :sms
                 AND 
@@ -51,7 +51,7 @@ export class UserSMSCodeSQL extends BaseSQL
 
             try{
                 let respUserList = (await this.db.raw(sql, {
-                    'tel': tel,
+                    'phone': phone,
                     'sms': sms
                 }))[0];
 

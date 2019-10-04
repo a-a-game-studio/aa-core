@@ -1,30 +1,18 @@
 import { BaseCtrl, MainRequest } from "../../../Namespace/System";
-import { User } from "@a-a-game-studio/aa-classes/lib/User/User";
 declare const router: any;
+import { UserM } from '../Model/UserM';
 /**
  * Контроллер
  */
 export declare class UserController extends BaseCtrl {
     static sBaseUrl: string;
-    protected user: User;
-    constructor(req: MainRequest.MainRequest, resp: any);
+    userM: UserM;
     /**
-     * index page
-     */
-    Index(): Promise<void>;
-    /**
-     * Ифнормация об пользователе
-     */
-    getUserInfo(): Promise<void>;
-    /**
-     * Регистрация по логину и паролю
-     * @param login
-     * @param pass
-     * @param passConfirm
+     * Конструктор
      *
-     * @returns token: string
+     * @param req
+     * @param res
      */
-    registerByLoginAndPass(): Promise<void>;
-    update(): Promise<void>;
+    static Init(req: MainRequest, res: any): Promise<UserController>;
 }
 export { router };

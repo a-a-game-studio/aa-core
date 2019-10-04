@@ -48,4 +48,5 @@ export declare class UserM extends BaseM {
      * @param data
      */
     getTokenByPhoneAndSms(data: V.getTokenByPhoneAndSms.RequestI): Promise<V.getTokenByPhoneAndSms.ResponseI>;
+    addUser(data: V.addUser.RequestI): Promise<V.addUser.ResponseI>;
 }

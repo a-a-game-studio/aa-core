@@ -261,7 +261,7 @@ export namespace getTokenByPhoneAndSms {
 
     /** Параметры api запроса */
     export interface RequestI {
-        tel: number; // Номер телефона 79998887766
+        phone: number; // Номер телефона 79998887766
         sms: number; // Смс код 0000
     }
 
@@ -282,16 +282,71 @@ export namespace getTokenByPhoneAndSms {
         // =======================================
 
         // Телефон
-        rules.set(rules.rule('tel')
+        rules.set(rules.rule('phone')
             .type(Components.ModelRulesT.int)
             .require()
-            .errorEx('tel', 'tel')
+            .errorEx('phone', 'phone')
         );
 
         // СМС
         rules.set(rules.rule('sms')
             .type(Components.ModelRulesT.int)
             .errorEx('sms', 'sms')
+        );
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+
+/** Добавить пользователя */
+export namespace addUser {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        login:string; // Псевдоним пользователя
+        name?:string; // Имя пользователя не обызательный параметр
+        pswd:string; // Пароль
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        cmd_confirm_register:boolean; // Подтвердить регистрацию
+        list_user:UserI[]; // Вернуть обновленный список пользователей
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // логин
+        rules.set(rules.rule('login')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('login', 'login')
+        );
+
+        // пароль
+        rules.set(rules.rule('pswd')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(6)
+            .maxLen(100)
+            .errorEx('pswd', 'pswd')
         );
 
         // =======================================

@@ -9,7 +9,7 @@ import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListD
 export declare class App {
     protected iPort: number;
     protected bodyMaxSize: string;
-    protected conf: System.MainRequest.ConfI;
+    protected conf: System.ConfI;
     protected reddis: System.RedisSys;
     protected bUseMySql: boolean;
     protected bUseRabbitSender: boolean;
@@ -22,7 +22,7 @@ export declare class App {
     objDb: db;
     protected listDBData: ListDBI;
     protected listDB: ListDB;
-    constructor(conf: System.MainRequest.ConfI, iPort?: number);
+    constructor(conf: System.ConfI, iPort?: number);
     /**
      * отключить Cors
      */

@@ -12,7 +12,7 @@ exports.up = async function(knex: any, Promise: any) {
         table.integer('user_id').index('user_id')
             .comment('ID пользователя');
 
-        table.string('tel', 20).index('tel')
+        table.string('phone', 20).index('phone')
             .comment('Код подтверждения');
 
         table.string('code', 50).index('code')

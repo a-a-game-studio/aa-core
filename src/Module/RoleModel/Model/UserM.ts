@@ -12,7 +12,7 @@ import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQ
 import * as V from '../Validator/UserV';
 
 // Интерфейсы и сущьности
-import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
+import { UserI, UserIDs } from '../../../Infrastructure/SQL/Entity/UserE';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -112,6 +112,7 @@ export class UserM extends BaseM
         return out;
     }
 
+    // =======================================
 
     /**
      * Получить список ролей пользователя
@@ -269,13 +270,13 @@ export class UserM extends BaseM
 
         // Декларирование ошибок
         this.errorSys.declareEx({
-            'get_user_by_tel_and_sms':'Не удалось найти пользователя'
+            'get_user_by_phone_and_sms':'Не удалось найти пользователя'
         });
 
         let idUser = 0;
         if( ok ){ /* пытаемся получить apiKey моделью */
 
-            idUser = await this.userSMSCode.getUserIdByPhoneAndSms(data.tel, data.sms);
+            idUser = await this.userSMSCode.getUserIdByPhoneAndSms(data.phone, data.sms);
 
             if(!idUser){
                 ok = false;
@@ -307,5 +308,60 @@ export class UserM extends BaseM
 
     }
 
+    public async addUser(data:V.addUser.RequestI): Promise<V.addUser.ResponseI> {
+
+        data = <V.addUser.RequestI>V.addUser.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        // --------------------------
+
+        let sToken:string = null;
+        if(ok){ // Регистрируем пользователя
+            sToken = await this.userSQL.faRegister(data);
+            if(!sToken){
+                this.errorSys.error('register', 'Не удалось зарегистрировать пользователя');
+            }
+        }
+
+        // --------------------------
+
+        let vUserIDs:UserIDs = null;
+        if(ok){ // Получить идентификаторы пользователя
+            vUserIDs = await this.userSQL.getUserIDsByToken(sToken);
+            if(!vUserIDs){
+                ok = false;
+                this.errorSys.error('user_ids', 'Не удалось получить идентификаторы пользователя');
+            }
+        }
+
+        // --------------------------
+
+        let bConfirmRegister = false;
+        if(ok){ // Подтвердить регистрацию
+            bConfirmRegister = await this.userSQL.faConfirmRegisterByID(vUserIDs.user_id);
+            if(!bConfirmRegister){
+                ok = false;
+                this.errorSys.error('confirm_user', 'Не удалось получить подтвердить регистрацию');
+            }
+        }
+
+        let listUser:UserI[] = null;
+        if(ok){ // Получить список пользователей
+            listUser = await this.userSQL.getUserList(0,100, {});
+        }
+
+        // --------------------------
+
+        let out:V.addUser.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                cmd_confirm_register:bConfirmRegister, // Подтверждение регистрации
+                list_user:listUser // Список пользователей
+            };
+        }
+
+        return out;
+    }
 
 }

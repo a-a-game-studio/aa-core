@@ -26,7 +26,7 @@ export class App {
 
     protected iPort: number; // порт подключения
     protected bodyMaxSize: string = '50mb'; // размер body
-    protected conf: System.MainRequest.ConfI; // конфиг
+    protected conf: System.ConfI; // конфиг
     protected reddis: System.RedisSys; // Redis
 
     protected bUseMySql: boolean; // флаг использования MySql
@@ -45,7 +45,7 @@ export class App {
     protected listDB: ListDB;
 
 
-    constructor(conf: System.MainRequest.ConfI, iPort: number = 3005) {
+    constructor(conf: System.ConfI, iPort: number = 3005) {
 
         this.bUseMySql = false;
         this.bUseRabbitSender = false;
@@ -65,7 +65,7 @@ export class App {
         this.reddis = new System.RedisSys(this.conf.redis);
 
         /* Подключаем конфиг */
-        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.conf = this.conf;
             req.infrastructure = {
                 mysql: null,
@@ -76,7 +76,7 @@ export class App {
         }); // уст. конфиг
 
         /* LEGO ошибок */
-        this.objExpress.use((req: System.MainRequest.MainRequest, response: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, response: any, next: any) => {
 
             req.sys = {
                 token: '',
@@ -150,7 +150,7 @@ export class App {
         };
 
         this.objDb = db(this.conf.mysql);
-        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.mysql = this.objDb;
             next();
         }); // уст. конфиг
@@ -172,7 +172,7 @@ export class App {
 
         this.reddis.fSetUse(true);
 
-        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = this.reddis;
             next();
         }); // уст. конфиг
@@ -197,7 +197,7 @@ export class App {
             this.conf.rabbit.queryList
         );
 
-        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.rabbit = rabbitSender;
             next();
         }); // уст. конфиг
@@ -306,7 +306,7 @@ export class App {
         this.listDB = new ListDB(this.listDBData);
 
         /* Подключаем конфиг */
-        this.objExpress.use((req: System.MainRequest.MainRequest, resp: any, next: any) => {
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.listDB = this.listDB;
             next();
         }); // уст. конфиг

@@ -1,7 +1,7 @@
 
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
-import { MainRequest } from '../../../Namespace/System';
+import * as System from '../../../Namespace/System';
 import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
 
 // =======================================================
@@ -24,7 +24,7 @@ export namespace getGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -66,7 +66,7 @@ export namespace getAllGroups {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -103,7 +103,7 @@ export namespace saveGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: System.MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================

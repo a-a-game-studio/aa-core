@@ -25,7 +25,7 @@ export namespace getCtrlAccessOfGroupByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -69,7 +69,7 @@ export namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -113,7 +113,7 @@ export namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -162,7 +162,7 @@ export namespace saveAccessGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -230,7 +230,7 @@ export namespace addCtrlAccessToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================
@@ -283,7 +283,7 @@ export namespace delCtrlAccessFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    export function valid(req: MainRequest.MainRequest, data: any) {
+    export function valid(req: MainRequest, data: any) {
         let rules = new Components.ModelRulesC();
 
         // =======================================

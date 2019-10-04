@@ -6,7 +6,7 @@ const utf8 = require('utf8');
 // Системные сервисыW
 import { MainRequest } from '../../../System/MainRequest';
 import BaseSQL from '../../../System/BaseSQL';
-import { UserE, UserI } from '../Entity/UserE';
+import { UserE, UserI, UserIDs } from '../Entity/UserE';
 import { UserTokenE } from '../Entity/UserTokenE';
 import { UserSmsCodeE } from '../Entity/UserSmsCodeE';
 
@@ -82,6 +82,7 @@ export class UserSQL extends BaseSQL
                     CASE WHEN :if_search_fullname THEN u.fullname LIKE :search_fullname ELSE true END
                 LIMIT :limit
                 OFFSET :offset
+                ORDER BY u.id DESC
                 ;
             `;
 
@@ -144,6 +145,50 @@ export class UserSQL extends BaseSQL
 
         return resp;
     }
+
+    
+    /**
+     * Получить идентификаторы пользователя по ID
+     *
+     * @param sToken
+     */
+    public async getUserIDsByToken(sToken:string): Promise<UserIDs>{
+        let ok = this.errorSys.isOk();
+        let resp = null;
+        let sql = '';
+
+        // Декларация ошибок
+        this.errorSys.declare([
+            'get_user'
+        ]);
+
+        sql = `
+            SELECT
+                u.id as user_id,
+                u.name,
+                u.email,
+                u.phone,
+                ut.token
+            FROM ${UserE.NAME} u
+            LEFT JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
+            WHERE ut.token = :token
+            LIMIT 1
+        `;
+
+        try{
+            resp = (await this.db.raw(sql, {
+                'token': sToken
+            }))[0][0];
+
+        } catch (e){
+            ok = false;
+            this.errorSys.errorEx(e, 'get_user', 'Не удалось получить пользователя');
+        }
+
+        return resp;
+    }
+
+    // ========================================
 
 
     /* выдает инфу по юзеру по token */
@@ -276,38 +321,35 @@ export class UserSQL extends BaseSQL
      * 
      * @returns token: string
      */
-    public async faRegisterByLoginAndPass(sLogin: string, sPass: string): Promise<string> {
+    public async faRegister(data:{
+        login:string;
+        name?:string;
+        email?:string;
+        pswd:string;
+    }): Promise<string> {
+
         let token = HashFunc.fGenerateToken();
 
         let userE = new UserE();
 
         try {
 
-            /* inser user */
-            let newUser: UserI = {
-                login: sLogin,
-                pswd: HashFunc.fPassToHash(sPass),
-                hash: token
-            }
+            data.pswd = HashFunc.fPassToHash(data.pswd);
 
             // Валидируем входящие данные
-            if (!this.modelValidatorSys.fValid(userE.getRulesInsert(), newUser)) {
+            if (!this.modelValidatorSys.fValid(userE.getRulesInsert(), data)) {
                 throw 'validation error';
             }
 
-            let d = await this.db(UserE.NAME)
-                .insert(this.modelValidatorSys.getResult());
+            let idUser = (await this.db(UserE.NAME)
+                .insert(this.modelValidatorSys.getResult())
+            )[0];
 
-            if (!d) {
-                throw 'err insert';
-            }
-
-            let userId = d[0];
 
             /* insert token */
             await this.db(UserTokenE.NAME)
                 .insert({
-                    user_id: userId,
+                    user_id: idUser,
                     token: token,
                 });
 
@@ -350,10 +392,34 @@ export class UserSQL extends BaseSQL
         return this.errorSys.isOk();
     }
 
+    // =========================================
+
+    /**
+     * Обновлене инфы об юзере
+     * @param data 
+     */
+    public async faConfirmRegisterByID(idUser:number): Promise<boolean> {
+
+        let userE = new UserE();
+        try {
+
+            await this.db(UserE.NAME)
+                .where({
+                    id: idUser
+                })
+                .update({
+                    id_active:true
+                });
+
+        } catch (e) {
+            this.errorSys.errorEx(e, 'confirm_register', 'Не удалось подтвердить регистрацию');
+        }
+
+        return this.errorSys.isOk();
+    }
+
+
     
-
-
-   
 
 
 }

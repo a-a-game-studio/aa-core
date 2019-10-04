@@ -1,6 +1,6 @@
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
-import { MainRequest } from '../../../Namespace/System';
 import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { System } from '../../..';
 /** Получить Список пользователей */
 export declare namespace getUserList {
     /** Параметры api запроса */
@@ -20,7 +20,7 @@ export declare namespace getUserList {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -40,7 +40,7 @@ export declare namespace getUserByID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -60,7 +60,7 @@ export declare namespace getUserGroupsByUserID {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -81,7 +81,7 @@ export declare namespace addUserToGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -102,7 +102,7 @@ export declare namespace delUserFromGroup {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }
@@ -110,7 +110,7 @@ export declare namespace delUserFromGroup {
 export declare namespace getTokenByPhoneAndSms {
     /** Параметры api запроса */
     interface RequestI {
-        tel: number;
+        phone: number;
         sms: number;
     }
     /** Параметры api ответа */
@@ -123,7 +123,30 @@ export declare namespace getTokenByPhoneAndSms {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: MainRequest.MainRequest, data: any): {
+    function valid(req: System.MainRequest, data: any): {
+        [key: string]: any;
+    };
+}
+/** Добавить пользователя */
+export declare namespace addUser {
+    /** Параметры api запроса */
+    interface RequestI {
+        login: string;
+        name?: string;
+        pswd: string;
+    }
+    /** Параметры api ответа */
+    interface ResponseI {
+        cmd_confirm_register: boolean;
+        list_user: UserI[];
+    }
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    function valid(req: System.MainRequest, data: any): {
         [key: string]: any;
     };
 }

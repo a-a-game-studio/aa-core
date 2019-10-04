@@ -2,6 +2,19 @@
 import { Components } from '@a-a-game-studio/aa-classes/lib';
 
 /**
+ * Описание идентификаторов и связей пользователя
+ */
+export interface UserIDs{
+    user_id?:number;
+    login?:string;
+    name?:string;
+    email?:string;
+    phone?: string;
+    token?:string;
+}
+
+
+/**
  * Описание полей пользователя
  */
 export interface UserI{
@@ -28,6 +41,7 @@ export class UserE
 
         rules.set(rules.rule('login')
             .type('text')
+            .require()
             .error('user_email - неверный формат')
         );
 
@@ -43,10 +57,9 @@ export class UserE
 
         rules.set(rules.rule('pswd')
             .type('text')
+            .require()
             .error('pswd - неверный формат')
         );
-
-        
 
         return rules.get();
     }

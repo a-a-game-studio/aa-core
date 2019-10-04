@@ -108,6 +108,38 @@ export class UserM extends BaseM
         return out;
     }
 
+    // =========================================
+
+    public async register(data:V.register.RequestI): Promise<V.register.ResponseI> {
+
+        data = <V.register.RequestI>V.register.valid(this.req, data);    
+
+        let ok = this.errorSys.isOk();
+
+        // --------------------------
+
+        let sToken:string = null;
+        if(ok){ // регистрируем пользователя
+            sToken = await this.userSQL.faRegister(data);
+            if(!sToken){
+                this.errorSys.error('get_token', 'Не удалось получить токен');
+            }
+        }
+
+        // --------------------------
+
+        let out:V.register.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                token:sToken // Токен
+            };
+        }
+
+        return out;
+    }
+
+    // =====================================
+
     /**
      * Сохранить
      * @param data 

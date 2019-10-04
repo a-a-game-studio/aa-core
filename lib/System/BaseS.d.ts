@@ -1,4 +1,4 @@
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
+import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserSys } from './UserSys';
 import { MainRequest } from './MainRequest';
 /**
@@ -7,7 +7,7 @@ import { MainRequest } from './MainRequest';
  * автоматизируют рутинные операции
  */
 export default class BaseS {
-    errorSys: AAClasses.Components.ErrorSys;
+    errorSys: Components.ErrorSys;
     userSys: UserSys;
     req: MainRequest;
     constructor(req: MainRequest);

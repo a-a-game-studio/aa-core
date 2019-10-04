@@ -7,7 +7,7 @@ declare const router: any;
 export declare class UserController extends BaseCtrl {
     static sBaseUrl: string;
     protected user: User;
-    constructor(req: MainRequest.MainRequest, resp: any);
+    constructor(req: System.MainRequest, resp: any);
     /**
      * index page
      */

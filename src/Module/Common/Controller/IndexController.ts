@@ -17,7 +17,7 @@ class IndexController extends BaseCtrl {
 /**
  * Проверка на работоспособность
  */
-router.post('/post', function (req: System.MainRequest.MainRequest, res: any, next: any) {
+router.post('/post', function (req: System.MainRequest, res: any, next: any) {
     let self = new IndexController(req, res);
     res.send('POST API сервер работает');
 });
@@ -25,7 +25,7 @@ router.post('/post', function (req: System.MainRequest.MainRequest, res: any, ne
 /**
  * Проверка на работоспособность
  */
-router.get('/', function (req: System.MainRequest.MainRequest, res: any, next: any) {
+router.get('/', function (req: System.MainRequest, res: any, next: any) {
     let self = new IndexController(req, res);
     res.send('API сервер работает');
 });
