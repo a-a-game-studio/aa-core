@@ -36,7 +36,7 @@ export class RabbitSenderSys {
      * Асинхронный конструктор
      * @param query
      */
-    static Init(confConnect: string, queryList: string[]): Promise<RabbitSenderSys> {
+    static Init(confConnect: string, queryList: {[key:string]:string}): Promise<RabbitSenderSys> {
         return new Promise((resolve, reject) => {
 
             try {
@@ -58,6 +58,7 @@ export class RabbitSenderSys {
                 });
 
             } catch (e) {
+                console.log(e);
                 reject(e);
             }
         });
@@ -113,6 +114,7 @@ export class RabbitQueue {
                 });
 
             } catch (e) {
+                console.log(e);
                 reject(e);
             }
         });

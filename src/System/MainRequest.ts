@@ -36,7 +36,7 @@ export interface ConfI { // Конфигурация
 
     rabbit?: {
         connection: string;
-        queryList: string[];
+        queryList: {[key:string]:string};
     };
 
     S3?: {

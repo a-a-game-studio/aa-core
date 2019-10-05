@@ -1,3 +1,6 @@
+const uniqid = require('uniqid');
+const uuidv4 = require('uuid/v4');
+
 exports.up = async function(knex, Promise) {
     const hasUserToken = await knex.schema.hasTable('aa_user_token');
 
@@ -27,6 +30,20 @@ exports.up = async function(knex, Promise) {
         table.comment('Связывает пользователя и группу');
         table.collate('utf8_bin');
     });
+
+    let user = (await knex('aa_user')
+        .where({
+            login:'admin'
+        })
+        .limit(1)
+        .select()
+    )[0];
+    
+    await knex('aa_user_token')
+        .insert({
+            user_id:user.id,
+            token:uniqid(uuidv4()+'-')
+        });
     
 };
 

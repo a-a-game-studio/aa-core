@@ -1,5 +1,6 @@
 
 const md5 = require('md5');
+const uuidv4 = require('uuid/v4');
 
 exports.up = async function (knex, Promise) {
 

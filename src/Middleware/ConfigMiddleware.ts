@@ -28,11 +28,18 @@ export default async function ConfigMiddleware(req: MainRequest, res: any, next:
         req.sys.errorSys.error('not_config_rabbit', 'Не указан конфиг rabbit');
     }
 
+    console.log('connection infrastructure:');
     if( req.sys.errorSys.isOk() ){
+        console.log('mysql connection...');
         req.infrastructure.mysql = require('knex')(req.conf.mysql);
+        console.log('redis connection...');
         req.infrastructure.redis = new RedisSys(req.conf.redis);
-        req.infrastructure.rabbit = await RabbitSenderSys.Init(req.conf.rabbit.connection, req.conf.rabbit.queryList);;
+        console.log('rabbit connection...');
+        req.infrastructure.rabbit = await RabbitSenderSys.Init(req.conf.rabbit.connection, req.conf.rabbit.queryList);
     }
+    console.log('connection infrastructure complete;');
+
 
     next();
 }
+

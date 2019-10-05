@@ -18,8 +18,6 @@ const router = express.Router();
  */
 class AdminUserController extends BaseCtrl {
 
-    static sBaseUrl: string = '/api/admin/user'; // базовый путь api-методов для контролера
-
     public userM: UserM;
 
     public groupM: GroupM;
@@ -68,7 +66,8 @@ class AdminUserController extends BaseCtrl {
 /**
  * Получить список пользователей
  */
-router.post(AdminUserController.sBaseUrl + '/get-users', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-users', async (req: System.MainRequest, res: any, next: any) => {
+
     let self = await AdminUserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
@@ -86,13 +85,12 @@ router.post(AdminUserController.sBaseUrl + '/get-users', async (req: System.Main
         self.responseSys.response(out, 'Список пользователей')
     );
 
-    // res.send(JSON.stringify(req.body, null,2));
 });
 
 /*
  * Получить одного пользователя
  */
-router.post(AdminUserController.sBaseUrl + '/get-user', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-user', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -116,7 +114,7 @@ router.post(AdminUserController.sBaseUrl + '/get-user', async (req: System.MainR
 /**
  * Получить Краткаю информацию по группе
  */
-router.post(AdminUserController.sBaseUrl + '/get-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -139,7 +137,7 @@ router.post(AdminUserController.sBaseUrl + '/get-group', async (req: System.Main
 /**
  * Получить краткую информацию по контроллеру доступа
  */
-router.post(AdminUserController.sBaseUrl + '/get-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -162,7 +160,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access', async (req: Syste
 /**
  * @Route("/api/admin/user/get-user-groups", name="api__admin__user__get_user_groups")
  */
-router.post(AdminUserController.sBaseUrl + '/get-user-groups', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-user-groups', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -187,7 +185,7 @@ router.post(AdminUserController.sBaseUrl + '/get-user-groups', async (req: Syste
  *
  * @Route("/api/admin/user/get-ctrl-access-of-group", name="api__admin__user__get_ctrl_access_of_group")
  */
-router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-of-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-ctrl-access-of-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -210,7 +208,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-of-group', async (r
 /**
  * @Route("/api/admin/user/get-group-list", name="api__admin__user_get_group_list")
  */
-router.post(AdminUserController.sBaseUrl + '/get-group-list', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-group-list', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -233,7 +231,7 @@ router.post(AdminUserController.sBaseUrl + '/get-group-list', async (req: System
 /**
  * @Route("/api/admin/user/get-ctrl-access-list", name="api__admin__user_get_ctrl_access_list")
  */
-router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-list', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/get-ctrl-access-list', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -260,7 +258,7 @@ router.post(AdminUserController.sBaseUrl + '/get-ctrl-access-list', async (req: 
 /**
  * @Route("/api/admin/user/save-group", name="api__admin__user__save_group")
  */
-router.post(AdminUserController.sBaseUrl + '/save-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/save-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -283,7 +281,7 @@ router.post(AdminUserController.sBaseUrl + '/save-group', async (req: System.Mai
 /**
  * @Route("/api/admin/user/save-ctrl-access", name="api__admin__user__save_ctrl_access")
  */
-router.post(AdminUserController.sBaseUrl + '/save-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/save-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -306,7 +304,7 @@ router.post(AdminUserController.sBaseUrl + '/save-ctrl-access', async (req: Syst
 /**
  * @Route("/api/admin/user/save-access-group", name="api__admin__user__save_access_group")
  */
-router.post(AdminUserController.sBaseUrl + '/save-access-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/save-access-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -335,7 +333,7 @@ router.post(AdminUserController.sBaseUrl + '/save-access-group', async (req: Sys
 /**
  * @Route("/api/admin/user/add-ctrl-access", name="api__admin__user__add_ctrl_access")
  */
-router.post(AdminUserController.sBaseUrl + '/add-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/add-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -358,7 +356,7 @@ router.post(AdminUserController.sBaseUrl + '/add-ctrl-access', async (req: Syste
 /**
  * @Route("/api/admin/user/add-user-to-group", name="api__admin__user__add_user_to_group")
  */
-router.post(AdminUserController.sBaseUrl + '/add-user-to-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/add-user-to-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -381,7 +379,7 @@ router.post(AdminUserController.sBaseUrl + '/add-user-to-group', async (req: Sys
 /**
  * @Route("/api/admin/user/add-ctrl-access-to-group", name="api__admin__user__add_ctrl_access_to_group")
  */
-router.post(AdminUserController.sBaseUrl + '/add-ctrl-access-to-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/add-ctrl-access-to-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -410,7 +408,7 @@ router.post(AdminUserController.sBaseUrl + '/add-ctrl-access-to-group', async (r
 /**
  * @Route("/api/admin/user/del-user-from-group", name="api__admin__user__del_user_from_group")
  */
-router.post(AdminUserController.sBaseUrl + '/del-user-from-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/del-user-from-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -433,7 +431,7 @@ router.post(AdminUserController.sBaseUrl + '/del-user-from-group', async (req: S
 /**
  * @Route("/api/admin/user/del-ctrl-access", name="api__admin__user__del_ctrl_access")
  */
-router.post(AdminUserController.sBaseUrl + '/del-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/del-ctrl-access', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 
@@ -456,7 +454,7 @@ router.post(AdminUserController.sBaseUrl + '/del-ctrl-access', async (req: Syste
 /**
  * @Route("/api/admin/user/del-ctrl-access-from-group", name="api__admin__user__del_ctrl_access_from_group")
  */
-router.post(AdminUserController.sBaseUrl + '/del-ctrl-access-from-group', async (req: System.MainRequest, res: any, next: any) => {
+router.post('/api/admin/user/del-ctrl-access-from-group', async (req: System.MainRequest, res: any, next: any) => {
 
     let self = await AdminUserController.Init(req, res);
 

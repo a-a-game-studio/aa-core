@@ -61,8 +61,8 @@ app.use(controller.IndexController.router);
 // Модуль для администрирования пользователей
 app.use(controller.AdminUserController.router);
 
-// Модуль для администрирования пользователей
+// Модуль для пользователей
 app.use(controller.UserController.router);
 
 console.log('server start at http://localhost:'+config.common.port);
-app.listen(config.common.port);
+    app.listen(config.common.port);
