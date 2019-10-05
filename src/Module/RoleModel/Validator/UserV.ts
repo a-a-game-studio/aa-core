@@ -13,7 +13,7 @@ export namespace getUserList {
     export interface RequestI {
         offset: number; // С какой записи получать данные
         limit: number; // Сколько записей получать
-        search_fullname?: string; // Поиск По ФИО
+        search_surname?: string; // Поиск По Фамилии пользователя
         search_username?: string; // Поиск по Имени пользователя
     }
 

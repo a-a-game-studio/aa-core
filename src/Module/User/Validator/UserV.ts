@@ -183,7 +183,6 @@ export namespace save {
         surname:string; // Фамилия
         patronymic:string; // Отчество
         email:string; // Изменить email
-        avatar:string; // Изменить картинку
     }
 
     /** Параметры api ответа */

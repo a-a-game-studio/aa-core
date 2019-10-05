@@ -348,7 +348,7 @@ export class UserSys {
 			'is_admin'
 		]);
 
-		if (ok && this.userGroupsList['admin']) {
+		if (ok && this.userGroupsList['admin'] || this.userGroupsList['root']) {
 			this.errorSys.devNotice('is_admin', 'Вы администратор');
 		} else {
 			ok = false;

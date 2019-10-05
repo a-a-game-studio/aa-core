@@ -46,7 +46,7 @@ export class ResponseSys {
 		if (this.ifDevMode) { // Выводит информацию для разработчиков и тестрировщиков
 			out['dev_warning'] = this.errorSys.getDevWarning();
 			out['dev_notice'] = this.errorSys.getDevNotice();
-			out['dev_declare'] = this.errorSys.getDevDeclare();
+			// out['dev_declare'] = this.errorSys.getDevDeclare();
 			out['dev_log'] = this.errorSys.getDevLog();
 		}
 

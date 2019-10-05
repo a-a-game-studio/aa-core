@@ -49,14 +49,14 @@ export class UserM extends BaseM
 
         
         let aFilter:{
-            search_fullname?:string; // ФИО пользователя
+            search_surname?:string; // ФИО пользователя
             search_username?:string; // Имя пользователя
         } = {};
         if (ok) { // Формируем параметры фильтрации
-            if (data.search_fullname) {
-                aFilter.search_fullname = data.search_fullname;
+            if (data.search_surname) {
+                aFilter.search_surname = data.search_surname;
             } else {
-                this.errorSys.devNotice('search_fullname', 'Поиск по ФИО отсутствует');
+                this.errorSys.devNotice('search_surname', 'Поиск по ФИО отсутствует');
             }
 
             if (data.search_username) {

@@ -25,7 +25,6 @@ export interface UserI{
     patronymic?: string;
     email?:string;
     phone?: string;
-    avatar?: string;
     pswd?: string;
     hash?: string;
 }

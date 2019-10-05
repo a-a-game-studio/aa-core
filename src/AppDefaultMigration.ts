@@ -33,7 +33,7 @@ export class AppDefaultMigration {
         console.log('aa_user_sms_code');
         await aa_user_sms_code.up(this.objDb);
 
-        console.log('user_avatar');
+        console.log('aa_user_avatar');
         await user_avatar.up(this.objDb);
 
         console.log('aa_access_group');

@@ -33,7 +33,7 @@ export class UserSQL extends BaseSQL
      * @return array|null
      */
     public async getUserList(iOffset:number, iLimit:number, aFilter:{
-        search_fullname?:string; // ФИО пользователя
+        search_surname?:string; // ФИО пользователя
         search_username?:string; // Имя пользователя
     }): Promise<any>{
         let ok = this.errorSys.isOk();
@@ -45,9 +45,9 @@ export class UserSQL extends BaseSQL
             'get_user' // получение пользователей
         ]);
 
-        let sSearchFIO = "";
-        if( aFilter.search_fullname  ){
-            sSearchFIO = aFilter.search_fullname;
+        let sSearchSurname = "";
+        if( aFilter.search_surname  ){
+            sSearchSurname = aFilter.search_surname;
         }
 
         let sSearchUserName = "";
@@ -60,29 +60,24 @@ export class UserSQL extends BaseSQL
             bSearchUserName = true;
         }
 
-        let bSearchFIO = false; // Использовать поиск по ФИО или нет
-        if(sSearchFIO){
-            bSearchFIO = true;
+        let bSearchSurname = false; // Использовать поиск по ФИО или нет
+        if(sSearchSurname){
+            bSearchSurname = true;
         }
 
         let resp = null;
         if(ok){
             sql = `
                 SELECT
-                    u.id,
-                    u.name,
-                    u.fullname,
-                    u.login,
-                    u.email,
-                    u.avatar
+                    u.*
                 FROM ${UserE.NAME} u
                 WHERE
                     CASE WHEN :if_search_username THEN u.name LIKE :search_username ELSE true END
                 AND
-                    CASE WHEN :if_search_fullname THEN u.fullname LIKE :search_fullname ELSE true END
+                    CASE WHEN :if_search_surname THEN u.surname LIKE :search_surname ELSE true END
+                ORDER BY u.id DESC
                 LIMIT :limit
                 OFFSET :offset
-                ORDER BY u.id DESC
                 ;
             `;
 
@@ -91,9 +86,9 @@ export class UserSQL extends BaseSQL
                     'offset': iOffset,
                     'limit': iLimit,
                     'if_search_username':bSearchUserName,
-                    'if_search_fullname':bSearchFIO,
+                    'if_search_surname':bSearchSurname,
                     'search_username': '%'+sSearchUserName+'%',
-                    'search_fullname': '%'+sSearchFIO+'%'
+                    'search_surname': '%'+sSearchSurname+'%'
                 }))[0];
 
             } catch (e){
@@ -123,11 +118,7 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.id,
-                u.name,
-                u.email,
-                u.avatar,
-                u.fullname
+                u.*
             FROM ${UserE.NAME} u
             WHERE u.id = :user_id
             LIMIT 1
@@ -206,12 +197,11 @@ export class UserSQL extends BaseSQL
                 SELECT  
                     u.id,
                     u.name,
-                    u.email,
-                    u.avatar
+                    u.email
                 FROM ${UserE.NAME} u
                 JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
 
-                where ut.token= :token
+                where ut.token = :token
 
                 limit 1
             `;
@@ -230,7 +220,7 @@ export class UserSQL extends BaseSQL
 
             } catch (e){
                 ok = false;
-                this.errorSys.error('user_info_by_token', 'Не удалось получить информацию о пользователе');
+                this.errorSys.errorEx(e,'user_info_by_token', 'Не удалось получить информацию о пользователе');
             }
         }
 
