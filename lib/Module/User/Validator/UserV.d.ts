@@ -74,7 +74,6 @@ export declare namespace save {
         surname: string;
         patronymic: string;
         email: string;
-        avatar: string;
     }
     /** Параметры api ответа */
     interface ResponseI {

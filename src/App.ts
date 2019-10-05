@@ -170,7 +170,7 @@ export class App {
             process.exit(1);
         };
 
-        this.reddis.fSetUse(true);
+        // this.reddis.fSetUse(true);
 
         this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = this.reddis;

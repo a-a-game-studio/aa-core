@@ -9,15 +9,8 @@ export interface RedisConf {
  */
 export declare class RedisSys {
     redisClient: any;
-    private bUse;
     private conf;
-    constructor(conf: RedisConf, bUse?: boolean);
-    /**
-     * Если нужно использовать редис
-     * в противном случае используется как заглушка
-     * @param bUse
-     */
-    fSetUse(bUse: boolean): void;
+    constructor(conf: RedisConf);
     /**
      * Получить значение из редиса
      * @param key

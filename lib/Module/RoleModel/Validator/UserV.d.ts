@@ -7,7 +7,7 @@ export declare namespace getUserList {
     interface RequestI {
         offset: number;
         limit: number;
-        search_fullname?: string;
+        search_surname?: string;
         search_username?: string;
     }
     /** Параметры api ответа */

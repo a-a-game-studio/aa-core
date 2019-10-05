@@ -15,7 +15,7 @@ export declare class UserSQL extends BaseSQL {
      * @return array|null
      */
     getUserList(iOffset: number, iLimit: number, aFilter: {
-        search_fullname?: string;
+        search_surname?: string;
         search_username?: string;
     }): Promise<any>;
     /**

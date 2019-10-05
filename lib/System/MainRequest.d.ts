@@ -29,7 +29,9 @@ export interface ConfI {
     };
     rabbit?: {
         connection: string;
-        queryList: string[];
+        queryList: {
+            [key: string]: string;
+        };
     };
     S3?: {
         endpoint: string;

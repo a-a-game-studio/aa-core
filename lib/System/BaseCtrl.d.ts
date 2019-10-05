@@ -14,12 +14,4 @@ export default class BaseCtrl {
     static sBaseUrl: string;
     constructor(req: MainRequest, resp: any);
     protected fClassName(): string;
-    protected fMethodName(): string;
-    /**
-     * Асинхронный конструктор
-     * @param req
-     * @param resp
-     * @param bNeedAuth - нужно проверка на юзера
-     */
-    static Init(req: MainRequest, resp: any, bNeedAuth?: boolean): Promise<BaseCtrl>;
 }
