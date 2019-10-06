@@ -265,7 +265,7 @@ export class UserSQL extends BaseSQL
                 u.email,
                 u.phone
             FROM ${UserE.NAME} u
-            WHERE u.user_id= :user_id
+            WHERE u.id= :user_id
             LIMIT 1
         `;
 
@@ -282,7 +282,7 @@ export class UserSQL extends BaseSQL
 
         } catch (e){
             ok = false;
-            this.errorSys.error('api_key_in_db', 'Не удалось проверить token');
+            this.errorSys.errorEx(e, 'api_key_in_db', 'Не удалось проверить token');
         }
 
         return resp;
@@ -304,14 +304,14 @@ export class UserSQL extends BaseSQL
             WHERE            
                 u.login= :login
             AND
-                u.pass= :pass 
+                u.pswd= :pswd 
             LIMIT 1
         `;
 
         try {
             let result = await this.db.raw(sql, {
                 'login': sLogin,
-                'pass': HashFunc.fPassToHash(sPass),
+                'pswd': HashFunc.fPassToHash(sPass),
             });
             res = result[0][0]['token'];
         } catch (e) {

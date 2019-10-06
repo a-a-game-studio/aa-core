@@ -4,6 +4,37 @@ import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import * as System from '../../../Namespace/System';
 
 // =======================================================
+/** Получить информацию о себе */
+export namespace getSelfUserInfo {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        one_user_info: UserI; // пользователь
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+// =======================================================
 /** Получить информацию о пользователе */
 export namespace getUserInfo {
 
@@ -29,21 +60,11 @@ export namespace getUserInfo {
         // =======================================
 
         // Проверка с какой записи получать данные
-        rules.set(rules.rule('login')
+        rules.set(rules.rule('user_id')
             .type(Components.ModelRulesT.int)
             .require()
-            .minLen(3)
-            .maxLen(100)
-            .errorEx('login', 'login')
-        );
-
-        // Сколько записей получать
-        rules.set(rules.rule('pswd')
-            .type(Components.ModelRulesT.int)
-            .require()
-            .minLen(6)
-            .maxLen(100)
-            .errorEx('pswd', 'pswd')
+            .more(0)
+            .errorEx('user_id', 'user_id')
         );
 
         // =======================================
@@ -84,7 +105,7 @@ export namespace login {
 
         // Проверка с какой записи получать данные
         rules.set(rules.rule('login')
-            .type(Components.ModelRulesT.int)
+            .type(Components.ModelRulesT.text)
             .require()
             .minLen(3)
             .maxLen(100)
@@ -93,7 +114,7 @@ export namespace login {
 
         // Сколько записей получать
         rules.set(rules.rule('pswd')
-            .type(Components.ModelRulesT.int)
+            .type(Components.ModelRulesT.text)
             .require()
             .minLen(6)
             .maxLen(100)

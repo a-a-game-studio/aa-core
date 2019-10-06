@@ -89,7 +89,6 @@ export class UserSys {
 		let userInfoList: any = {};
 		if (ok && ifAuth) { // Получаем информацию о пользователе по token
 			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
-			console.log('===>userInfoList',userInfoList);
 
 			if (!userInfoList) {
 				ok = false;

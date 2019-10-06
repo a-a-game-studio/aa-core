@@ -90,4 +90,17 @@ export class UserE
 
         return rules.get();
     }
+
+    /** Правила обновления таблицы */
+    public getRulesChangePswd(){
+
+        let rules = new Components.ModelRulesC();
+
+        rules.set(rules.rule('pswd')
+            .typeText()
+            .error(UserE.NAME + ' - email')
+        );
+
+        return rules.get();
+    }
 }

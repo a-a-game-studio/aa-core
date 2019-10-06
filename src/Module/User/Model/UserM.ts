@@ -35,6 +35,34 @@ export class UserM extends BaseM
         this.userGroupSQL = new UserGroupSQL(req);
     }
 
+    public async getSelfUserInfo(data:V.getSelfUserInfo.RequestI): Promise<V.getSelfUserInfo.ResponseI> {
+
+        data = <V.getSelfUserInfo.RequestI>V.getSelfUserInfo.valid(this.req, data);    
+
+        let ok = this.errorSys.isOk();
+
+        let idUser:number = this.userSys.getIdUser();
+
+        // --------------------------
+
+        let vUser = null;
+        if(ok){ // Получить пользователя по токену
+            vUser = await this.userSQL.fGetUserInfoById(idUser);
+        }
+        console.log(vUser);
+
+        // --------------------------
+
+        let out:V.getSelfUserInfo.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                one_user_info:vUser, // Список пользователей
+            };
+        }
+
+        return out;
+    }
+
     public async getUserInfo(data:V.getUserInfo.RequestI): Promise<V.getUserInfo.ResponseI> {
 
         data = <V.getUserInfo.RequestI>V.getUserInfo.valid(this.req, data);    

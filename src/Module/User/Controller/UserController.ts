@@ -45,7 +45,7 @@ export class UserController extends BaseCtrl {
 /**
  * Индексная страница
  */
-router.get('/user/', async (req: any, res: any) => {
+router.post('/user', async (req: any, res: any) => {
     const self = <UserController>await UserController.Init(req, res);
 
     let ok = self.userSys.isAccessRead(); // Проверка доступа
@@ -53,14 +53,14 @@ router.get('/user/', async (req: any, res: any) => {
     let out = null;
     if (ok) { // Получаем список пользователей
         try {
-            await self.userM.getUserInfo(req.body);
+            out = await self.userM.getSelfUserInfo(req.body);
         } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
 
     res.send(
-        self.responseSys.response(out, 'Список пользователей')
+        self.responseSys.response(out, 'Получить информацию о себе')
     );
 });
 
@@ -75,14 +75,36 @@ router.post('/user/get-user-info', async (req: any, res: any) => {
     let out = null;
     if (ok) { // Получаем список пользователей
         try {
-            await self.userM.getUserInfo(req.body);
+            out = await self.userM.getUserInfo(req.body);
         } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
     }
 
     res.send(
-        self.responseSys.response(out, 'Список пользователей')
+        self.responseSys.response(out, 'Получить информацию о пользователе')
+    );
+});
+
+/**
+ * Информация о харегисрированном пользователе
+ */
+router.post('/user/login', async (req: any, res: any) => {
+
+    const self = <UserController>await UserController.Init(req, res);
+    let ok = self.userSys.isAccessRead(); // Проверка доступа
+
+    let out = null;
+    if (ok) { // Получаем список пользователей
+        try {
+            out = await self.userM.login(req.body);
+        } catch (e) {
+            self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
+        }
+    }
+
+    res.send(
+        self.responseSys.response(out, 'Авторизация')
     );
 });
 
@@ -97,7 +119,7 @@ router.post('/user/register', async (req: any, res: any) => {
     let out = null;
     if (ok) { // Получаем список пользователей
         try {
-            // await self.userM.registerByLoginAndPass(req.body);
+            // out = await self.userM.registerByLoginAndPass(req.body);
         } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
@@ -119,7 +141,7 @@ router.post('/user/save', async (req: any, res: any) => {
     let out = null;
     if (ok) { // Получаем список пользователей
         try {
-            await self.userM.save(req.body);
+            out = await self.userM.save(req.body);
         } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }
