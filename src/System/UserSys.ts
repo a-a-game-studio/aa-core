@@ -89,20 +89,21 @@ export class UserSys {
 		let userInfoList: any = {};
 		if (ok && ifAuth) { // Получаем информацию о пользователе по token
 			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
+			console.log('===>userInfoList',userInfoList);
 
 			if (!userInfoList) {
 				ok = false;
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
 				this.userInfoList = userInfoList;
-				this.idUser = userInfoList['id'];
+				this.idUser = userInfoList['user_id'];
 			}
 		}
 
 
 		let userGroupsList: any = {};
 		if (ok && ifAuth) { // Получаем роли пользователя
-
+			
 			userGroupsList = await this.userGroupSQL.getUserGroupsByUserID(this.idUser);
 
 			if (!userGroupsList) {

@@ -7,14 +7,14 @@ import * as redisSys  from '../../../System/RedisSys';
 import { MainRequest } from '../../../System/MainRequest';
 
 // Сущьности и правила валидации
-import {GroupsE, GroupI} from '../Entity/GroupsE';
+import {GroupE, GroupI} from '../Entity/GroupE';
 import BaseSQL from '../../../System/BaseSQL';
 
 /**
  * Здесь методы для SQL запросов
  * - Группы пользователей
  */
-export class GroupsSQL extends BaseSQL
+export class GroupSQL extends BaseSQL
 {
 
     constructor(req:MainRequest) {
@@ -47,7 +47,7 @@ export class GroupsSQL extends BaseSQL
                 g.alias,
                 g.name,
                 g.descript
-            FROM ${GroupsE.NAME} g
+            FROM ${GroupE.NAME} g
             WHERE g.id = :id_group
             LIMIT 1
         `;
@@ -86,7 +86,7 @@ export class GroupsSQL extends BaseSQL
 
         let groupList = null;
         if( ok && !bCache ){ // Получаем весь список групп
-            groupList = await this.autoCache(`GroupsSQL.getAllGroups()`, 3600, async () => {
+            groupList = await this.autoCache(`GroupSQL.getAllGroups()`, 3600, async () => {
 
                 let groupList = null;
                 sql = `
@@ -94,7 +94,7 @@ export class GroupsSQL extends BaseSQL
                         g.id,
                         g.name,
                         g.alias
-                    FROM ${GroupsE.NAME} g
+                    FROM ${GroupE.NAME} g
                     ;
                 `;
 
@@ -116,6 +116,45 @@ export class GroupsSQL extends BaseSQL
     }
 
     // ========================================
+    // INSERT
+    // ========================================
+
+    /**
+     * Добавить группу
+     *
+     * @return boolean
+     */
+    public async addGroup(data:GroupI): Promise<number>{
+        let ok = this.errorSys.isOk();
+        // Декларация ошибок
+        this.errorSys.declare([
+            'add_group'
+        ]);
+
+        let vGroupE = new GroupE();
+        let idGroup = 0;
+        if( ok && this.modelValidatorSys.fValid(vGroupE.getRulesInsert(), data) ){
+
+            try{
+                idGroup = (await this.db(GroupE.NAME)
+                    .insert(this.modelValidatorSys.getResult())
+                )[0];
+
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'add_group', 'Не удалось добавить группу');
+            }
+
+        }
+
+        if( ok ){ // Удалить связанный кеш
+            this.clearCache('GroupSQL*');
+        }
+
+        return idGroup;
+    }
+
+    // ========================================
     // UPDATE
     // ========================================
 
@@ -133,12 +172,12 @@ export class GroupsSQL extends BaseSQL
             'save_group'
         ]);
 
-        let vGroupsE = new GroupsE();
-        if( ok && this.modelValidatorSys.fValid(vGroupsE.getRulesUpdate(), data) ){
+        let vGroupE = new GroupE();
+        if( ok && this.modelValidatorSys.fValid(vGroupE.getRulesUpdate(), data) ){
 
             let resp = null;
             try{
-                resp = await this.db(GroupsE.NAME)
+                resp = await this.db(GroupE.NAME)
                     .where({
                         id: idGroup
                     })
@@ -152,11 +191,52 @@ export class GroupsSQL extends BaseSQL
 
         let aRelatedKeyRedis = [];
         if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('GroupsSQL*');
+            aRelatedKeyRedis = await this.redisSys.keys('GroupSQL*');
             this.redisSys.del(aRelatedKeyRedis);
         }
 
         return ok;
     }
 
+    // ========================================
+    // DELETE
+    // ========================================
+
+
+    /**
+     * удалить группу по ID
+     *
+     * @param string aliasCtrlAccess
+     * @return boolean
+     */
+    public async delGroupByID(idGroup:number): Promise<boolean>{
+        let ok = this.errorSys.isOk();
+
+        // Декларация ошибок
+        this.errorSys.declareEx({
+            'del_group':'Не удалось удалить группу'
+        });
+
+        if( ok ){
+            try{
+                await this.db(GroupE.NAME)
+                    .where({
+                        id: idGroup,
+                    })
+                    .limit(1)
+                    .del()
+                ;
+
+            } catch (e){
+                ok = false;
+                this.errorSys.errorEx(e, 'del_group', 'Не удалось удалить группу');
+            }
+        }
+
+        if( ok ){ // Удаляем связный кеш
+            this.clearCache('GroupSQL*');
+        }
+
+        return ok;
+    }
 }

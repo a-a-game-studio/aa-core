@@ -69,7 +69,13 @@ export class UserSQL extends BaseSQL
         if(ok){
             sql = `
                 SELECT
-                    u.*
+                    u.id as user_id,
+                    u.name,
+                    u.surname,
+                    u.patronymic,
+                    u.login,
+                    u.email,
+                    u.phone
                 FROM ${UserE.NAME} u
                 WHERE
                     CASE WHEN :if_search_username THEN u.name LIKE :search_username ELSE true END
@@ -118,7 +124,13 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.*
+                u.id as user_id,
+                u.name,
+                u.surname,
+                u.patronymic,
+                u.login,
+                u.email,
+                u.phone
             FROM ${UserE.NAME} u
             WHERE u.id = :user_id
             LIMIT 1
@@ -195,9 +207,13 @@ export class UserSQL extends BaseSQL
         if( ok ){
             let sql = `
                 SELECT  
-                    u.id,
+                    u.id as user_id,
                     u.name,
-                    u.email
+                    u.surname,
+                    u.patronymic,
+                    u.login,
+                    u.email,
+                    u.phone
                 FROM ${UserE.NAME} u
                 JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
 
@@ -241,7 +257,13 @@ export class UserSQL extends BaseSQL
 
         let sql = `
             SELECT 
-                u.*
+                u.id as user_id,
+                u.name,
+                u.surname,
+                u.patronymic,
+                u.login,
+                u.email,
+                u.phone
             FROM ${UserE.NAME} u
             WHERE u.user_id= :user_id
             LIMIT 1

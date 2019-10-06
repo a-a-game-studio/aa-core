@@ -4,7 +4,7 @@ import BaseM from '../../../System/BaseM';
 
 // Классы SQL Запросов
 import {UserSQL} from '../../../Infrastructure/SQL/Repository/UserSQL';
-import {GroupsSQL} from '../../../Infrastructure/SQL/Repository/GroupsSQL';
+import {GroupSQL} from '../../../Infrastructure/SQL/Repository/GroupSQL';
 
 // Валидация
 import * as V from '../Validator/GroupV';
@@ -18,14 +18,14 @@ export class GroupM extends BaseM
     /** @var SQL\UserSQL userSQL */
     private userSQL: UserSQL;
 
-    /** @var SQL\GroupsSQL groupsSQL */
-    private groupsSQL: GroupsSQL;
+    /** @var SQL\GroupSQL groupSQL */
+    private groupSQL: GroupSQL;
 
     constructor(req:any) {
         super(req);
 
         this.userSQL = new UserSQL(req);
-        this.groupsSQL = new GroupsSQL(req);
+        this.groupSQL = new GroupSQL(req);
     }
 
 
@@ -47,7 +47,7 @@ export class GroupM extends BaseM
 
         let allGroupsList = null;
         if( ok ){ // Получить список ролей
-            allGroupsList = await this.groupsSQL.getAllGroups();
+            allGroupsList = await this.groupSQL.getAllGroups();
 
             if( !allGroupsList ){
                 ok = false;
@@ -83,7 +83,7 @@ export class GroupM extends BaseM
 
         let groupList = null;
         if( ok ){ // Получить группу
-            groupList = await this.groupsSQL.getGroupByID(idGroup);
+            groupList = await this.groupSQL.getGroupByID(idGroup);
 
             if( !groupList ){
                 ok = false;
@@ -94,6 +94,35 @@ export class GroupM extends BaseM
         let out = null;
         if( ok ){ // Формирование ответа
             out = groupList;
+        }
+
+        return out;
+    }
+
+    /**
+     * Добавить группу
+     *
+     * @param array data
+     * @return array|null
+     */
+    public async addGroup(data:V.addGroup.RequestI): Promise<V.addGroup.ResponseI> {
+
+        data = <V.addGroup.RequestI>V.addGroup.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+
+        let idAddGroup:number = 0;
+        if( ok ){ // Получить группу
+            idAddGroup = await this.groupSQL.addGroup(data);
+            ok = this.errorSys.isOk();
+        }
+
+        let out:V.addGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                group_id:idAddGroup,
+            }
         }
 
         return out;
@@ -115,7 +144,7 @@ export class GroupM extends BaseM
 
         let bSaveGroup = false;
         if( ok ){ // Получить группу
-            bSaveGroup = await this.groupsSQL.saveGroup(idGroup, data);
+            bSaveGroup = await this.groupSQL.saveGroup(idGroup, data);
 
             if( !bSaveGroup ){
                 ok = false;
@@ -127,6 +156,36 @@ export class GroupM extends BaseM
         if( ok ){ // Формирование ответа
             out = {
                 cmd_save_group:bSaveGroup,
+            }
+        }
+
+        return out;
+    }
+
+    /**
+     * Удалить группу по ID
+     *
+     * @param array data
+     * @return array|null
+     */
+    public async delGroup(data:V.delGroup.RequestI): Promise<V.delGroup.ResponseI> {
+
+        data = <V.delGroup.RequestI>V.delGroup.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        let idGroup = data.group_id;
+
+        let bDelGroup = false;
+        if( ok ){ // Получить группу
+            bDelGroup = await this.groupSQL.delGroupByID(idGroup);
+            ok = this.errorSys.isOk();
+        }
+
+        let out:V.delGroup.ResponseI = null;
+        if( ok ){ // Формирование ответа
+            out = {
+                del_group:bDelGroup,
             }
         }
 

@@ -7,7 +7,7 @@ import { MainRequest } from '../../../System/MainRequest';
 // Системные сервисы
 import BaseSQL from '../../../System/BaseSQL';
 import { UserGroupE } from '../Entity/UserGroupE';
-import { GroupsE } from '../Entity/GroupsE';
+import { GroupE } from '../Entity/GroupE';
 
 /**
  * Здесь методы для SQL запросов
@@ -34,7 +34,7 @@ export class UserGroupSQL extends BaseSQL
 
         // Декларация ошибок
         this.errorSys.declareEx({
-            'get_role':'Не удалось группы пользователя'
+            'get_role':'Не удалось получить группы пользователя'
         });
 
         let aUserGroups = null; 
@@ -48,7 +48,7 @@ export class UserGroupSQL extends BaseSQL
                         g.alias,
                         g.name
                     FROM ${UserGroupE.NAME} ug
-                    JOIN ${GroupsE.NAME} g ON g.id = ug.group_id
+                    JOIN ${GroupE.NAME} g ON g.id = ug.group_id
                     WHERE
                         ug.user_id = :user_id;
                     ;

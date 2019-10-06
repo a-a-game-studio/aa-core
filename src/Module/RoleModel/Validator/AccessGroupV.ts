@@ -1,7 +1,7 @@
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import { MainRequest } from '../../../Namespace/System';
-import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
 import { AccessGroupI } from '../../../Infrastructure/SQL/Entity/AccessGroupE';
 import { CtrlAccessI } from '../../../Infrastructure/SQL/Entity/CtrlAccessE';
 

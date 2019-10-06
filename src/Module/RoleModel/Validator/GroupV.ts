@@ -2,7 +2,7 @@
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import * as System from '../../../Namespace/System';
-import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
 
 // =======================================================
 /** Получить информацию о группе */
@@ -79,6 +79,61 @@ export namespace getAllGroups {
 }
 
 
+// =======================================================
+/** Добавить группу */
+export namespace addGroup {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        name: string; // Наименование группы
+        alias: string; // Псевдоним
+        descript?: string; // Описание
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        group_id: number; // Информация по группе
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // Имя
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .errorEx('name', 'name')
+        );
+
+        // Псевдоним
+        rules.set(rules.rule('alias')
+            .require()
+            .type(Components.ModelRulesT.text)
+            .errorEx('alias', 'alias')
+        );
+
+        // Описание
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
+            .errorEx('descript', 'descript')
+        );
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
 
 // =======================================================
 /** Сохранить группу */
@@ -132,6 +187,48 @@ export namespace saveGroup {
         rules.set(rules.rule('descript')
             .type(Components.ModelRulesT.text)
             .errorEx('descript', 'descript')
+        );
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+// =======================================================
+/** Удалить группу */
+export namespace delGroup {
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        group_id: number; // ID группы
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        del_group: boolean; // Информация по группе
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // ID группы
+        rules.set(rules.rule('group_id')
+            .type(Components.ModelRulesT.int)
+            .require()
+            .moreOrEq(0)
+            .errorEx('group_id', 'group_id')
         );
 
         // =======================================
