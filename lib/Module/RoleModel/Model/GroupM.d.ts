@@ -7,8 +7,8 @@ import * as V from '../Validator/GroupV';
 export declare class GroupM extends BaseM {
     /** @var SQL\UserSQL userSQL */
     private userSQL;
-    /** @var SQL\GroupsSQL groupsSQL */
-    private groupsSQL;
+    /** @var SQL\GroupSQL groupSQL */
+    private groupSQL;
     constructor(req: any);
     /**
      * Получить список ролей/группы
@@ -25,10 +25,24 @@ export declare class GroupM extends BaseM {
      */
     getGroupByID(data: V.getGroupByID.RequestI): Promise<V.getGroupByID.ResponseI>;
     /**
+     * Добавить группу
+     *
+     * @param array data
+     * @return array|null
+     */
+    addGroup(data: V.addGroup.RequestI): Promise<V.addGroup.ResponseI>;
+    /**
      * Получить сокращенную иформацию группы по ID
      *
      * @param array data
      * @return array|null
      */
     saveGroup(data: V.saveGroup.RequestI): Promise<V.saveGroup.ResponseI>;
+    /**
+     * Удалить группу по ID
+     *
+     * @param array data
+     * @return array|null
+     */
+    delGroup(data: V.delGroup.RequestI): Promise<V.delGroup.ResponseI>;
 }

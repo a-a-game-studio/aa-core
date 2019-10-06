@@ -10,6 +10,7 @@ export declare class UserM extends BaseM {
     private userTokenSQL;
     private userGroupSQL;
     constructor(req: any);
+    getSelfUserInfo(data: V.getSelfUserInfo.RequestI): Promise<V.getSelfUserInfo.ResponseI>;
     getUserInfo(data: V.getUserInfo.RequestI): Promise<V.getUserInfo.ResponseI>;
     login(data: V.login.RequestI): Promise<V.login.ResponseI>;
     register(data: V.register.RequestI): Promise<V.register.ResponseI>;

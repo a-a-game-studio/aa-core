@@ -1,5 +1,5 @@
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
-import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupsE';
+import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
 import { System } from '../../..';
 /** Получить Список пользователей */
 export declare namespace getUserList {

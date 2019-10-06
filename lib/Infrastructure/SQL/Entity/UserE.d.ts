@@ -32,4 +32,8 @@ export declare class UserE {
     getRulesUpdate(): {
         [key: string]: any;
     };
+    /** Правила обновления таблицы */
+    getRulesChangePswd(): {
+        [key: string]: any;
+    };
 }

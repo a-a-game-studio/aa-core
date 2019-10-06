@@ -7,6 +7,9 @@ import * as System from './Namespace/System'
 // Подключене системных файлов
 import * as Middleware from './Namespace/Middleware'
 
+// Подключене SQL запросов
+import * as SQL from './Namespace/SQL'
+
 // Подключение компонентной библиотеки
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 
@@ -18,6 +21,7 @@ import { AppDefaultMigration } from './AppDefaultMigration';
 
 export {
     Controller,
+    SQL,
     System,
     AAClasses, // Общие компоненты
     Middleware,
