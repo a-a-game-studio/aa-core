@@ -11,7 +11,7 @@ export namespace getCtrlAccessOfGroupByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id: number; // ID группы
+        id_group: number; // ID группы
     }
 
     /** Параметры api ответа */
@@ -31,11 +31,11 @@ export namespace getCtrlAccessOfGroupByID {
         // =======================================
 
         // Проверка с какой записи получать данные
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
 
@@ -55,7 +55,7 @@ export namespace getUserByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id: number; // ID пользователя
+        id_user: number; // ID пользователя
     }
 
     /** Параметры api ответа */
@@ -76,11 +76,11 @@ export namespace getUserByID {
 
 
         // Сколько записей получать
-        rules.set(rules.rule('user_id')
+        rules.set(rules.rule('id_user')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('user_id', 'user_id')
+            .errorEx('id_user', 'id_user')
         );
 
         // =======================================
@@ -99,7 +99,7 @@ export namespace getUserGroupsByUserID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        user_id: number; // ID пользователя
+        id_user: number; // ID пользователя
     }
 
     /** Параметры api ответа */
@@ -120,11 +120,11 @@ export namespace getUserGroupsByUserID {
 
 
         // Сколько записей получать
-        rules.set(rules.rule('user_id')
+        rules.set(rules.rule('id_user')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('user_id', 'user_id')
+            .errorEx('id_user', 'id_user')
         );
 
         // =======================================
@@ -144,7 +144,7 @@ export namespace saveAccessGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        access_group_id: number; // ID параметров доступа
+        id_access_group: number; // ID параметров доступа
         create_access: boolean; // Разрешение на создание
         read_access: boolean; // Разрешение на чтение
         update_access: boolean; // Разрешение на обнление
@@ -169,11 +169,11 @@ export namespace saveAccessGroup {
 
 
         // ID параметров доступа
-        rules.set(rules.rule('access_group_id')
+        rules.set(rules.rule('id_access_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('access_group_id', 'access_group_id')
+            .errorEx('id_access_group', 'id_access_group')
         );
 
         // Разрешение на создание
@@ -215,8 +215,8 @@ export namespace addCtrlAccessToGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id: number;
-        group_id: number;
+        id_ctrl_access: number;
+        id_group: number;
     }
 
     /** Параметры api ответа */
@@ -235,20 +235,20 @@ export namespace addCtrlAccessToGroup {
 
         // =======================================
         // ID контроллера
-        rules.set(rules.rule('ctrl_access_id')
+        rules.set(rules.rule('id_ctrl_access')
             .type(Components.ModelRulesT.int)
             .require()
             .more(0)
-            .errorEx('ctrl_access_id', 'ctrl_access_id')
+            .errorEx('id_ctrl_access', 'id_ctrl_access')
         );
 
         // =======================================
         // ID группы
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .more(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
 
@@ -268,8 +268,8 @@ export namespace delCtrlAccessFromGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id: number;
-        group_id: number;
+        id_ctrl_access: number;
+        id_group: number;
     }
 
     /** Параметры api ответа */
@@ -288,20 +288,20 @@ export namespace delCtrlAccessFromGroup {
 
         // =======================================
         // ID контроллера
-        rules.set(rules.rule('ctrl_access_id')
+        rules.set(rules.rule('id_ctrl_access')
             .type(Components.ModelRulesT.int)
             .require()
             .more(0)
-            .errorEx('ctrl_access_id', 'ctrl_access_id')
+            .errorEx('id_ctrl_access', 'id_ctrl_access')
         );
 
         // =======================================
         // ID группы
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .more(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
 

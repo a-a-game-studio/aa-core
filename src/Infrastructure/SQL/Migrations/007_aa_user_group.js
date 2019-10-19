@@ -8,10 +8,10 @@ exports.up = async function(knex, Promise) {
     await knex.schema.createTable('aa_user_group', (table) => {
         table.increments('id');
 
-        table.integer('user_id').index('user_id')
+        table.integer('id_user').index('id_user')
             .comment('ID пользователя');
 
-        table.integer('group_id').index('group_id')
+        table.integer('id_group').index('id_group')
             .comment('ID группы');
 
         table.dateTime('created_at').index('created_at')
@@ -31,8 +31,8 @@ exports.up = async function(knex, Promise) {
     await knex('aa_user_group')
         .insert([
             {
-                user_id: 1,
-                group_id: 1,
+                id_user: 1,
+                id_group: 1,
             },
         ])
     ;

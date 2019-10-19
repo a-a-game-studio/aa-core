@@ -43,20 +43,20 @@ export class AccessGroupSQL extends BaseSQL
         if( ok ){ // Получить список модулей доступных группе по ID Группы
             let sql = `
                 SELECT
-                    ag.id access_group_id,
-                    ag.group_id,
-                    ag.ctrl_access_id,
+                    ag.id id_access_group,
+                    ag.id_group,
+                    ag.id_ctrl_access,
                     ag.create_access,
                     ag.read_access,
                     ag.update_access,
                     ag.delete_access,
-                    ag.id access_group_id,
+                    ag.id id_access_group,
                     ca.alias,
                     ca.name,
                     ca.descript
                 FROM ${AccessGroupE.NAME} ag
-                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
-                WHERE ag.group_id = :id_group
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.id_ctrl_access
+                WHERE ag.id_group = :id_group
                 ;
             `;
 
@@ -108,18 +108,18 @@ export class AccessGroupSQL extends BaseSQL
                     SUM(ag.update_access) 'update',
                     SUM(ag.delete_access) 'delete'
                 FROM ${AccessGroupE.NAME} ag
-                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.id_ctrl_access
                 WHERE
-                    ag.group_id IN (${sIdsGroup})
+                    ag.id_group IN (${sIdsGroup})
                 AND
-                    ag.ctrl_access_id = :ctrl_access_id
+                    ag.id_ctrl_access = :id_ctrl_access
                 ;
             `;
 
 
             try{
                 aAccessCRUD = (await this.db.raw(sql, {
-                    'ctrl_access_id': idCtrlAccess
+                    'id_ctrl_access': idCtrlAccess
                 }))[0];
 
                 aAccessCRUD = aAccessCRUD[0];
@@ -174,11 +174,11 @@ export class AccessGroupSQL extends BaseSQL
                 SELECT
                     count(*) cnt
                 FROM ${AccessGroupE.NAME} ag
-                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.ctrl_access_id
+                JOIN ${CtrlAccessE.NAME} ca ON ca.id = ag.id_ctrl_access
                 WHERE
-                    ag.group_id IN (${sIdsGroup})
+                    ag.id_group IN (${sIdsGroup})
                 AND
-                    ag.ctrl_access_id = :ctrl_access_id
+                    ag.id_ctrl_access = :id_ctrl_access
                 LIMIT 1
                 ;
             `;
@@ -186,7 +186,7 @@ export class AccessGroupSQL extends BaseSQL
             let resp = [];
             try{
                 resp = (await this.db.raw(sql, {
-                    'ctrl_access_id': idCtrlAccess
+                    'id_ctrl_access': idCtrlAccess
                 }))[0];
 
                 bAccess = Boolean(resp[0]['cnt']);
@@ -227,8 +227,8 @@ export class AccessGroupSQL extends BaseSQL
             try{
                 resp = await this.db(AccessGroupE.NAME)
                     .insert({
-                        group_id: idGroup,
-                        ctrl_access_id: idCtrlAccess,
+                        id_group: idGroup,
+                        id_ctrl_access: idCtrlAccess,
                     });
 
                 idAccessGroup = resp[0];
@@ -317,8 +317,8 @@ export class AccessGroupSQL extends BaseSQL
             try{
                 resp = await this.db(AccessGroupE.NAME)
                     .where({
-                        group_id: idGroup,
-                        ctrl_access_id: idCtrlAccess,
+                        id_group: idGroup,
+                        id_ctrl_access: idCtrlAccess,
                     })
                     .limit(1)
                     .del();
@@ -368,16 +368,16 @@ export class AccessGroupSQL extends BaseSQL
                     COUNT(*) cnt
                 FROM ${AccessGroupE.NAME} ag
                 WHERE
-                    ag.group_id = :group_id
+                    ag.id_group = :id_group
                 AND
-                    ag.ctrl_access_id = :ctrl_access_id
+                    ag.id_ctrl_access = :id_ctrl_access
                 LIMIT 1
             `;
 
             try{
                 resp = (await this.db.raw(sql, {
-                    'group_id': idGroup,
-                    'ctrl_access_id': idCtrlAccess
+                    'id_group': idGroup,
+                    'id_ctrl_access': idCtrlAccess
                 }))[0];
 
                 cntAccessGroup = Number(resp[0]['cnt']);

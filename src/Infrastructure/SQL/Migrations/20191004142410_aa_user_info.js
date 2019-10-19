@@ -12,7 +12,7 @@ exports.up = async function (knex, Promise) {
     await knex.schema.createTable('aa_user_info', (table) => {
         table.increments('id');
 
-        table.integer('user_id').index('user_id')
+        table.integer('id_user').index('id_user')
             .comment('ID пользователя');
 
         table.date('birthday')
@@ -57,7 +57,7 @@ exports.up = async function (knex, Promise) {
     await knex('aa_user_info')
         .insert([
             {
-                user_id:user.id
+                id_user:user.id
             },
         ]);
 

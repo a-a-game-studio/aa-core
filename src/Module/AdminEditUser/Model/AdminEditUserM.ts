@@ -4,41 +4,43 @@ import BaseM from '../../../System/BaseM';
 
 // Классы SQL Запросов
 import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
-import { UserTokenSQL } from '../../../Infrastructure/SQL/Repository/UserTokenSQL';
-import { UserSMSCodeSQL } from '../../../Infrastructure/SQL/Repository/UserSMSCodeSQL';
 import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQL';
 
 // Валидация
-import * as V from '../Validator/UserV';
+import * as V from '../Validator/AdminEditUserV';
 
 // Интерфейсы и сущьности
 import { UserI, UserIDs } from '../../../Infrastructure/SQL/Entity/UserE';
+import { UserGroupI } from '../../../Infrastructure/SQL/Entity/UserGroupE';
+import { GroupSQL } from '../../../Infrastructure/SQL/Repository/GroupSQL';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
  * Внутри метода делаем нужную бизнес логику
  */
-export class UserM extends BaseM
+export class AdminEditUserM extends BaseM
 {
 
     private userSQL: UserSQL;
-    private userSMSCode: UserSMSCodeSQL;
-    private userTokenSQL: UserTokenSQL;
+    private groupSQL: GroupSQL;
     private userGroupSQL: UserGroupSQL;
 
     constructor(req:any) {
         super(req);
 
         this.userSQL = new UserSQL(req);
-        this.userTokenSQL = new UserTokenSQL(req);
-        this.userSMSCode = new UserSMSCodeSQL(req);
+        this.groupSQL = new GroupSQL(req);
         this.userGroupSQL = new UserGroupSQL(req);
     }
 
 
-    public async getUserList(data:V.getUserList.RequestI): Promise<V.getUserList.ResponseI> {
+    /**
+     * Получить стартовые данные для работы страницы
+     * @param data 
+     */
+    public async init(data:V.init.RequestI): Promise<V.init.ResponseI> {
 
-        data = <V.getUserList.RequestI>V.getUserList.valid(this.req, data);    
+        data = <V.init.RequestI>V.init.valid(this.req, data);    
 
         let ok = this.errorSys.isOk();
 
@@ -73,10 +75,13 @@ export class UserM extends BaseM
 
         
 
-        let out:V.getUserList.ResponseI = null;
+        let out:V.init.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                list_user:aUserList // Список пользователей
+                is_admin:true,
+                count_user:100,
+                list_user:aUserList, // Список пользователей
+                list_group:[] // Список всех групп
             };
         }
 
@@ -84,14 +89,14 @@ export class UserM extends BaseM
     }
 
     /**
-     * Получить пользователя по ID
+     * Выбрать пользователя
      *
      * @param array data
      * @return array|null
      */
-    public async getUserByID(data:V.getUserByID.RequestI): Promise<V.getUserByID.ResponseI> {
+    public async selectUser(data:V.selectUser.RequestI): Promise<V.selectUser.ResponseI> {
 
-        data = <V.getUserByID.RequestI>V.getUserByID.valid(this.req, data);
+        data = <V.selectUser.RequestI>V.selectUser.valid(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -102,10 +107,16 @@ export class UserM extends BaseM
             vUser = await this.userSQL.getUserByID(idUser);
         }
 
-        let out:V.getUserByID.ResponseI = null;
+        let aUserGroups:UserGroupI[] = null;
+        if (ok) { // Получить список ролей пользователя
+            aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
+        }
+
+        let out:V.selectUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                one_user:vUser
+                one_user:vUser,
+                list_user_group:aUserGroups
             };
         }
 
@@ -115,30 +126,28 @@ export class UserM extends BaseM
     // =======================================
 
     /**
-     * Получить список ролей пользователя
+     * Выбрать группу
      *
      * @param array data
      * @return array|null
      */
-    public async getUserGroupsByUserID(data:V.getUserGroupsByUserID.RequestI): Promise<V.getUserGroupsByUserID.ResponseI> {
+    public async selectGroup(data:V.selectGroup.RequestI): Promise<V.selectGroup.ResponseI> {
 
-        data = <V.getUserGroupsByUserID.RequestI>V.getUserGroupsByUserID.valid(this.req, data);
+        data = <V.selectGroup.RequestI>V.selectGroup.valid(this.req, data);
 
         let ok = this.errorSys.isOk();
 
-        let idUser = data.id_user
+        let idGroup = data.id_group;
 
-        let aUserGroups = [];
+        let oneGroup = [];
         if (ok) { // Получить список ролей пользователя
-
-            aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
-
+            oneGroup = await this.groupSQL.getGroupByID(idGroup);
         }
 
-        let out:V.getUserGroupsByUserID.ResponseI = null;
+        let out:V.selectGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                list_group:aUserGroups
+                one_group:oneGroup
             }
         }
 
@@ -157,28 +166,24 @@ export class UserM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        // Декларирование ошибок
-        this.errorSys.declareEx({
-            'add_role_to_user':'Не удалось добавить роль пользователю'
-        });
-
         let idUser = data.id_user;
         let idGroup = data.id_group;
 
         let idAddUserToGroup = 0; // ID Связи между пользователем и группой
         if (ok) { // Получить список ролей пользователя
             idAddUserToGroup = await this.userGroupSQL.addUserToGroup(idUser, idGroup);
+        }
 
-            if (!idAddUserToGroup) {
-                ok = false;
-                this.errorSys.err('add_role_to_user');
-            }
+        let aUserGroups:UserGroupI[] = null;
+        if (ok) { // Получить список ролей пользователя
+            aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
         }
 
         let out:V.addUserToGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                cmd_add_user_to_group:idAddUserToGroup
+                add_user_to_group:idAddUserToGroup,
+                list_user_group:aUserGroups
             };
         }
 
@@ -197,115 +202,28 @@ export class UserM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        // Декларирование ошибок
-        this.errorSys.declareEx({
-            'del_role_to_user':'Не удалось убрать роль пользователю'
-        });
-
         let idUser = data.id_user;
         let idGroup = data.id_group;
 
         let bDelUserFromGroup = false;
         if (ok) { // Получить список ролей пользователя
             bDelUserFromGroup = await this.userGroupSQL.delUserFromGroup(idUser, idGroup);
+        }
 
-            if (!bDelUserFromGroup) {
-                ok = false;
-                this.errorSys.error('del_role_to_user', 'Не удалось убрать роль пользователю');
-            }
+        let aUserGroups:UserGroupI[] = null;
+        if (ok) { // Получить список ролей пользователя
+            aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
         }
 
         let out:V.delUserFromGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                cmd_del_user_from_group:bDelUserFromGroup
+                del_user_from_group:bDelUserFromGroup,
+                list_user_group:aUserGroups
             };
         }
 
         return out;
-    }
-
-
-    /**
-     *  выдает инфу по юзеру по token 
-     */
-    public async fGetUserInfoByToken(token = '') {
-        let resp;
-        // Декларирование ошибок
-        this.errorSys.declare([
-            'invalid_token', // Что-то не так с длиной ключа
-            'invalid_user', //Пользователь не найден
-        ]);
-        try {
-            if (token.length < 4) {
-                this.errorSys.error('invalid_token', 'Что-то не так с длиной ключа');
-                throw "invalid_token";
-            }
-
-            resp = await this.userSQL.fGetUserInfoByToken(token);
-
-            if (!resp) {
-                this.errorSys.error('invalid_user', 'Пользователь не найден');
-                throw "invalid_user";
-            }
-
-        } catch (e) {
-
-        }
-
-        return resp;
-
-    }
-
-
-    /**
-     * Получить apikey по номеру телефона или SMS
-     * @param data 
-     */
-    public async getTokenByPhoneAndSms(data:V.getTokenByPhoneAndSms.RequestI): Promise<V.getTokenByPhoneAndSms.ResponseI> {
-
-        data = <V.getTokenByPhoneAndSms.RequestI>V.getTokenByPhoneAndSms.valid(this.req, data);
-
-        let ok = this.errorSys.isOk();
-
-        // Декларирование ошибок
-        this.errorSys.declareEx({
-            'get_user_by_phone_and_sms':'Не удалось найти пользователя'
-        });
-
-        let idUser = 0;
-        if( ok ){ /* пытаемся получить apiKey моделью */
-
-            idUser = await this.userSMSCode.getUserIdByPhoneAndSms(data.phone, data.sms);
-
-            if(!idUser){
-                ok = false;
-                this.errorSys.error('sms', 'Не удалось найти пользователя');
-            }
-        }
-
-        let apikey = null;
-        if( ok ){ // Получить token пользователя
-            /* проверяем есть ли уже такой юзера с ключем */
-            apikey = await this.userTokenSQL.getUserApiKey(idUser);
-
-            if (!apikey) {
-                /* если в первый раз */
-                /* юзер есть генерим ему apiKey тк это действие делается после регистрации */
-                apikey = await this.userTokenSQL.insertUserApiKey(idUser);
-            }
-        }
-
-
-        let out:V.getTokenByPhoneAndSms.ResponseI = null;
-        if (ok) { // Формирование ответа
-            out = {
-                state_token:apikey
-            };
-        }
-
-        return out;
-
     }
 
     public async addUser(data:V.addUser.RequestI): Promise<V.addUser.ResponseI> {
@@ -337,10 +255,10 @@ export class UserM extends BaseM
 
         // --------------------------
 
-        let bConfirmRegister = false;
+        let bAddUser = false;
         if(ok){ // Подтвердить регистрацию
-            bConfirmRegister = await this.userSQL.faConfirmRegisterByID(vUserIDs.id_user);
-            if(!bConfirmRegister){
+            bAddUser = await this.userSQL.faConfirmRegisterByID(vUserIDs.id_user);
+            if(!bAddUser){
                 ok = false;
                 this.errorSys.error('confirm_user', 'Не удалось получить подтвердить регистрацию');
             }
@@ -356,7 +274,7 @@ export class UserM extends BaseM
         let out:V.addUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                cmd_confirm_register:bConfirmRegister, // Подтверждение регистрации
+                add_user:bAddUser, // Подтверждение регистрации
                 list_user:listUser // Список пользователей
             };
         }

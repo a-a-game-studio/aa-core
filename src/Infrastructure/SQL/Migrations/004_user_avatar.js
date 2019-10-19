@@ -8,7 +8,7 @@ exports.up = async function (knex, Promise) {
     await knex.schema.createTable('aa_user_avatar', (table) => {
         table.increments('id');
 
-        table.integer('user_id').index('user_id')
+        table.integer('id_user').index('id_user')
             .comment('ID пользователя');
 
         table.string('filename', 1024)

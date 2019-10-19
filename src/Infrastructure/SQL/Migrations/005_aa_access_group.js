@@ -8,10 +8,10 @@ exports.up = async function(knex, Promise) {
     await knex.schema.createTable('aa_access_group', (table) => {
         table.increments('id');
 
-        table.integer('group_id').index('group_id')
+        table.integer('id_group').index('id_group')
             .comment('ID группы');
 
-        table.integer('ctrl_access_id').index('ctrl_access_id')
+        table.integer('id_ctrl_access').index('id_ctrl_access')
             .comment('ID контроллера');
 
         table.boolean('create_access').index('create_access')
@@ -47,8 +47,8 @@ exports.up = async function(knex, Promise) {
     await knex('aa_access_group')
         .insert([
             {
-                group_id: 1,
-                ctrl_access_id: 1,
+                id_group: 1,
+                id_ctrl_access: 1,
                 create_access: 1,
                 read_access: 1,
                 update_access: 1,

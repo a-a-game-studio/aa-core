@@ -5,7 +5,7 @@ import { Components } from '@a-a-game-studio/aa-classes/lib';
  * Описание идентификаторов и связей пользователя
  */
 export interface UserIDs{
-    user_id?:number;
+    id_user?:number;
     login?:string;
     name?:string;
     email?:string;
@@ -19,6 +19,7 @@ export interface UserIDs{
  */
 export interface UserI{
     id?:number;
+    id_user?:number;
     login?:string;
     name?:string;
     surname?: string;

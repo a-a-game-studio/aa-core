@@ -10,7 +10,7 @@ export namespace getGroupByID {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id: number; // ID группы
+        id_group: number; // ID группы
     }
 
     /** Параметры api ответа */
@@ -30,11 +30,11 @@ export namespace getGroupByID {
         // =======================================
 
         // ID группы
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
         // =======================================
@@ -92,7 +92,7 @@ export namespace addGroup {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        group_id: number; // Информация по группе
+        id_group: number; // Информация по группе
     }
 
     /**
@@ -141,7 +141,7 @@ export namespace saveGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id: number; // ID группы
+        id_group: number; // ID группы
         name?: string; // Наименование группы
         alias?: string; // Псевдоним
         descript?: string; // Описание
@@ -164,11 +164,11 @@ export namespace saveGroup {
         // =======================================
 
         // ID группы
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
         // Имя
@@ -204,7 +204,7 @@ export namespace delGroup {
 
     /** Параметры api запроса */
     export interface RequestI {
-        group_id: number; // ID группы
+        id_group: number; // ID группы
     }
 
     /** Параметры api ответа */
@@ -224,11 +224,11 @@ export namespace delGroup {
         // =======================================
 
         // ID группы
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
         // =======================================

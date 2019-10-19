@@ -79,7 +79,7 @@ export class GroupM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idGroup = data.group_id;
+        let idGroup = data.id_group;
 
         let groupList = null;
         if( ok ){ // Получить группу
@@ -121,7 +121,7 @@ export class GroupM extends BaseM
         let out:V.addGroup.ResponseI = null;
         if( ok ){ // Формирование ответа
             out = {
-                group_id:idAddGroup,
+                id_group:idAddGroup,
             }
         }
 
@@ -140,7 +140,7 @@ export class GroupM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idGroup = data.group_id;
+        let idGroup = data.id_group;
 
         let bSaveGroup = false;
         if( ok ){ // Получить группу
@@ -174,7 +174,7 @@ export class GroupM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idGroup = data.group_id;
+        let idGroup = data.id_group;
 
         let bDelGroup = false;
         if( ok ){ // Получить группу

@@ -34,7 +34,7 @@ export namespace getCtrlAccessByAlias {
             .require()
             .minLen(3)
             .maxLen(50)
-            .errorEx('group_id', 'group_id')
+            .errorEx('id_group', 'id_group')
         );
 
         // =======================================
@@ -84,7 +84,7 @@ export namespace saveCtrlAccess {
 
     /** Параметры api запроса */
     export interface RequestI {
-        ctrl_access_id:number; // ID контроллера доступа - который обновляем
+        id_ctrl_access:number; // ID контроллера доступа - который обновляем
         alias?:string; // Псевдоним
         name?:string; // Имя контроллера
         descript?:string; // Описание
@@ -106,10 +106,10 @@ export namespace saveCtrlAccess {
 
         // =======================================
         // ID группы
-        rules.set(rules.rule('ctrl_access_id')
+        rules.set(rules.rule('id_ctrl_access')
             .type(Components.ModelRulesT.int)
             .require()
-            .errorEx('ctrl_access_id', 'ctrl_access_id')
+            .errorEx('id_ctrl_access', 'id_ctrl_access')
         );
 
         // =======================================

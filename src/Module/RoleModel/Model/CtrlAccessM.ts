@@ -122,7 +122,7 @@ export class CtrlAccessM extends BaseM
             'save_ctrl_access':'Не удалось сохранить данные группы'
         });
 
-        let idCtrlAccess = data.ctrl_access_id;
+        let idCtrlAccess = data.id_ctrl_access;
 
 
         let bCtrlAccess = false;

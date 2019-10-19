@@ -69,7 +69,7 @@ export class UserM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idUser:number = data.user_id;
+        let idUser:number = data.id_user;
 
         // --------------------------
 
@@ -93,79 +93,6 @@ export class UserM extends BaseM
         return out;
     }
 
-
-    public async login(data:V.login.RequestI): Promise<V.login.ResponseI> {
-
-        data = <V.login.RequestI>V.login.valid(this.req, data);    
-
-        let ok = this.errorSys.isOk();
-
-        let sLogin = data.login;
-        let sPswd = data.pswd;
-
-        // --------------------------
-
-        let sToken:string = null;
-        if(ok){ // Получить токен по логину и паролю
-            sToken = await this.userSQL.faGetTokenByLoginAndPass(sLogin, sPswd);
-            if(!sToken){
-                this.errorSys.error('get_token', 'Не удалось получить токен');
-            }
-        }
-
-        // --------------------------
-
-        let vUser = null;
-        if(ok){ // Получить пользователя по токену
-            vUser = await this.userSQL.fGetUserInfoByToken(sToken);
-            if(!vUser){
-                this.errorSys.error('get_user_by_token', 'Не удалось получить пользователя по токену');
-            }
-        }
-
-        // --------------------------
-
-        let out:V.login.ResponseI = null;
-        if (ok) { // Формирование ответа
-            out = {
-                one_user:vUser, // Список пользователей
-                token:sToken // Токен
-            };
-        }
-
-        return out;
-    }
-
-    // =========================================
-
-    public async register(data:V.register.RequestI): Promise<V.register.ResponseI> {
-
-        data = <V.register.RequestI>V.register.valid(this.req, data);    
-
-        let ok = this.errorSys.isOk();
-
-        // --------------------------
-
-        let sToken:string = null;
-        if(ok){ // регистрируем пользователя
-            sToken = await this.userSQL.faRegister(data);
-            if(!sToken){
-                this.errorSys.error('get_token', 'Не удалось получить токен');
-            }
-        }
-
-        // --------------------------
-
-        let out:V.register.ResponseI = null;
-        if (ok) { // Формирование ответа
-            out = {
-                token:sToken // Токен
-            };
-        }
-
-        return out;
-    }
-
     // =====================================
 
     /**
@@ -178,7 +105,7 @@ export class UserM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idUser:number = data.user_id;
+        let idUser:number = data.id_user;
 
         // --------------------------
 

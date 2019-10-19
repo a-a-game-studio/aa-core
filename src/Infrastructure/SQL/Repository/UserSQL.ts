@@ -69,7 +69,7 @@ export class UserSQL extends BaseSQL
         if(ok){
             sql = `
                 SELECT
-                    u.id as user_id,
+                    u.id as id_user,
                     u.name,
                     u.surname,
                     u.patronymic,
@@ -124,7 +124,7 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.id as user_id,
+                u.id as id_user,
                 u.name,
                 u.surname,
                 u.patronymic,
@@ -132,13 +132,13 @@ export class UserSQL extends BaseSQL
                 u.email,
                 u.phone
             FROM ${UserE.NAME} u
-            WHERE u.id = :user_id
+            WHERE u.id = :id_user
             LIMIT 1
         `;
 
         try{
             resp = (await this.db.raw(sql, {
-                'user_id': idUser
+                'id_user': idUser
             }))[0][0];
 
         } catch (e){
@@ -167,13 +167,13 @@ export class UserSQL extends BaseSQL
 
         sql = `
             SELECT
-                u.id as user_id,
+                u.id as id_user,
                 u.name,
                 u.email,
                 u.phone,
                 ut.token
             FROM ${UserE.NAME} u
-            LEFT JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
+            LEFT JOIN ${UserTokenE.NAME} ut ON ut.id_user = u.id
             WHERE ut.token = :token
             LIMIT 1
         `;
@@ -207,7 +207,7 @@ export class UserSQL extends BaseSQL
         if( ok ){
             let sql = `
                 SELECT  
-                    u.id as user_id,
+                    u.id as id_user,
                     u.name,
                     u.surname,
                     u.patronymic,
@@ -215,7 +215,7 @@ export class UserSQL extends BaseSQL
                     u.email,
                     u.phone
                 FROM ${UserE.NAME} u
-                JOIN ${UserTokenE.NAME} ut ON ut.user_id = u.id
+                JOIN ${UserTokenE.NAME} ut ON ut.id_user = u.id
 
                 where ut.token = :token
 
@@ -245,8 +245,7 @@ export class UserSQL extends BaseSQL
     
 
     /* выдает инфу по юзеру по id */
-    public async fGetUserInfoById(userId:number)
-    {
+    public async fGetUserInfoById(userId:number):Promise<UserI>{
         let ok = true;
         let resp = null;
 
@@ -257,7 +256,7 @@ export class UserSQL extends BaseSQL
 
         let sql = `
             SELECT 
-                u.id as user_id,
+                u.id as id_user,
                 u.name,
                 u.surname,
                 u.patronymic,
@@ -265,13 +264,13 @@ export class UserSQL extends BaseSQL
                 u.email,
                 u.phone
             FROM ${UserE.NAME} u
-            WHERE u.id= :user_id
+            WHERE u.id= :id_user
             LIMIT 1
         `;
 
         try{
             resp = (await this.db.raw(sql, {
-                'user_id': userId,
+                'id_user': userId,
             }))[0];
 
             if (resp.length > 0) {
@@ -300,7 +299,7 @@ export class UserSQL extends BaseSQL
 
         let sql = `
             SELECT ut.token FROM ${UserE.NAME} u
-            JOIN ${UserTokenE.NAME} ut ON u.id=ut.user_id
+            JOIN ${UserTokenE.NAME} ut ON u.id=ut.id_user
             WHERE            
                 u.login= :login
             AND
@@ -361,7 +360,7 @@ export class UserSQL extends BaseSQL
             /* insert token */
             await this.db(UserTokenE.NAME)
                 .insert({
-                    user_id: idUser,
+                    id_user: idUser,
                     token: token,
                 });
 

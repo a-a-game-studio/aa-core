@@ -31,14 +31,14 @@ export class UserSMSCodeSQL extends BaseSQL
 
         // Декларация ошибок
         this.errorSys.declareEx({
-            'get_user_id_by_phone_and_sms':'Не удалось найти пользователя с таким телефоном'
+            'get_id_user_by_phone_and_sms':'Не удалось найти пользователя с таким телефоном'
         });
         
         let idUser:number = 0;
         if( ok ){ /* дата создания смски сегодня или никогда */
             let sql = `
                 SELECT 
-                    usc.user_id 
+                    usc.id_user 
                 FROM ${UserSmsCodeE.NAME} usc
                 WHERE
                     usc.phone= :phone
@@ -56,12 +56,12 @@ export class UserSMSCodeSQL extends BaseSQL
                 }))[0];
 
                 if (respUserList.length > 0) {
-                    idUser = respUserList[0]['user_id'];
+                    idUser = respUserList[0]['id_user'];
                 }
 
             } catch (e){
                 ok = false;
-                this.errorSys.errorEx(e, 'get_user_id_by_tel_and_sms', 'Не удалось найти пользователя с таким телефоном');
+                this.errorSys.errorEx(e, 'get_id_user_by_tel_and_sms', 'Не удалось найти пользователя с таким телефоном');
             }
         }
 

@@ -2,11 +2,17 @@
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import * as System from '../../../Namespace/System';
-import { router } from '../Controller/UserController';
+import { router } from '../Controller/LoginController';
 
 // =======================================================
-/** Получить информацию о себе */
-export namespace getSelfUserInfo {
+/** Начальные данные */
+export namespace init {
+
+    /** APIURL */
+    export const route = '/aa/login/init';
+
+    /** Alias действия */
+    export const action = 'init';
 
     /** Параметры api запроса */
     export interface RequestI {
@@ -14,7 +20,9 @@ export namespace getSelfUserInfo {
 
     /** Параметры api ответа */
     export interface ResponseI {
+        is_login:boolean;
         one_user_info: UserI; // пользователь
+        id_user:number;
     }
 
     /**
@@ -36,17 +44,26 @@ export namespace getSelfUserInfo {
 }
 
 // =======================================================
-/** Получить информацию о пользователе */
-export namespace getUserInfo {
+/** Залогиниться */
+export namespace login {
+
+    /** APIURL */
+    export const route = '/aa/login/login';
+
+    /** Alias действия */
+    export const action = 'login';
 
     /** Параметры api запроса */
     export interface RequestI {
-        id_user:number; // ID пользователя
+        login:string; // Псевдоним пользователя
+        pswd:string; // Пароль
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        one_user_info: UserI; // пользователь
+        is_login: boolean; // Статус авторизирован пользователь или нет
+        one_user: UserI; // пользователь
+        token:string; // Токен
     }
 
     /**
@@ -61,11 +78,21 @@ export namespace getUserInfo {
         // =======================================
 
         // Проверка с какой записи получать данные
-        rules.set(rules.rule('id_user')
-            .type(Components.ModelRulesT.int)
+        rules.set(rules.rule('login')
+            .type(Components.ModelRulesT.text)
             .require()
-            .more(0)
-            .errorEx('id_user', 'id_user')
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('login', 'login')
+        );
+
+        // Сколько записей получать
+        rules.set(rules.rule('pswd')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(6)
+            .maxLen(100)
+            .errorEx('pswd', 'pswd')
         );
 
         // =======================================
@@ -77,22 +104,26 @@ export namespace getUserInfo {
     }
 }
 
-/** Сохранить данные о пользователе */
-export namespace save {
+/** Зарегистрироваться */
+export namespace register {
+
+    /** APIURL */
+    export const route = '/aa/login/register';
+
+    /** Alias действия */
+    export const action = 'register';
 
     /** Параметры api запроса */
     export interface RequestI {
-        id_user:number; // email
-        name:string; // Пароль
-        surname:string; // Фамилия
-        patronymic:string; // Отчество
-        email:string; // Изменить email
+        login:string; // Псевдоним пользователя
+        name?:string; // Имя пользователя не обызательный параметр
+        email:string; // email
+        pswd:string; // Пароль
     }
 
     /** Параметры api ответа */
     export interface ResponseI {
-        save_user:boolean; // команда сохранения пользователя
-        one_user: UserI; // пользователь
+        token:string; // Токен
     }
 
     /**
@@ -142,3 +173,5 @@ export namespace save {
         return validator.getResult();
     }
 }
+
+

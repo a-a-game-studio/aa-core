@@ -18,6 +18,7 @@ import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
 export class UserSys {
 
 	public idUser: number; // ID пользователя
+	private bAuth: boolean = false; // Статус авторизирован пользователь или нет
 
 	private token: string; // APIKEY
 
@@ -80,14 +81,14 @@ export class UserSys {
 		let ok = this.errorSys.isOk(); // По умолчанию true
 
 		// Проверяем apikey
-		let ifAuth = await this.userTokenSQL.isAuth(this.token);
+		this.bAuth = await this.userTokenSQL.isAuth(this.token);
 
-		if (ifAuth) { // Ставим в общий слой видимости флаг авторизации
+		if (this.bAuth) { // Ставим в общий слой видимости флаг авторизации
 			this.req.sys.bAuth = true;
 		}
 
 		let userInfoList: any = {};
-		if (ok && ifAuth) { // Получаем информацию о пользователе по token
+		if (ok && this.bAuth) { // Получаем информацию о пользователе по token
 			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
 
 			if (!userInfoList) {
@@ -95,13 +96,13 @@ export class UserSys {
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
 				this.userInfoList = userInfoList;
-				this.idUser = userInfoList['user_id'];
+				this.idUser = userInfoList['id_user'];
 			}
 		}
 
 
 		let userGroupsList: any = {};
-		if (ok && ifAuth) { // Получаем роли пользователя
+		if (ok && this.bAuth) { // Получаем роли пользователя
 			
 			userGroupsList = await this.userGroupSQL.getUserGroupsByUserID(this.idUser);
 
@@ -113,9 +114,9 @@ export class UserSys {
 
 
 		this.userGroupsList = {};
-		if (ok && ifAuth) { // Проиндексировать группы по: имени группы
+		if (ok && this.bAuth) { // Проиндексировать группы по: имени группы
 			for (let k in userGroupsList) {
-				let idGroup = userGroupsList[k]['group_id'];
+				let idGroup = userGroupsList[k]['id_group'];
 				let aliasGroup = userGroupsList[k]['alias'];
 
 				if (aliasGroup) {
@@ -379,6 +380,12 @@ export class UserSys {
 		return ok;
 	}
 
+	/**
+	 * Получить статус авторизирован пользователь или нет
+	 */
+	public ifAuth():boolean{
+		return this.bAuth;
+	}
 
 	/**
 	 * возвращает token

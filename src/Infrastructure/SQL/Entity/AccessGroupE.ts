@@ -11,8 +11,8 @@ import { Components } from '@a-a-game-studio/aa-classes/lib';
  */
 export interface AccessGroupI {
     id?: number; // ID доступа
-    group_id?: number; //ID группы
-    ctrl_access_id?: number; // ID контроллера
+    id_group?: number; //ID группы
+    id_ctrl_access?: number; // ID контроллера
     create_access?: boolean; // Права на создание
     read_access?: boolean; // Права на чтение
     update_access?: boolean; // Права на обновление
@@ -62,14 +62,14 @@ export class AccessGroupE {
     public getRulesInsert() {
         let rules = new Components.ModelRulesC();
 
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type('int')
-            .error('group_id - неверный формат')
+            .error('id_group - неверный формат')
         );
 
-        rules.set(rules.rule('ctrl_access_id')
+        rules.set(rules.rule('id_ctrl_access')
             .type('int')
-            .error('ctrl_access_id - неверный формат')
+            .error('id_ctrl_access - неверный формат')
         );
 
         return rules.get();

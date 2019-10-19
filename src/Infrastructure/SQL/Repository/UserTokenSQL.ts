@@ -83,9 +83,9 @@ export class UserTokenSQL extends BaseSQL
     }
 
     /**
-     * Выдает apikey по user_id
+     * Выдает apikey по id_user
      */
-    public async getUserApiKey(user_id:number):Promise<string>{
+    public async getUserApiKey(id_user:number):Promise<string>{
 
         let ok = true;
         let resp:any[] = null;
@@ -102,15 +102,15 @@ export class UserTokenSQL extends BaseSQL
                     ut.* 
                 FROM ${UserTokenE.NAME} ut
                 WHERE 
-                    ut.user_id = :user_id
-                ORDER BY ut.user_token_id DESC
+                    ut.id_user = :id_user
+                ORDER BY ut.id_user_token DESC
                 LIMIT 1
                 ;
             `;
 
             try{
                 resp = (await this.db.raw(sql, {
-                    'user_id': user_id,
+                    'id_user': id_user,
                 }))[0];
 
                 if (resp.length > 0) {
@@ -136,9 +136,9 @@ export class UserTokenSQL extends BaseSQL
     /**
      * вставляет ключ для юзера
      * ничего не проверяет только вставляет 
-     * @param user_id 
+     * @param id_user 
      */
-    public async insertUserApiKey(user_id:number): Promise<string>{
+    public async insertUserApiKey(id_user:number): Promise<string>{
         let ok = true;
         let apikey = uniqid(uuidv4()+'-')
 
@@ -151,7 +151,7 @@ export class UserTokenSQL extends BaseSQL
         try{
             idUserToken = await this.db('user_token').insert({
                 api_key: apikey,
-                user_id: user_id,
+                id_user: id_user,
             });
 
         } catch (e){

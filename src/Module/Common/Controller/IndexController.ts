@@ -6,28 +6,28 @@ import * as System from '../../../Namespace/System'
 
 var router = express.Router();
 
-/**
- * Контроллер проверки отвечает API или нет
- */
-class IndexController extends BaseCtrl {
+// /**
+//  * Контроллер проверки отвечает API или нет
+//  */
+// class IndexController extends BaseCtrl {
 
    
-}
+// }
 
-/**
- * Проверка на работоспособность
- */
-router.post('/post', function (req: System.MainRequest, res: any, next: any) {
-    let self = new IndexController(req, res);
-    res.send('POST API сервер работает');
-});
+// /**
+//  * Проверка на работоспособность
+//  */
+// router.post('/post', function (req: System.MainRequest, res: any, next: any) {
+//     let self = new IndexController(req, res);
+//     res.send('POST API сервер работает');
+// });
 
-/**
- * Проверка на работоспособность
- */
-router.get('/', function (req: System.MainRequest, res: any, next: any) {
-    let self = new IndexController(req, res);
-    res.send('API сервер работает');
-});
+// /**
+//  * Проверка на работоспособность
+//  */
+// router.get('/', function (req: System.MainRequest, res: any, next: any) {
+//     let self = new IndexController(req, res);
+//     res.send('API сервер работает');
+// });
 
 export { router };

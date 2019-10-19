@@ -41,7 +41,7 @@ export class AccessGroupM extends BaseM
 
         let ok = this.errorSys.isOk();
 
-        let idGroup = data.group_id;
+        let idGroup = data.id_group;
 
         let ctrlAccessList = null;
         if( ok ){ // Получить список модулей доступных группе
@@ -80,8 +80,8 @@ export class AccessGroupM extends BaseM
             'add_ctrl_access_to_group':'Не удалось добавить доступ на модуль группе',
         });
 
-        let idCtrlAccess = data.ctrl_access_id;
-        let idGroup = data.group_id;
+        let idCtrlAccess = data.id_ctrl_access;
+        let idGroup = data.id_group;
 
         let cntAccessGroup:number = 0;
         if( ok ){ // Проверить существуют ли связь модуля и группы
@@ -134,7 +134,7 @@ export class AccessGroupM extends BaseM
             'save_access_group':'Не удалось изменить параметры доступа'
         });
 
-        let idAccessGroup = data.access_group_id;
+        let idAccessGroup = data.id_access_group;
 
         let bAccessGroup = false;
         if( ok ){ // Изменить параметры доступа
@@ -174,8 +174,8 @@ export class AccessGroupM extends BaseM
             'del_ctrl_access_to_group':'Не удалось убрать права на модуль у группы'
         });
 
-        let idCtrlAccess = data.ctrl_access_id;
-        let idGroup = data.group_id;
+        let idCtrlAccess = data.id_ctrl_access;
+        let idGroup = data.id_group;
 
         let cntAccessGroup = 0;
         if( ok ){ // Проверить существуют ли связь модуля и группы

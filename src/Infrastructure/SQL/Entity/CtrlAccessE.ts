@@ -77,7 +77,7 @@ export class CtrlAccessE
 
     	// return [
 		// 	'refund_tpl_name' : ['str', "/^[0-9a-zA-Zа-яА-Я ]{2,30}/u", true, false, 'refund_tpl_name неверный формат'],
-		// 	'user_id' : ['int', "/^[0-9]{1,11}/", true, false, 'user_id не верный формат'],
+		// 	'id_user' : ['int', "/^[0-9]{1,11}/", true, false, 'id_user не верный формат'],
 		// 	'refund_money' : ['int', "/^[0-9]{1,11}/", false, false, 'refund_money неверный формат'],
 		// 	'refund_type' : ['enum', ['card', 'account'], true, false, 'refund_type неверный формат'],
 

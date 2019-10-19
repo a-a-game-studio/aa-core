@@ -9,7 +9,7 @@ exports.up = async function(knex, Promise) {
     await knex.schema.createTable('aa_user_sms_code', (table) => {
         table.increments('id');
 
-        table.integer('user_id').index('user_id')
+        table.integer('id_user').index('id_user')
             .comment('ID пользователя');
 
         table.string('phone', 20).index('phone')

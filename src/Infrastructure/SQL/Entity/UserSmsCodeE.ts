@@ -12,9 +12,9 @@ export class UserSmsCodeE
 	public getRulesInsert(){
         let rules = new Components.ModelRulesC();
 
-        rules.set(rules.rule('user_id')
+        rules.set(rules.rule('id_user')
             .type(Components.ModelRulesT.int)
-            .error(UserSmsCodeE.NAME+'.user_id')
+            .error(UserSmsCodeE.NAME+'.id_user')
         );
 
         rules.set(rules.rule('code')

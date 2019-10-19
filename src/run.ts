@@ -56,13 +56,16 @@ app.use(middleware.AuthSysMiddleware);
 import * as controller from './Namespace/Controller'
 
 // Базовый модуль
-app.use(controller.IndexController.router);
+// app.use(controller.IndexController.router);
 
 // Модуль для администрирования пользователей
 app.use(controller.AdminUserController.router);
 
 // Модуль для пользователей
-app.use(controller.UserController.router);
+// app.use(controller.UserController.router);
+
+// Модуль для login
+// app.use(controller.LoginController.router);
 
 console.log('server start at http://localhost:'+config.common.port);
     app.listen(config.common.port);

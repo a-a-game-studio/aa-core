@@ -24,7 +24,7 @@ export class UserGroupSQL extends BaseSQL
     // ========================================
 
     /**
-     * Получить Группы/Роли пользователя по user_id
+     * Получить Группы/Роли пользователя по id_user
      *
      * @param integer idUser
      * @return array|null
@@ -44,19 +44,19 @@ export class UserGroupSQL extends BaseSQL
                 let aUserGroups = null;
                 let sql = `
                     SELECT
-                        DISTINCT ug.group_id,
+                        DISTINCT ug.id_group,
                         g.alias,
                         g.name
                     FROM ${UserGroupE.NAME} ug
-                    JOIN ${GroupE.NAME} g ON g.id = ug.group_id
+                    JOIN ${GroupE.NAME} g ON g.id = ug.id_group
                     WHERE
-                        ug.user_id = :user_id;
+                        ug.id_user = :id_user;
                     ;
                 `;
 
                 try{
                     aUserGroups = (await this.db.raw(sql, {
-                        user_id: idUser
+                        id_user: idUser
                     }))[0];
 
                 } catch (e){
@@ -101,9 +101,9 @@ export class UserGroupSQL extends BaseSQL
                     count(*) cnt
                 FROM ${UserGroupE.NAME} ug
                 WHERE
-                    ug.user_id = :user_id
+                    ug.id_user = :id_user
                 AND
-                    ug.group_id = :group_id
+                    ug.id_group = :id_group
                 LIMIT 1
                 ;
 
@@ -112,8 +112,8 @@ export class UserGroupSQL extends BaseSQL
             try{
 
                 iCountUserInGroup = (await this.db.raw(sql, {
-                    user_id: idUser,
-                    group_id: idGroup
+                    id_user: idUser,
+                    id_group: idGroup
                 }))[0][0]['cnt'];
 
             } catch (e){
@@ -135,8 +135,8 @@ export class UserGroupSQL extends BaseSQL
             try{
                 idUserGroup = (await this.db(UserGroupE.NAME)
                     .insert({
-                        user_id: idUser,
-                        group_id: idGroup
+                        id_user: idUser,
+                        id_group: idGroup
                     })
                 )[0];
 
@@ -184,9 +184,9 @@ export class UserGroupSQL extends BaseSQL
                     count(*) cnt
                 FROM ${UserGroupE.NAME} pug
                 WHERE
-                    pug.user_id = :user_id
+                    pug.id_user = :id_user
                 AND
-                    pug.group_id = :group_id
+                    pug.id_group = :id_group
                 LIMIT 1
                 ;
 
@@ -194,8 +194,8 @@ export class UserGroupSQL extends BaseSQL
 
             try{
                 let resp = (await this.db.raw(sql, {
-                    user_id: idUser,
-                    group_id: idGroup
+                    id_user: idUser,
+                    id_group: idGroup
                 }))[0];
 
                 iCountUserInGroup = resp[0]['cnt'];
@@ -216,9 +216,9 @@ export class UserGroupSQL extends BaseSQL
             let sql = `
                 DELETE FROM ${UserGroupE.NAME}
                 WHERE
-                    user_id = :user_id
+                    id_user = :id_user
                 AND
-                    group_id = :group_id
+                    id_group = :id_group
                 ;
             `;
 
@@ -226,8 +226,8 @@ export class UserGroupSQL extends BaseSQL
             try{
                 resp = await this.db(UserGroupE.NAME)
                     .where({
-                        user_id: idUser,
-                        group_id: idGroup
+                        id_user: idUser,
+                        id_group: idGroup
                     })
                     .del();
 

@@ -1,7 +1,11 @@
 // Компоненты
 import { Components } from '@a-a-game-studio/aa-classes/lib';
 
-
+export interface UserGroupI{
+	uid_user_group?:number; // ID связи группы и пользователя
+	id_user?: number; // ID пользователя
+	id_group?: number; // ID группы
+}
 
 export class UserGroupE
 {
@@ -11,14 +15,14 @@ export class UserGroupE
 	public getRulesInsert(){
         let rules = new Components.ModelRulesC();
 
-        rules.set(rules.rule('user_id')
+        rules.set(rules.rule('id_user')
             .type(Components.ModelRulesT.int)
-            .error(UserGroupE.NAME+'.user_id')
+            .error(UserGroupE.NAME+'.id_user')
         );
 
-        rules.set(rules.rule('group_id')
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
-            .error(UserGroupE.NAME+'.group_id')
+            .error(UserGroupE.NAME+'.id_group')
         );
 
         return rules.get();
