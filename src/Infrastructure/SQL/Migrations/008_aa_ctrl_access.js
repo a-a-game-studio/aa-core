@@ -36,11 +36,16 @@ exports.up = async function(knex, Promise) {
     await knex('aa_ctrl_access')
         .insert([
             {
-                name: 'Редактирование_прав_пользователей',
-                alias: 'admin_user',
-                descript: 'Позволяет редактировать поля пользователям',
-            },
+                name: 'Редактирование_пользователей',
+                alias: 'admin-edit-user',
+                descript: 'Позволяет редактировать управлять пользователями',
+            },{
+                name: 'Редактирование_групп',
+                alias: 'admin-edit-group',
+                descript: 'Позволяет редактировать группы',
+            }
         ])
+        
     ;
     
 };

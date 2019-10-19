@@ -12,9 +12,13 @@ import * as UserController from '../Module/User/Controller/UserController'
 // api login
 import * as LoginController from '../Module/Login/Controller/LoginController'
 
+// admin-edit-user
+import * as AdminEditUserCtrl from '../Module/AdminEditUser/Controller/AdminEditUserCtrl'
+
 export {
     IndexController,
     AdminUserController,
     LoginController,
-    UserController
+    UserController,
+    AdminEditUserCtrl
 }

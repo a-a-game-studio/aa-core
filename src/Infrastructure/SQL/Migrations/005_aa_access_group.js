@@ -54,6 +54,14 @@ exports.up = async function(knex, Promise) {
                 update_access: 1,
                 delete_access: 1,
             },
+            {
+                id_group: 1,
+                id_ctrl_access: 2,
+                create_access: 1,
+                read_access: 1,
+                update_access: 1,
+                delete_access: 1,
+            },
         ])
     ;
     

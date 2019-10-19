@@ -113,11 +113,11 @@ router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any
 /**
  * Удалить пользователя
  */
-router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(V.delUser.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController();
     await ctrl.fInit(req, res);
-    await ctrl.fAction(V.addUser.action, () => {
-        return ctrl.adminEditUserM.addUser(req.body);
+    await ctrl.fAction(V.delUser.action, () => {
+        return ctrl.adminEditUserM.delUser(req.body);
     })
 });
 

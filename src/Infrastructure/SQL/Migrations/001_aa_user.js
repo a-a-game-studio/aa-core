@@ -36,6 +36,9 @@ exports.up = async function (knex, Promise) {
         table.string('phone', 32)
             .comment('Телефон');
 
+        table.string('is_active', 32)
+            .comment('Активирован пользователь или нет');
+
         table.dateTime('created_at').index('created_at')
             .notNullable()
             .defaultTo(knex.raw('CURRENT_TIMESTAMP'))

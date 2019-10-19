@@ -11,6 +11,7 @@ import { UserTokenE } from '../Entity/UserTokenE';
 import { UserSmsCodeE } from '../Entity/UserSmsCodeE';
 
 import * as HashFunc from '../../../System/HashFunc';
+import { UserGroupE } from '../Entity/UserGroupE';
 
 
 /**
@@ -419,17 +420,52 @@ export class UserSQL extends BaseSQL
                     id: idUser
                 })
                 .update({
-                    id_active:true
+                    is_active:true
                 });
 
         } catch (e) {
-            this.errorSys.errorEx(e, 'confirm_register', 'Не удалось подтвердить регистрацию');
+            this.errorSys.errorEx(e, 'db_confirm_register', 'Не удалось подтвердить регистрацию');
         }
 
         return this.errorSys.isOk();
     }
 
+    /**
+     * Обновлене инфы об юзере
+     * @param data 
+     */
+    public async faDelUser(idUser:number): Promise<boolean> {
 
+        try {
+
+            // Удалить пользователя
+            await this.db(UserE.NAME)
+                .where({
+                    id: idUser
+                })
+                .delete();
+
+            // Удалить связи с токенами
+            await this.db(UserTokenE.NAME)
+                .where({
+                    id_user: idUser
+                })
+                .delete();
+
+            // Удалить связи с группой
+            await this.db(UserGroupE.NAME)
+                .where({
+                    id_user: idUser
+                })
+                .delete();
+
+        } catch (e) {
+            this.errorSys.errorEx(e, 'db_del_user', 'Не удалось удалить пользователя');
+        }
+
+        return this.errorSys.isOk();
+    }
+    
     
 
 

@@ -150,12 +150,12 @@ export namespace selectGroup {
 
         // =======================================
 
-        // Сколько записей получать
-        rules.set(rules.rule('id_user')
+        // ID Группа пользователей
+        rules.set(rules.rule('id_group')
             .type(Components.ModelRulesT.int)
             .require()
             .moreOrEq(0)
-            .errorEx('id_user', 'id_user')
+            .errorEx('id_group', 'id_group')
         );
 
         // =======================================
@@ -364,6 +364,7 @@ export namespace delUser {
     /** Параметры api ответа */
     export interface ResponseI {
         del_user: boolean; // Статус операции
+        list_user:UserI[]; // список пользователей
     }
 
     /**

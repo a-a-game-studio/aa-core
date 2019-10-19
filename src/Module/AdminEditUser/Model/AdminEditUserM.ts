@@ -68,12 +68,15 @@ export class AdminEditUserM extends BaseM
             }
         }
 
-        let aUserList = [];
+        let aUserList = null;
         if (ok) { // Получить список пользователей
             aUserList = await this.userSQL.getUserList(iOffset, iLimit, aFilter);
         }
 
-        
+        let aGroupList = null;
+        if (ok) { // Получить список пользователей
+            aGroupList = await this.groupSQL.getAllGroups();
+        }
 
         let out:V.init.ResponseI = null;
         if (ok) { // Формирование ответа
@@ -81,7 +84,7 @@ export class AdminEditUserM extends BaseM
                 is_admin:true,
                 count_user:100,
                 list_user:aUserList, // Список пользователей
-                list_group:[] // Список всех групп
+                list_group:aGroupList // Список всех групп
             };
         }
 
@@ -275,6 +278,42 @@ export class AdminEditUserM extends BaseM
         if (ok) { // Формирование ответа
             out = {
                 add_user:bAddUser, // Подтверждение регистрации
+                list_user:listUser // Список пользователей
+            };
+        }
+
+        return out;
+    }
+
+    /**
+     * 
+     * @param data Удалить пользователя
+     */
+    public async delUser(data:V.delUser.RequestI): Promise<V.delUser.ResponseI> {
+
+        data = <V.delUser.RequestI>V.delUser.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        let idUser = data.id_user;
+
+        let bDelUser = false;
+        if(ok){ // Подтвердить регистрацию
+            bDelUser = await this.userSQL.faDelUser(idUser);
+        }
+
+        // --------------------------
+
+        let listUser:UserI[] = null;
+        if(ok){ // Получить список пользователей
+            listUser = await this.userSQL.getUserList(0,100, {});
+        }
+        // --------------------------
+
+        let out:V.delUser.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                del_user:bDelUser, // Подтверждение регистрации
                 list_user:listUser // Список пользователей
             };
         }
