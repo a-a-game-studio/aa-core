@@ -23,19 +23,16 @@ export default class BaseCtrl {
 
     protected resp: any;
 
-    protected fClassName() {
-        return this.constructor.name;
-    }
-
-    public async fInit(req: MainRequest, resp: any) {
+    constructor(req: MainRequest, resp: any){
         this.req = req;
         this.responseSys = req.sys.responseSys;
         this.errorSys = req.sys.errorSys;
         this.userSys = req.sys.userSys;
         this.resp = resp;
+    }
 
-        this.bInit = true;
-
+    protected fClassName() {
+        return this.constructor.name;
     }
 
     /**
@@ -43,7 +40,7 @@ export default class BaseCtrl {
      * @param msg - Сообщение
      * @param cbAction - Анонимная функция для вызова действия
      */
-    public async fAction(msg:string, cbAction:Function){
+    public async faAction(msg:string, cbAction:Function){
         
         let out = null;
         if(this.bInit && this.errorSys.isOk()){
@@ -51,8 +48,10 @@ export default class BaseCtrl {
                 out = await cbAction();
             } catch (e) {
                 this.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка');
+                this.resp.status(500)
             }  
         } else {
+            this.resp.status(401)
             this.errorSys.error('init_ctrl', 'Контролер не активирован - вызовите родительскю функцию - await super.fInit(req, res)')
         }
 

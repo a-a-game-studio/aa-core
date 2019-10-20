@@ -24,11 +24,10 @@ class AdminUserController extends BaseCtrl {
      * @param req
      * @param res
      */
-    public async fInit(req: System.MainRequest, res:any) {
-        await super.fInit(req, res);
+    public async faInit() {
         
         // Инициализация бизнес моделей
-        this.adminEditUserM = new AdminEditUserM(req);
+        this.adminEditUserM = new AdminEditUserM(this.req);
 
         //==================================================
 
@@ -48,9 +47,9 @@ class AdminUserController extends BaseCtrl {
  * INIT
  */
 router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.init.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.init.action, () => {
         return ctrl.adminEditUserM.init(req.body);
     })
 });
@@ -59,9 +58,9 @@ router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) =
  * Выбрать пользователя
  */
 router.post(V.selectUser.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.selectUser.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.selectUser.action, () => {
         return ctrl.adminEditUserM.selectUser(req.body);
     })
 });
@@ -70,9 +69,9 @@ router.post(V.selectUser.route, async (req: System.MainRequest, res: any, next: 
  * Выбрать группу
  */
 router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.selectGroup.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.selectGroup.action, () => {
         return ctrl.adminEditUserM.selectGroup(req.body);
     })
 });
@@ -81,9 +80,9 @@ router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next:
  * Добавить пользователя к группе
  */
 router.post(V.addUserToGroup.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.addUserToGroup.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.addUserToGroup.action, () => {
         return ctrl.adminEditUserM.addUserToGroup(req.body);
     })
 });
@@ -92,9 +91,9 @@ router.post(V.addUserToGroup.route, async (req: System.MainRequest, res: any, ne
  * Удалить пользователя из группы
  */
 router.post(V.delUserFromGroup.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.delUserFromGroup.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.delUserFromGroup.action, () => {
         return ctrl.adminEditUserM.delUserFromGroup(req.body);
     })
 });
@@ -103,9 +102,9 @@ router.post(V.delUserFromGroup.route, async (req: System.MainRequest, res: any, 
  * Добавить пользователя
  */
 router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.addUser.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.addUser.action, () => {
         return ctrl.adminEditUserM.addUser(req.body);
     })
 });
@@ -114,9 +113,9 @@ router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any
  * Удалить пользователя
  */
 router.post(V.delUser.route, async (req: System.MainRequest, res: any, next: any) => {
-    const ctrl = new AdminUserController();
-    await ctrl.fInit(req, res);
-    await ctrl.fAction(V.delUser.action, () => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.delUser.action, () => {
         return ctrl.adminEditUserM.delUser(req.body);
     })
 });

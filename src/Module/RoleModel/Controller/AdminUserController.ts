@@ -34,14 +34,13 @@ class AdminUserController extends BaseCtrl {
      * @param req
      * @param res
      */
-    public async fInit(req: System.MainRequest, res:any): Promise<void> {
-        await super.fInit(req, res);
+    public async fInit(): Promise<void> {
         
         // Инициализация бизнес моделей
-        this.userM = new UserM(req);
-        this.groupM = new GroupM(req);
-        this.ctrlAccessM = new CtrlAccessM(req);
-        this.accessGroupM = new AccessGroupM(req);
+        this.userM = new UserM(this.req);
+        this.groupM = new GroupM(this.req);
+        this.ctrlAccessM = new CtrlAccessM(this.req);
+        this.accessGroupM = new AccessGroupM(this.req);
 
         //==================================================
 
@@ -70,7 +69,7 @@ class AdminUserController extends BaseCtrl {
 // router.post(V.getUserList, async (req: System.MainRequest, res: any, next: any) => {
 //     const ctrl = new AdminUserController();
 //     await ctrl.fInit(req, res);
-//     await ctrl.fAction('Получаем список пользователей', () => {
+//     await ctrl.faAction('Получаем список пользователей', () => {
 //         return ctrl.userM.getUserList(req.body);
 //     })
 // });
