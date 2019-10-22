@@ -81,7 +81,7 @@ export class AdminEditUserM extends BaseM
         let out:V.init.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                is_admin:true,
+                is_init:true,
                 count_user:100,
                 list_user:aUserList, // Список пользователей
                 list_group:aGroupList // Список всех групп
@@ -267,6 +267,8 @@ export class AdminEditUserM extends BaseM
             }
         }
 
+        // --------------------------
+
         let listUser:UserI[] = null;
         if(ok){ // Получить список пользователей
             listUser = await this.userSQL.getUserList(0,100, {});
@@ -274,10 +276,62 @@ export class AdminEditUserM extends BaseM
 
         // --------------------------
 
+        let vUser:UserI = null;
+        if (ok) { // Получить список пользователей
+            vUser = await this.userSQL.getUserByID(vUserIDs.id_user);
+        }
+
+        // --------------------------
+
         let out:V.addUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                add_user:bAddUser, // Подтверждение регистрации
+                add_user:vUserIDs.id_user, 
+                one_user:vUser,
+                list_user:listUser // Список пользователей
+            };
+        }
+
+        return out;
+    }
+
+        /**
+     * 
+     * @param data Удалить пользователя
+     */
+    public async saveUser(data:V.saveUser.RequestI): Promise<V.saveUser.ResponseI> {
+
+        data = <V.saveUser.RequestI>V.saveUser.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        let idUser = data.id_user;
+
+        let bSaveUser = false;
+        if(ok){ // Подтвердить регистрацию
+            bSaveUser = await this.userSQL.faUpdate(idUser, data);
+        }
+
+        // --------------------------
+
+        let vUser:UserI = null;
+        if (ok) { // Получить список пользователей
+            vUser = await this.userSQL.getUserByID(idUser);
+        }
+
+        // --------------------------
+
+        let listUser:UserI[] = null;
+        if(ok){ // Получить список пользователей
+            listUser = await this.userSQL.getUserList(0,100, {});
+        }
+        // --------------------------
+
+        let out:V.saveUser.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                save_user:bSaveUser, // Подтверждение регистрации
+                one_user:vUser, // Измененный пользователь
                 list_user:listUser // Список пользователей
             };
         }

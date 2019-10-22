@@ -15,7 +15,6 @@ const router = express.Router();
  */
 export default class BaseCtrl {
 
-    private bInit = false;
     public req: MainRequest;
     public errorSys: Components.ErrorSys;
     public userSys: UserSys;
@@ -43,7 +42,7 @@ export default class BaseCtrl {
     public async faAction(msg:string, cbAction:Function){
         
         let out = null;
-        if(this.bInit && this.errorSys.isOk()){
+        if(this.errorSys.isOk()){
             try {
                 out = await cbAction();
             } catch (e) {

@@ -120,4 +120,15 @@ router.post(V.delUser.route, async (req: System.MainRequest, res: any, next: any
     })
 });
 
+/**
+ * Сохранить пользователя
+ */
+router.post(V.saveUser.route, async (req: System.MainRequest, res: any, next: any) => {
+    const ctrl = new AdminUserController(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.delUser.action, () => {
+        return ctrl.adminEditUserM.saveUser(req.body);
+    })
+});
+
 export { router };

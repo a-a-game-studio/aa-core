@@ -26,7 +26,7 @@ export namespace init {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        is_admin:boolean; // Является ли пользователь администратором
+        is_init:boolean; // Является ли пользователь администратором
         count_user: number; // Количество пользователей
         list_user: UserI[]; // Список пользователей
         list_group: GroupI[]; // Список всех групп
@@ -304,7 +304,8 @@ export namespace addUser {
 
     /** Параметры api ответа */
     export interface ResponseI {
-        add_user:boolean; // ID Нового пользователя
+        add_user:number; // ID Нового пользователя
+        one_user:UserI; // Данные нового пользователя
         list_user:UserI[]; // Вернуть обновленный список пользователей
     }
 
@@ -326,6 +327,14 @@ export namespace addUser {
             .minLen(3)
             .maxLen(100)
             .errorEx('login', 'login')
+        );
+
+        // логин
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('name', 'name')
         );
 
         // пароль
@@ -407,10 +416,10 @@ export namespace saveUser {
     /** Параметры api запроса */
     export interface RequestI {
         id_user:number; // email
-        name:string; // Пароль
-        surname:string; // Фамилия
-        patronymic:string; // Отчество
-        email:string; // Изменить email
+        name?:string; // Пароль
+        surname?:string; // Фамилия
+        patronymic?:string; // Отчество
+        email?:string; // Изменить email
     }
 
     /** Параметры api ответа */
@@ -431,32 +440,28 @@ export namespace saveUser {
 
         // =======================================
 
-        // логин
-        rules.set(rules.rule('login')
+        // ID пользователя
+        rules.set(rules.rule('id_user')
+            .type(Components.ModelRulesT.int)
+            .more(0)
+            .errorEx('id_user', 'id_user')
+        );
+
+        // Имя
+        rules.set(rules.rule('name')
             .type(Components.ModelRulesT.text)
-            .require()
             .minLen(3)
             .maxLen(100)
-            .errorEx('login', 'login')
+            .errorEx('name', 'name')
         );
 
         // email
         rules.set(rules.rule('email')
             .type(Components.ModelRulesT.str)
-            .require()
             .if('.+@.+\..+')
             .minLen(3)
             .maxLen(100)
             .errorEx('email', 'email')
-        );
-
-        // пароль
-        rules.set(rules.rule('pswd')
-            .type(Components.ModelRulesT.text)
-            .require()
-            .minLen(6)
-            .maxLen(100)
-            .errorEx('pswd', 'pswd')
         );
 
         // =======================================

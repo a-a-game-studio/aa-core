@@ -111,7 +111,7 @@ export class UserM extends BaseM
 
         let bSave = false;
         if(ok){ // Сохранить данных о пользователе
-            bSave = await this.userSQL.faUpdate(data);
+            bSave = await this.userSQL.faUpdate(idUser, data);
         }
 
         // --------------------------

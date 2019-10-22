@@ -23,8 +23,6 @@ export class UserController extends BaseCtrl {
      */
     public async faInit() {
 
-        await this.userSys.isAuth();
-
         // Инициализация бизнес моделей
         this.loginM = new LoginM(this.req);
 
@@ -38,7 +36,8 @@ export class UserController extends BaseCtrl {
 router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.init.action, () => {
+    await ctrl.userSys.isAuth(); // Пробуем авторизироваться
+    await ctrl.faAction('Страница логин', () => {
         return ctrl.loginM.init(req.body);
     })
 });
@@ -49,7 +48,7 @@ router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) =
 router.post(V.login.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.login.action, () => {
+    await ctrl.faAction('Войти в систему', () => {
         return ctrl.loginM.login(req.body);
     })
 });
@@ -60,7 +59,7 @@ router.post(V.login.route, async (req: System.MainRequest, res: any, next: any) 
 router.post(V.register.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.register.action, () => {
+    await ctrl.faAction('Зарегистрироваться', () => {
         return ctrl.loginM.register(req.body);
     })
 });

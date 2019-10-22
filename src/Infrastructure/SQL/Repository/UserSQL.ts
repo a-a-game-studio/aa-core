@@ -381,7 +381,7 @@ export class UserSQL extends BaseSQL
      * Обновлене инфы об юзере
      * @param data 
      */
-    public async faUpdate(data: UserI): Promise<boolean> {
+    public async faUpdate(idUser:number, data: UserI): Promise<boolean> {
 
         let userE = new UserE();
         try {
@@ -393,7 +393,7 @@ export class UserSQL extends BaseSQL
 
             await this.db(UserE.NAME)
                 .where({
-                    id: data.id
+                    id: idUser
                 })
                 .update(this.modelValidatorSys.getResult());
 

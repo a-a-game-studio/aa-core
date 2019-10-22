@@ -42,7 +42,7 @@ export class UserE
         rules.set(rules.rule('login')
             .type('text')
             .require()
-            .error('user_email - неверный формат')
+            .error('login - неверный формат')
         );
 
         rules.set(rules.rule('name')
