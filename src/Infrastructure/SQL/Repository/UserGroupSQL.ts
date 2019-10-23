@@ -148,7 +148,7 @@ export class UserGroupSQL extends BaseSQL
         }
 
         if( ok ){ // Очищаем связный кеш
-            this.clearCache('UserGroupSQL*');
+            await this.clearCache('UserGroupSQL*');
         }
 
         // Формирование ответа
@@ -238,11 +238,10 @@ export class UserGroupSQL extends BaseSQL
 
         }
 
-        let aRelatedKeyRedis = [];
-        if( ok ){ // Удалить связанный кеш
-            aRelatedKeyRedis = await this.redisSys.keys('UserGroupSQL*');
-            this.redisSys.del(aRelatedKeyRedis);
+        if( ok ){ // Очищаем связный кеш
+            await this.clearCache('UserGroupSQL*');
         }
+
 
         // Формирование ответа
         return ok
