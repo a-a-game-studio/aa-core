@@ -15,10 +15,14 @@ import * as LoginController from '../Module/Login/Controller/LoginController'
 // admin-edit-user
 import * as AdminEditUserCtrl from '../Module/AdminEditUser/Controller/AdminEditUserCtrl'
 
+// admin-edit-group
+import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/Controller/AdminEditGroupCtrl'
+
 export {
     IndexController,
     AdminUserController,
     LoginController,
     UserController,
-    AdminEditUserCtrl
+    AdminEditUserCtrl,
+    AdminEditGroupCtrl
 }
