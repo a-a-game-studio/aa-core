@@ -126,8 +126,19 @@ router.post(V.delGroup.route, async (req: System.MainRequest, res: any, next: an
 router.post(V.saveGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delGroup.action, () => {
+    await ctrl.faAction(V.saveGroup.action, () => {
         return ctrl.adminEditUserM.saveGroup(req.body);
+    })
+});
+
+/**
+ * Сохранить контроллер доступа
+ */
+router.post(V.saveCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
+    const ctrl = new Ctrl(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.saveCtrlAccess.action, () => {
+        return ctrl.adminEditUserM.saveCtrlAccess(req.body);
     })
 });
 

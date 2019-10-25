@@ -296,6 +296,50 @@ export class AdminEditGroupM extends BaseM
     }
 
     /**
+     * Сохранить контроллер доступа
+     * @param data данные
+     */
+    public async saveCtrlAccess(data:V.saveCtrlAccess.RequestI): Promise<V.saveCtrlAccess.ResponseI> {
+
+        data = <V.saveCtrlAccess.RequestI>V.saveGroup.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        let idCtrlAccess = data.id_ctrl_access;
+
+        let bSaveCtrlAccess = false;
+        if(ok){ // Сохранить группу
+            bSaveCtrlAccess = await this.ctrlAccessSQL.saveCtrlAccess(idCtrlAccess, data);
+        }
+
+        // --------------------------
+
+        let vCtrlAccess:CtrlAccessI = null;
+        if (ok) { // Получить информация по группу
+            vCtrlAccess = await this.ctrlAccessSQL.getCtrlAccessByID(idCtrlAccess);
+        }
+
+        // --------------------------
+
+        let listCtrlAccess:GroupI[] = null;
+        if(ok){ // Получить список групп
+            listCtrlAccess = await this.ctrlAccessSQL.getAllCtrlAccess();
+        }
+        // --------------------------
+
+        let out:V.saveCtrlAccess.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                save_ctrl_access:bSaveCtrlAccess, // статус команды
+                one_ctrl_access:vCtrlAccess, // Измененный пользователь
+                list_ctrl_access:listCtrlAccess // Список пользователей
+            };
+        }
+
+        return out;
+    }
+
+    /**
      * Удалить группу
      * @param data 
      */

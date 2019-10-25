@@ -450,3 +450,70 @@ export namespace saveGroup {
         return validator.getResult();
     }
 }
+
+/** Сохранить контроллер доступа */
+export namespace saveCtrlAccess {
+
+    /** APIURL */
+    export const route = '/aa/admin-edit-group/save-ctrl-access';
+
+    /** Alias действия */
+    export const action = 'save-ctrl-access';
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        id_ctrl_access:number; // ID группы
+        alias:string; // Псевдоним группы
+        name:string; // Наименование группы
+        descript:string; // Описание группы
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        save_ctrl_access:boolean; // команда сохранения контроллера
+        one_ctrl_access: CtrlAccessI; // информация по контроллеру
+        list_ctrl_access: CtrlAccessI[]; // Список контроллеров
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // ID контроллера доступа
+        rules.set(rules.rule('id_ctrl_access')
+            .type(Components.ModelRulesT.int)
+            .more(0)
+            .errorEx('id_ctrl_access', 'id_ctrl_access')
+        );
+
+        // Имя
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('name', 'name')
+        );
+
+        // Описание
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('descript', 'descript')
+        );
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
