@@ -3,8 +3,8 @@
  */
 export interface AccessGroupI {
     id?: number;
-    group_id?: number;
-    ctrl_access_id?: number;
+    id_group?: number;
+    id_ctrl_access?: number;
     create_access?: boolean;
     read_access?: boolean;
     update_access?: boolean;

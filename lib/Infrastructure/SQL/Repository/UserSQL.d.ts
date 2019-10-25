@@ -32,7 +32,7 @@ export declare class UserSQL extends BaseSQL {
      */
     getUserIDsByToken(sToken: string): Promise<UserIDs>;
     fGetUserInfoByToken(token?: string): Promise<any>;
-    fGetUserInfoById(userId: number): Promise<any>;
+    fGetUserInfoById(userId: number): Promise<UserI>;
     /**
      * Для авторизации
      * Выдает токен по логину и паролю
@@ -59,10 +59,15 @@ export declare class UserSQL extends BaseSQL {
      * Обновлене инфы об юзере
      * @param data
      */
-    faUpdate(data: UserI): Promise<boolean>;
+    faUpdate(idUser: number, data: UserI): Promise<boolean>;
     /**
      * Обновлене инфы об юзере
      * @param data
      */
     faConfirmRegisterByID(idUser: number): Promise<boolean>;
+    /**
+     * Обновлене инфы об юзере
+     * @param data
+     */
+    faDelUser(idUser: number): Promise<boolean>;
 }

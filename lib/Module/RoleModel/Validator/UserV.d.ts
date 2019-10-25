@@ -3,6 +3,7 @@ import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
 import { System } from '../../..';
 /** Получить Список пользователей */
 export declare namespace getUserList {
+    const route = "/api/admin/user/get-users";
     /** Параметры api запроса */
     interface RequestI {
         offset: number;
@@ -28,7 +29,7 @@ export declare namespace getUserList {
 export declare namespace getUserByID {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
+        id_user: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -48,7 +49,7 @@ export declare namespace getUserByID {
 export declare namespace getUserGroupsByUserID {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
+        id_user: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -68,8 +69,8 @@ export declare namespace getUserGroupsByUserID {
 export declare namespace addUserToGroup {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
-        group_id: number;
+        id_user: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -89,8 +90,8 @@ export declare namespace addUserToGroup {
 export declare namespace delUserFromGroup {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
-        group_id: number;
+        id_user: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {

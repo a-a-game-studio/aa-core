@@ -11,7 +11,12 @@ export default class BaseCtrl {
     userSys: UserSys;
     responseSys: ResponseSys;
     protected resp: any;
-    static sBaseUrl: string;
     constructor(req: MainRequest, resp: any);
     protected fClassName(): string;
+    /**
+     *
+     * @param msg - Сообщение
+     * @param cbAction - Анонимная функция для вызова действия
+     */
+    faAction(msg: string, cbAction: Function): Promise<void>;
 }

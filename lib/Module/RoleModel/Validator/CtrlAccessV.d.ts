@@ -43,7 +43,7 @@ export declare namespace getAllCtrlAccess {
 export declare namespace saveCtrlAccess {
     /** Параметры api запроса */
     interface RequestI {
-        ctrl_access_id: number;
+        id_ctrl_access: number;
         alias?: string;
         name?: string;
         descript?: string;

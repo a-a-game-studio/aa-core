@@ -7,7 +7,7 @@ import BaseSQL from '../../../System/BaseSQL';
 export declare class UserGroupSQL extends BaseSQL {
     constructor(req: MainRequest);
     /**
-     * Получить Группы/Роли пользователя по user_id
+     * Получить Группы/Роли пользователя по id_user
      *
      * @param integer idUser
      * @return array|null

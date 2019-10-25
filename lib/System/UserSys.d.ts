@@ -4,6 +4,7 @@ import { MainRequest } from './MainRequest';
  */
 export declare class UserSys {
     idUser: number;
+    private bAuth;
     private token;
     private userInfoList;
     private userGroupsList;
@@ -71,6 +72,10 @@ export declare class UserSys {
      * Проверка является ли пользователь авторизированным
      */
     isAuth(): Promise<boolean>;
+    /**
+     * Получить статус авторизирован пользователь или нет
+     */
+    ifAuth(): boolean;
     /**
      * возвращает token
      *

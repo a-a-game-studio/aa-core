@@ -8,13 +8,13 @@ export declare class UserTokenSQL extends BaseSQL {
      */
     isAuth(apikey?: string): Promise<boolean>;
     /**
-     * Выдает apikey по user_id
+     * Выдает apikey по id_user
      */
-    getUserApiKey(user_id: number): Promise<string>;
+    getUserApiKey(id_user: number): Promise<string>;
     /**
      * вставляет ключ для юзера
      * ничего не проверяет только вставляет
-     * @param user_id
+     * @param id_user
      */
-    insertUserApiKey(user_id: number): Promise<string>;
+    insertUserApiKey(id_user: number): Promise<string>;
 }

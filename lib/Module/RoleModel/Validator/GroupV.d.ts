@@ -4,7 +4,7 @@ import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
 export declare namespace getGroupByID {
     /** Параметры api запроса */
     interface RequestI {
-        group_id: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -49,7 +49,7 @@ export declare namespace addGroup {
     }
     /** Параметры api ответа */
     interface ResponseI {
-        group_id: number;
+        id_group: number;
     }
     /**
      * Валидация
@@ -65,7 +65,7 @@ export declare namespace addGroup {
 export declare namespace saveGroup {
     /** Параметры api запроса */
     interface RequestI {
-        group_id: number;
+        id_group: number;
         name?: string;
         alias?: string;
         descript?: string;
@@ -88,7 +88,7 @@ export declare namespace saveGroup {
 export declare namespace delGroup {
     /** Параметры api запроса */
     interface RequestI {
-        group_id: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {

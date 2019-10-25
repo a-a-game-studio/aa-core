@@ -6,7 +6,7 @@ import { AccessGroupI } from '../../../Infrastructure/SQL/Entity/AccessGroupE';
 export declare namespace getCtrlAccessOfGroupByID {
     /** Параметры api запроса */
     interface RequestI {
-        group_id: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -26,7 +26,7 @@ export declare namespace getCtrlAccessOfGroupByID {
 export declare namespace getUserByID {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
+        id_user: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -46,7 +46,7 @@ export declare namespace getUserByID {
 export declare namespace getUserGroupsByUserID {
     /** Параметры api запроса */
     interface RequestI {
-        user_id: number;
+        id_user: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -66,7 +66,7 @@ export declare namespace getUserGroupsByUserID {
 export declare namespace saveAccessGroup {
     /** Параметры api запроса */
     interface RequestI {
-        access_group_id: number;
+        id_access_group: number;
         create_access: boolean;
         read_access: boolean;
         update_access: boolean;
@@ -90,8 +90,8 @@ export declare namespace saveAccessGroup {
 export declare namespace addCtrlAccessToGroup {
     /** Параметры api запроса */
     interface RequestI {
-        ctrl_access_id: number;
-        group_id: number;
+        id_ctrl_access: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
@@ -111,8 +111,8 @@ export declare namespace addCtrlAccessToGroup {
 export declare namespace delCtrlAccessFromGroup {
     /** Параметры api запроса */
     interface RequestI {
-        ctrl_access_id: number;
-        group_id: number;
+        id_ctrl_access: number;
+        id_group: number;
     }
     /** Параметры api ответа */
     interface ResponseI {
