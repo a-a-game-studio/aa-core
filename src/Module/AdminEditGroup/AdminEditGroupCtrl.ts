@@ -1,12 +1,14 @@
 const express = require('express');
 // Подключение системных классов
+import * as System from '../../Namespace/System'
+
 // Подключение системных моделей
-import { AdminEditGroupM } from '../Model/AdminEditGroupM';
-import * as System from '../../../Namespace/System'
+import { AdminEditGroupM } from './AdminEditGroupM'
 
-import BaseCtrl from '../../../System/BaseCtrl';
+import BaseCtrl from '../../System/BaseCtrl'
 
-import * as V from '../Validator/AdminEditGroupV'
+import {AdminEditGroupR} from './AdminEditGroupR'
+import R = AdminEditGroupR;
 
 const router = express.Router();
 
@@ -46,10 +48,10 @@ class Ctrl extends BaseCtrl {
 /**
  * INIT
  */
-router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.init.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.init.action, () => {
+    await ctrl.faAction(R.init.action, () => {
         return ctrl.adminEditUserM.init(req.body);
     })
 });
@@ -57,10 +59,10 @@ router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) =
 /**
  * Выбрать группу
  */
-router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.selectGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.selectGroup.action, () => {
+    await ctrl.faAction(R.selectGroup.action, () => {
         return ctrl.adminEditUserM.selectGroup(req.body);
     })
 });
@@ -68,10 +70,10 @@ router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next:
 /**
  * Выбрать контроллер доступа
  */
-router.post(V.selectCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.selectCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.selectCtrlAccess.action, () => {
+    await ctrl.faAction(R.selectCtrlAccess.action, () => {
         return ctrl.adminEditUserM.selectCtrlAccess(req.body);
     })
 });
@@ -79,10 +81,10 @@ router.post(V.selectCtrlAccess.route, async (req: System.MainRequest, res: any, 
 /**
  * Добавить контроллер доступа группе
  */
-router.post(V.addCtrlAccessToGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.addCtrlAccessToGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.addCtrlAccessToGroup.action, () => {
+    await ctrl.faAction(R.addCtrlAccessToGroup.action, () => {
         return ctrl.adminEditUserM.addCtrlAccessToGroup(req.body);
     })
 });
@@ -90,10 +92,10 @@ router.post(V.addCtrlAccessToGroup.route, async (req: System.MainRequest, res: a
 /**
  * Удалить контроллер из группы
  */
-router.post(V.delCtrlAccessFromGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.delCtrlAccessFromGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delCtrlAccessFromGroup.action, () => {
+    await ctrl.faAction(R.delCtrlAccessFromGroup.action, () => {
         return ctrl.adminEditUserM.delCtrlAccessFromGroup(req.body);
     })
 });
@@ -101,10 +103,10 @@ router.post(V.delCtrlAccessFromGroup.route, async (req: System.MainRequest, res:
 /**
  * Добавить группу
  */
-router.post(V.addGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.addGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.addGroup.action, () => {
+    await ctrl.faAction(R.addGroup.action, () => {
         return ctrl.adminEditUserM.addGroup(req.body);
     })
 });
@@ -112,10 +114,10 @@ router.post(V.addGroup.route, async (req: System.MainRequest, res: any, next: an
 /**
  * Удалить группу
  */
-router.post(V.delGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.delGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delGroup.action, () => {
+    await ctrl.faAction(R.delGroup.action, () => {
         return ctrl.adminEditUserM.delGroup(req.body);
     })
 });
@@ -123,10 +125,10 @@ router.post(V.delGroup.route, async (req: System.MainRequest, res: any, next: an
 /**
  * Сохранить группу
  */
-router.post(V.saveGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.saveGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.saveGroup.action, () => {
+    await ctrl.faAction(R.saveGroup.action, () => {
         return ctrl.adminEditUserM.saveGroup(req.body);
     })
 });
@@ -134,10 +136,10 @@ router.post(V.saveGroup.route, async (req: System.MainRequest, res: any, next: a
 /**
  * Сохранить контроллер доступа
  */
-router.post(V.saveCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.saveCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.saveCtrlAccess.action, () => {
+    await ctrl.faAction(R.saveCtrlAccess.action, () => {
         return ctrl.adminEditUserM.saveCtrlAccess(req.body);
     })
 });
@@ -145,10 +147,10 @@ router.post(V.saveCtrlAccess.route, async (req: System.MainRequest, res: any, ne
 /**
  * Добавить контроллер доступа
  */
-router.post(V.addCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.addCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.addCtrlAccess.action, () => {
+    await ctrl.faAction(R.addCtrlAccess.action, () => {
         return ctrl.adminEditUserM.addCtrlAccess(req.body);
     })
 });

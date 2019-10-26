@@ -1,12 +1,13 @@
 const express = require('express');
 // Подключение системных классов
 // Подключение системных моделей
-import { AdminEditUserM } from '../Model/AdminEditUserM';
-import * as System from '../../../Namespace/System'
+import { AdminEditUserM } from './AdminEditUserM';
+import * as System from '../../Namespace/System'
 
-import BaseCtrl from '../../../System/BaseCtrl';
+import BaseCtrl from '../../System/BaseCtrl';
 
-import * as V from '../Validator/AdminEditUserV'
+import {AdminEditUserR} from './AdminEditUserR'
+import R = AdminEditUserR;
 
 const router = express.Router();
 
@@ -46,10 +47,10 @@ class AdminUserController extends BaseCtrl {
 /**
  * INIT
  */
-router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.init.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.init.action, () => {
+    await ctrl.faAction(R.init.action, () => {
         return ctrl.adminEditUserM.init(req.body);
     })
 });
@@ -57,10 +58,10 @@ router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) =
 /**
  * Выбрать пользователя
  */
-router.post(V.selectUser.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.selectUser.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.selectUser.action, () => {
+    await ctrl.faAction(R.selectUser.action, () => {
         return ctrl.adminEditUserM.selectUser(req.body);
     })
 });
@@ -68,10 +69,10 @@ router.post(V.selectUser.route, async (req: System.MainRequest, res: any, next: 
 /**
  * Выбрать группу
  */
-router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.selectGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.selectGroup.action, () => {
+    await ctrl.faAction(R.selectGroup.action, () => {
         return ctrl.adminEditUserM.selectGroup(req.body);
     })
 });
@@ -79,10 +80,10 @@ router.post(V.selectGroup.route, async (req: System.MainRequest, res: any, next:
 /**
  * Добавить пользователя к группе
  */
-router.post(V.addUserToGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.addUserToGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.addUserToGroup.action, () => {
+    await ctrl.faAction(R.addUserToGroup.action, () => {
         return ctrl.adminEditUserM.addUserToGroup(req.body);
     })
 });
@@ -90,10 +91,10 @@ router.post(V.addUserToGroup.route, async (req: System.MainRequest, res: any, ne
 /**
  * Удалить пользователя из группы
  */
-router.post(V.delUserFromGroup.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.delUserFromGroup.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delUserFromGroup.action, () => {
+    await ctrl.faAction(R.delUserFromGroup.action, () => {
         return ctrl.adminEditUserM.delUserFromGroup(req.body);
     })
 });
@@ -101,10 +102,10 @@ router.post(V.delUserFromGroup.route, async (req: System.MainRequest, res: any, 
 /**
  * Добавить пользователя
  */
-router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.addUser.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.addUser.action, () => {
+    await ctrl.faAction(R.addUser.action, () => {
         return ctrl.adminEditUserM.addUser(req.body);
     })
 });
@@ -112,10 +113,10 @@ router.post(V.addUser.route, async (req: System.MainRequest, res: any, next: any
 /**
  * Удалить пользователя
  */
-router.post(V.delUser.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.delUser.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delUser.action, () => {
+    await ctrl.faAction(R.delUser.action, () => {
         return ctrl.adminEditUserM.delUser(req.body);
     })
 });
@@ -123,10 +124,10 @@ router.post(V.delUser.route, async (req: System.MainRequest, res: any, next: any
 /**
  * Сохранить пользователя
  */
-router.post(V.saveUser.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.saveUser.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new AdminUserController(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(V.delUser.action, () => {
+    await ctrl.faAction(R.delUser.action, () => {
         return ctrl.adminEditUserM.saveUser(req.body);
     })
 });

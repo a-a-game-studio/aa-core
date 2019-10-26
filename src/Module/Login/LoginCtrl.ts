@@ -1,12 +1,13 @@
-import { BaseCtrl, MainRequest } from "../../../Namespace/System";
+import { BaseCtrl, MainRequest } from "../../Namespace/System";
 import { UserModule } from '@a-a-game-studio/aa-classes/lib';
-import * as System from '../../../Namespace/System'
+import * as System from '../../Namespace/System'
 const express = require('express');
 const router = express.Router();
 
-import * as V from '../Validator/LoginV'
+import {LoginR} from './LoginR'
+import R = LoginR
 
-import { LoginM } from '../Model/LoginM';
+import { LoginM } from './LoginM';
 
 /**
  * Контроллер 
@@ -33,7 +34,7 @@ export class UserController extends BaseCtrl {
 /**
  * INIT
  */
-router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.init.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
     await ctrl.userSys.isAuth(); // Пробуем авторизироваться
@@ -45,7 +46,7 @@ router.post(V.init.route, async (req: System.MainRequest, res: any, next: any) =
 /**
  * Войти в систему
  */
-router.post(V.login.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.login.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
     await ctrl.faAction('Войти в систему', () => {
@@ -56,7 +57,7 @@ router.post(V.login.route, async (req: System.MainRequest, res: any, next: any) 
 /**
  * Зарегистрироваться
  */
-router.post(V.register.route, async (req: System.MainRequest, res: any, next: any) => {
+router.post(R.register.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new UserController(req, res);
     await ctrl.faInit();
     await ctrl.faAction('Зарегистрироваться', () => {

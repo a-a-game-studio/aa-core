@@ -1,18 +1,22 @@
 
 // Системные классы
-import BaseM from '../../../System/BaseM';
+import BaseM from '../../System/BaseM';
 
 // Классы SQL Запросов
-import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
-import { UserGroupSQL } from '../../../Infrastructure/SQL/Repository/UserGroupSQL';
+import { UserSQL } from '../../Infrastructure/SQL/Repository/UserSQL';
+import { UserGroupSQL } from '../../Infrastructure/SQL/Repository/UserGroupSQL';
+
+// Роутинг
+import {AdminEditUserR} from './AdminEditUserR';
+import R = AdminEditUserR;
 
 // Валидация
-import * as V from '../Validator/AdminEditUserV';
+import * as V from './AdminEditUserV'
 
 // Интерфейсы и сущьности
-import { UserI, UserIDs } from '../../../Infrastructure/SQL/Entity/UserE';
-import { UserGroupI } from '../../../Infrastructure/SQL/Entity/UserGroupE';
-import { GroupSQL } from '../../../Infrastructure/SQL/Repository/GroupSQL';
+import { UserI, UserIDs } from '../../Infrastructure/SQL/Entity/UserE';
+import { UserGroupI } from '../../Infrastructure/SQL/Entity/UserGroupE';
+import { GroupSQL } from '../../Infrastructure/SQL/Repository/GroupSQL';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -38,9 +42,9 @@ export class AdminEditUserM extends BaseM
      * Получить стартовые данные для работы страницы
      * @param data 
      */
-    public async init(data:V.init.RequestI): Promise<V.init.ResponseI> {
+    public async init(data:R.init.RequestI): Promise<R.init.ResponseI> {
 
-        data = <V.init.RequestI>V.init.valid(this.req, data);    
+        data = <R.init.RequestI>V.init(this.req, data);    
 
         let ok = this.errorSys.isOk();
 
@@ -78,7 +82,7 @@ export class AdminEditUserM extends BaseM
             aGroupList = await this.groupSQL.getAllGroups();
         }
 
-        let out:V.init.ResponseI = null;
+        let out:R.init.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 is_init:true,
@@ -97,9 +101,9 @@ export class AdminEditUserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async selectUser(data:V.selectUser.RequestI): Promise<V.selectUser.ResponseI> {
+    public async selectUser(data:R.selectUser.RequestI): Promise<R.selectUser.ResponseI> {
 
-        data = <V.selectUser.RequestI>V.selectUser.valid(this.req, data);
+        data = <R.selectUser.RequestI>V.selectUser(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -115,7 +119,7 @@ export class AdminEditUserM extends BaseM
             aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
         }
 
-        let out:V.selectUser.ResponseI = null;
+        let out:R.selectUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 one_user:vUser,
@@ -134,9 +138,9 @@ export class AdminEditUserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async selectGroup(data:V.selectGroup.RequestI): Promise<V.selectGroup.ResponseI> {
+    public async selectGroup(data:R.selectGroup.RequestI): Promise<R.selectGroup.ResponseI> {
 
-        data = <V.selectGroup.RequestI>V.selectGroup.valid(this.req, data);
+        data = <R.selectGroup.RequestI>V.selectGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -147,7 +151,7 @@ export class AdminEditUserM extends BaseM
             oneGroup = await this.groupSQL.getGroupByID(idGroup);
         }
 
-        let out:V.selectGroup.ResponseI = null;
+        let out:R.selectGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 one_group:oneGroup
@@ -163,9 +167,9 @@ export class AdminEditUserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async addUserToGroup(data:V.addUserToGroup.RequestI): Promise<V.addUserToGroup.ResponseI> {
+    public async addUserToGroup(data:R.addUserToGroup.RequestI): Promise<R.addUserToGroup.ResponseI> {
 
-        data = <V.addUserToGroup.RequestI>V.addUserToGroup.valid(this.req, data);
+        data = <R.addUserToGroup.RequestI>V.addUserToGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -182,7 +186,7 @@ export class AdminEditUserM extends BaseM
             aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
         }
 
-        let out:V.addUserToGroup.ResponseI = null;
+        let out:R.addUserToGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 add_user_to_group:idAddUserToGroup,
@@ -199,9 +203,9 @@ export class AdminEditUserM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async delUserFromGroup(data:V.delUserFromGroup.RequestI): Promise<V.delUserFromGroup.ResponseI> {
+    public async delUserFromGroup(data:R.delUserFromGroup.RequestI): Promise<R.delUserFromGroup.ResponseI> {
 
-        data = <V.delUserFromGroup.RequestI>V.delUserFromGroup.valid(this.req, data);
+        data = <R.delUserFromGroup.RequestI>V.delUserFromGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -218,7 +222,7 @@ export class AdminEditUserM extends BaseM
             aUserGroups = await this.userGroupSQL.getUserGroupsByUserID(idUser);
         }
 
-        let out:V.delUserFromGroup.ResponseI = null;
+        let out:R.delUserFromGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 del_user_from_group:bDelUserFromGroup,
@@ -229,9 +233,9 @@ export class AdminEditUserM extends BaseM
         return out;
     }
 
-    public async addUser(data:V.addUser.RequestI): Promise<V.addUser.ResponseI> {
+    public async addUser(data:R.addUser.RequestI): Promise<R.addUser.ResponseI> {
 
-        data = <V.addUser.RequestI>V.addUser.valid(this.req, data);
+        data = <R.addUser.RequestI>V.addUser(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -283,7 +287,7 @@ export class AdminEditUserM extends BaseM
 
         // --------------------------
 
-        let out:V.addUser.ResponseI = null;
+        let out:R.addUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 add_user:vUserIDs.id_user, 
@@ -299,9 +303,9 @@ export class AdminEditUserM extends BaseM
      * 
      * @param data Удалить пользователя
      */
-    public async saveUser(data:V.saveUser.RequestI): Promise<V.saveUser.ResponseI> {
+    public async saveUser(data:R.saveUser.RequestI): Promise<R.saveUser.ResponseI> {
 
-        data = <V.saveUser.RequestI>V.saveUser.valid(this.req, data);
+        data = <R.saveUser.RequestI>V.saveUser(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -327,7 +331,7 @@ export class AdminEditUserM extends BaseM
         }
         // --------------------------
 
-        let out:V.saveUser.ResponseI = null;
+        let out:R.saveUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 save_user:bSaveUser, // Подтверждение регистрации
@@ -343,9 +347,9 @@ export class AdminEditUserM extends BaseM
      * 
      * @param data Удалить пользователя
      */
-    public async delUser(data:V.delUser.RequestI): Promise<V.delUser.ResponseI> {
+    public async delUser(data:R.delUser.RequestI): Promise<R.delUser.ResponseI> {
 
-        data = <V.delUser.RequestI>V.delUser.valid(this.req, data);
+        data = <R.delUser.RequestI>V.delUser(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -364,7 +368,7 @@ export class AdminEditUserM extends BaseM
         }
         // --------------------------
 
-        let out:V.delUser.ResponseI = null;
+        let out:R.delUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 del_user:bDelUser, // Подтверждение регистрации

@@ -10,13 +10,13 @@ import * as IndexController from '../Module/Common/Controller/IndexController'
 import * as UserController from '../Module/User/Controller/UserController'
 
 // api login
-import * as LoginController from '../Module/Login/Controller/LoginController'
+import * as LoginController from '../Module/Login/LoginCtrl'
 
 // admin-edit-user
-import * as AdminEditUserCtrl from '../Module/AdminEditUser/Controller/AdminEditUserCtrl'
+import * as AdminEditUserCtrl from '../Module/AdminEditUser/AdminEditUserCtrl'
 
 // admin-edit-group
-import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/Controller/AdminEditGroupCtrl'
+import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/AdminEditGroupCtrl'
 
 export {
     IndexController,

@@ -1,19 +1,22 @@
 
 // Системные классы
-import BaseM from '../../../System/BaseM';
+import BaseM from '../../System/BaseM';
 
 // Классы SQL Запросов
-import { CtrlAccessSQL } from '../../../Infrastructure/SQL/Repository/CtrlAccessSQL';
-import { AccessGroupSQL } from '../../../Infrastructure/SQL/Repository/AccessGroupSQL';
+import { CtrlAccessSQL } from '../../Infrastructure/SQL/Repository/CtrlAccessSQL';
+import { AccessGroupSQL } from '../../Infrastructure/SQL/Repository/AccessGroupSQL';
 
-// Валидация
-import * as V from '../Validator/AdminEditGroupV';
+// Routing
+import {AdminEditGroupR} from './AdminEditGroupR';
+import R = AdminEditGroupR;
+
+import * as V from './AdminEditGroupV';
 
 // Интерфейсы и сущьности
-import { CtrlAccessI } from '../../../Infrastructure/SQL/Entity/CtrlAccessE';
-import { AccessGroupI } from '../../../Infrastructure/SQL/Entity/AccessGroupE';
-import { GroupSQL } from '../../../Infrastructure/SQL/Repository/GroupSQL';
-import { GroupI } from '../../../Infrastructure/SQL/Entity/GroupE';
+import { CtrlAccessI } from '../../Infrastructure/SQL/Entity/CtrlAccessE';
+import { AccessGroupI } from '../../Infrastructure/SQL/Entity/AccessGroupE';
+import { GroupSQL } from '../../Infrastructure/SQL/Repository/GroupSQL';
+import { GroupI } from '../../Infrastructure/SQL/Entity/GroupE';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -39,9 +42,9 @@ export class AdminEditGroupM extends BaseM
      * Получить стартовые данные для работы страницы
      * @param data 
      */
-    public async init(data:V.init.RequestI): Promise<V.init.ResponseI> {
+    public async init(data:R.init.RequestI): Promise<R.init.ResponseI> {
 
-        data = <V.init.RequestI>V.init.valid(this.req, data);    
+        data = <R.init.RequestI>V.init(this.req, data);    
 
         let ok = this.errorSys.isOk();
 
@@ -55,7 +58,7 @@ export class AdminEditGroupM extends BaseM
             aGroupList = await this.groupSQL.getAllGroups();
         }
 
-        let out:V.init.ResponseI = null;
+        let out:R.init.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 is_init:true,
@@ -73,9 +76,9 @@ export class AdminEditGroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async selectGroup(data:V.selectGroup.RequestI): Promise<V.selectGroup.ResponseI> {
+    public async selectGroup(data:R.selectGroup.RequestI): Promise<R.selectGroup.ResponseI> {
 
-        data = <V.selectGroup.RequestI>V.selectGroup.valid(this.req, data);
+        data = <R.selectGroup.RequestI>V.selectGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -91,7 +94,7 @@ export class AdminEditGroupM extends BaseM
             aAccessGroups = await this.accessGroupSQL.getCtrlAccessOfGroupByID(idGroup);
         }
 
-        let out:V.selectGroup.ResponseI = null;
+        let out:R.selectGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 one_group:vGroup,
@@ -110,9 +113,9 @@ export class AdminEditGroupM extends BaseM
      * @param array data
      * @return array|null
      */
-    public async selectCtrlAccess(data:V.selectCtrlAccess.RequestI): Promise<V.selectCtrlAccess.ResponseI> {
+    public async selectCtrlAccess(data:R.selectCtrlAccess.RequestI): Promise<R.selectCtrlAccess.ResponseI> {
 
-        data = <V.selectCtrlAccess.RequestI>V.selectCtrlAccess.valid(this.req, data);
+        data = <R.selectCtrlAccess.RequestI>V.selectCtrlAccess(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -123,7 +126,7 @@ export class AdminEditGroupM extends BaseM
             oneCtrlAccess = await this.ctrlAccessSQL.getCtrlAccessByID(idCtrlAccess);
         }
 
-        let out:V.selectCtrlAccess.ResponseI = null;
+        let out:R.selectCtrlAccess.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 one_ctrl_access:oneCtrlAccess
@@ -138,9 +141,9 @@ export class AdminEditGroupM extends BaseM
      *
      * @param array data
      */
-    public async addCtrlAccessToGroup(data:V.addCtrlAccessToGroup.RequestI): Promise<V.addCtrlAccessToGroup.ResponseI> {
+    public async addCtrlAccessToGroup(data:R.addCtrlAccessToGroup.RequestI): Promise<R.addCtrlAccessToGroup.ResponseI> {
 
-        data = <V.addCtrlAccessToGroup.RequestI>V.addCtrlAccessToGroup.valid(this.req, data);
+        data = <R.addCtrlAccessToGroup.RequestI>V.addCtrlAccessToGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -157,7 +160,7 @@ export class AdminEditGroupM extends BaseM
             aAccessGroups = await this.accessGroupSQL.getCtrlAccessOfGroupByID(idGroup);
         }
 
-        let out:V.addCtrlAccessToGroup.ResponseI = null;
+        let out:R.addCtrlAccessToGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 add_ctrl_access_to_group:idAddCtrlAccessToGroup,
@@ -173,9 +176,9 @@ export class AdminEditGroupM extends BaseM
      *
      * @param array data
      */
-    public async delCtrlAccessFromGroup(data:V.delCtrlAccessFromGroup.RequestI): Promise<V.delCtrlAccessFromGroup.ResponseI> {
+    public async delCtrlAccessFromGroup(data:R.delCtrlAccessFromGroup.RequestI): Promise<R.delCtrlAccessFromGroup.ResponseI> {
 
-        data = <V.delCtrlAccessFromGroup.RequestI>V.delCtrlAccessFromGroup.valid(this.req, data);
+        data = <R.delCtrlAccessFromGroup.RequestI>V.delCtrlAccessFromGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -192,7 +195,7 @@ export class AdminEditGroupM extends BaseM
             aAccessGroups = await this.accessGroupSQL.getCtrlAccessOfGroupByID(idGroup);
         }
 
-        let out:V.delCtrlAccessFromGroup.ResponseI = null;
+        let out:R.delCtrlAccessFromGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 del_ctrl_access_from_group:bDelCtrlAccessFromGroup,
@@ -207,9 +210,9 @@ export class AdminEditGroupM extends BaseM
      * Добавить группу пользователей
      * @param data 
      */
-    public async addGroup(data:V.addGroup.RequestI): Promise<V.addGroup.ResponseI> {
+    public async addGroup(data:R.addGroup.RequestI): Promise<R.addGroup.ResponseI> {
 
-        data = <V.addGroup.RequestI>V.addGroup.valid(this.req, data);
+        data = <R.addGroup.RequestI>V.addGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -239,7 +242,7 @@ export class AdminEditGroupM extends BaseM
 
         // --------------------------
 
-        let out:V.addGroup.ResponseI = null;
+        let out:R.addGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 add_group:idGroup, 
@@ -255,9 +258,9 @@ export class AdminEditGroupM extends BaseM
      * Сохранить группу
      * @param data данные
      */
-    public async saveGroup(data:V.saveGroup.RequestI): Promise<V.saveGroup.ResponseI> {
+    public async saveGroup(data:R.saveGroup.RequestI): Promise<R.saveGroup.ResponseI> {
 
-        data = <V.saveGroup.RequestI>V.saveGroup.valid(this.req, data);
+        data = <R.saveGroup.RequestI>V.saveGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -283,7 +286,7 @@ export class AdminEditGroupM extends BaseM
         }
         // --------------------------
 
-        let out:V.saveGroup.ResponseI = null;
+        let out:R.saveGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 save_group:bSaveGroup, // Подтверждение регистрации
@@ -299,9 +302,9 @@ export class AdminEditGroupM extends BaseM
      * Сохранить контроллер доступа
      * @param data данные
      */
-    public async saveCtrlAccess(data:V.saveCtrlAccess.RequestI): Promise<V.saveCtrlAccess.ResponseI> {
+    public async saveCtrlAccess(data:R.saveCtrlAccess.RequestI): Promise<R.saveCtrlAccess.ResponseI> {
 
-        data = <V.saveCtrlAccess.RequestI>V.saveGroup.valid(this.req, data);
+        data = <R.saveCtrlAccess.RequestI>V.saveGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -327,7 +330,7 @@ export class AdminEditGroupM extends BaseM
         }
         // --------------------------
 
-        let out:V.saveCtrlAccess.ResponseI = null;
+        let out:R.saveCtrlAccess.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 save_ctrl_access:bSaveCtrlAccess, // статус команды
@@ -343,9 +346,9 @@ export class AdminEditGroupM extends BaseM
      * Удалить группу
      * @param data 
      */
-    public async delGroup(data:V.delGroup.RequestI): Promise<V.delGroup.ResponseI> {
+    public async delGroup(data:R.delGroup.RequestI): Promise<R.delGroup.ResponseI> {
 
-        data = <V.delGroup.RequestI>V.delGroup.valid(this.req, data);
+        data = <R.delGroup.RequestI>V.delGroup(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -364,7 +367,7 @@ export class AdminEditGroupM extends BaseM
         }
         // --------------------------
 
-        let out:V.delGroup.ResponseI = null;
+        let out:R.delGroup.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 del_group:bDelGroup, // Подтверждение регистрации
@@ -379,9 +382,9 @@ export class AdminEditGroupM extends BaseM
      * Добавить группу пользователей
      * @param data 
      */
-    public async addCtrlAccess(data:V.addCtrlAccess.RequestI): Promise<V.addCtrlAccess.ResponseI> {
+    public async addCtrlAccess(data:R.addCtrlAccess.RequestI): Promise<R.addCtrlAccess.ResponseI> {
 
-        data = <V.addCtrlAccess.RequestI>V.addCtrlAccess.valid(this.req, data);
+        data = <R.addCtrlAccess.RequestI>V.addCtrlAccess(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -411,7 +414,7 @@ export class AdminEditGroupM extends BaseM
 
         // --------------------------
 
-        let out:V.addCtrlAccess.ResponseI = null;
+        let out:R.addCtrlAccess.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 add_ctrl_access:idGCtrlAccess, 

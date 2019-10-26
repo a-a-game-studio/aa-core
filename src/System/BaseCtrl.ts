@@ -51,7 +51,7 @@ export default class BaseCtrl {
             }  
         } else {
             this.resp.status(401)
-            this.errorSys.error('init_ctrl', 'Контролер не активирован - вызовите родительскю функцию - await super.fInit(req, res)')
+            this.errorSys.error('init_ctrl', 'Авторизация или активация провалились')
         }
 
         this.resp.send(

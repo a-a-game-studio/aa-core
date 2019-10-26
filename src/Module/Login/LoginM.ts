@@ -1,15 +1,16 @@
 
 // Системные классы
-import BaseM from '../../../System/BaseM';
+import BaseM from '../../System/BaseM';
 
 // Классы SQL Запросов
-import { UserSQL } from '../../../Infrastructure/SQL/Repository/UserSQL';
+import { UserSQL } from '../../Infrastructure/SQL/Repository/UserSQL';
+
+// Роутинг
+import {LoginR} from './LoginR';
+import R = LoginR
 
 // Валидация
-import * as V from '../Validator/LoginV';
-
-// Интерфейсы и сущьности
-import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
+import * as V from './LoginV'
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -26,9 +27,9 @@ export class LoginM extends BaseM
         this.userSQL = new UserSQL(req);
     }
 
-    public async init(data:V.init.RequestI): Promise<V.init.ResponseI> {
+    public async init(data:R.init.RequestI): Promise<R.init.ResponseI> {
 
-        data = <V.init.RequestI>V.init.valid(this.req, data);
+        data = <R.init.RequestI>V.init(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -44,7 +45,7 @@ export class LoginM extends BaseM
 
         // --------------------------
 
-        let out:V.init.ResponseI = null;
+        let out:R.init.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 is_login: this.userSys.ifAuth(),
@@ -56,9 +57,9 @@ export class LoginM extends BaseM
         return out;
     }
 
-    public async login(data:V.login.RequestI): Promise<V.login.ResponseI> {
+    public async login(data:R.login.RequestI): Promise<R.login.ResponseI> {
 
-        data = <V.login.RequestI>V.login.valid(this.req, data);    
+        data = <R.login.RequestI>V.login(this.req, data);    
 
         let ok = this.errorSys.isOk();
 
@@ -87,7 +88,7 @@ export class LoginM extends BaseM
 
         // --------------------------
 
-        let out:V.login.ResponseI = null;
+        let out:R.login.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 is_login: true, // Статус авторизирован пользователь или нет
@@ -101,9 +102,9 @@ export class LoginM extends BaseM
 
     // =========================================
 
-    public async register(data:V.register.RequestI): Promise<V.register.ResponseI> {
+    public async register(data:R.register.RequestI): Promise<R.register.ResponseI> {
 
-        data = <V.register.RequestI>V.register.valid(this.req, data);    
+        data = <R.register.RequestI>V.register(this.req, data);
 
         let ok = this.errorSys.isOk();
 
@@ -119,7 +120,7 @@ export class LoginM extends BaseM
 
         // --------------------------
 
-        let out:V.register.ResponseI = null;
+        let out:R.register.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
                 token:sToken // Токен
