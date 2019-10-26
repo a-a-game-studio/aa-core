@@ -2,7 +2,7 @@ import * as express from 'express';
 import {Response} from "express";
 import {NextFunction} from "express";
 
-const config = require('./Config/MainConfig.js');
+import config from './Config/MainConfig'
 import { MainRequest } from './System/MainRequest'
 
 const app = express();

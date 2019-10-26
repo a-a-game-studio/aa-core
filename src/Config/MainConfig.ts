@@ -47,9 +47,7 @@ export default {
 
     S3: {
         endpoint: 'https://file.yousite.ru:8000',
-        bucket: { // Список корзин
-            backet1:'backet1' // Картинки для товаров
-        },
+        bucket:  'backet1',
         baseUrl: 'https://file.yousite.ru:8000',
         access: 'accessKey1',
         secret: 'verySecretKey1',
