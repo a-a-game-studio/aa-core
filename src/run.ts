@@ -58,9 +58,6 @@ import * as controller from './Namespace/Controller'
 // Базовый модуль
 // app.use(controller.IndexController.router);
 
-// Модуль для администрирования пользователей
-app.use(controller.AdminUserController.router);
-
 // Модуль для пользователей
 // app.use(controller.UserController.router);
 
