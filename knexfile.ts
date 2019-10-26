@@ -2,7 +2,7 @@
 
 // Конфиг для настройки миграций в старой MySQL базе данных
 
-let conf = require('./src/Config/MainConfig.js');
+import conf from './src/Config/MainConfig'
 
 module.exports = {
 

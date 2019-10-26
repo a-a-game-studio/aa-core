@@ -1,11 +1,11 @@
-exports.up = async function (knex, Promise) {
+export const up = async function (knex:any, Promise:any) {
     const bHasTable = await knex.schema.hasTable('aa_user_avatar');
     
     if (bHasTable) {
         await knex.schema.dropTable('aa_user_avatar');
     }
 
-    await knex.schema.createTable('aa_user_avatar', (table) => {
+    await knex.schema.createTable('aa_user_avatar', (table:any) => {
         table.increments('id');
 
         table.integer('id_user').index('id_user')
@@ -25,7 +25,7 @@ exports.up = async function (knex, Promise) {
 
 };
 
-exports.down = async (knex) => {
+export const down = async (knex:any) => {
     const bHasTable = await knex.schema.hasTable('aa_user_avatar');
     if (bHasTable) {
         await knex.schema.dropTable('aa_user_avatar');

@@ -1,14 +1,14 @@
 const uniqid = require('uniqid');
 const uuidv4 = require('uuid/v4');
 
-exports.up = async function(knex, Promise) {
+export const up = async function(knex:any, Promise:any) {
     const hasUserToken = await knex.schema.hasTable('aa_user_token');
 
     if (hasUserToken) {
         await knex.schema.dropTable('aa_user_token');
     }
 
-    await knex.schema.createTable('aa_user_token', (table) => {
+    await knex.schema.createTable('aa_user_token', (table:any) => {
         table.increments('id');
 
         table.integer('id_user').index('id_user')
@@ -47,7 +47,7 @@ exports.up = async function(knex, Promise) {
     
 };
 
-exports.down = async (knex) => {
+export const down = async (knex:any) => {
     const hasUserToken = await knex.schema.hasTable('aa_user_token');
     if (hasUserToken) {
         // await knex.schema.dropTable('aa_user_token');

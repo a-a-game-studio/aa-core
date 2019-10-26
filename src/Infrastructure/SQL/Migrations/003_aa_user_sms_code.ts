@@ -1,12 +1,12 @@
 
-exports.up = async function(knex, Promise) {
+export const up = async function(knex:any, Promise:any) {
     const hasUserSmsCode = await knex.schema.hasTable('aa_user_sms_code');
 
     if (hasUserSmsCode) {
         await knex.schema.dropTable('aa_user_sms_code');
     }
 
-    await knex.schema.createTable('aa_user_sms_code', (table) => {
+    await knex.schema.createTable('aa_user_sms_code', (table:any) => {
         table.increments('id');
 
         table.integer('id_user').index('id_user')
@@ -39,7 +39,7 @@ exports.up = async function(knex, Promise) {
     });
 };
 
-exports.down = async (knex) => {
+export const down = async (knex:any) => {
     const hasUserSmsCode = await knex.schema.hasTable('aa_user_sms_code');
     if (hasUserSmsCode) {
         // await knex.schema.dropTable('aa_user_sms_code');
