@@ -1,6 +1,6 @@
 {
   "name": "@a-a-game-studio/aa-core",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Base core server application",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
