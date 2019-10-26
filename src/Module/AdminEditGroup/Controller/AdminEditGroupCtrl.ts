@@ -142,4 +142,15 @@ router.post(V.saveCtrlAccess.route, async (req: System.MainRequest, res: any, ne
     })
 });
 
+/**
+ * Добавить контроллер доступа
+ */
+router.post(V.addCtrlAccess.route, async (req: System.MainRequest, res: any, next: any) => {
+    const ctrl = new Ctrl(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction(V.addCtrlAccess.action, () => {
+        return ctrl.adminEditUserM.addCtrlAccess(req.body);
+    })
+});
+
 export { router };

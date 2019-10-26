@@ -375,4 +375,52 @@ export class AdminEditGroupM extends BaseM
         return out;
     }
 
+    /**
+     * Добавить группу пользователей
+     * @param data 
+     */
+    public async addCtrlAccess(data:V.addCtrlAccess.RequestI): Promise<V.addCtrlAccess.ResponseI> {
+
+        data = <V.addCtrlAccess.RequestI>V.addCtrlAccess.valid(this.req, data);
+
+        let ok = this.errorSys.isOk();
+
+        // --------------------------
+
+        let idGCtrlAccess:number = null;
+        if(ok){ // Регистрируем пользователя
+            idGCtrlAccess = await this.ctrlAccessSQL.addCtrlAccess(data);
+            if(!idGCtrlAccess){
+                this.errorSys.error('add_ctrl_access', 'Не удалось создать группу');
+            }
+        }
+
+        // --------------------------
+
+        let aCtrlAccess:CtrlAccessI[] = null;
+        if(ok){ // Получить список групп
+            aCtrlAccess = await this.ctrlAccessSQL.getAllCtrlAccess();
+        }
+
+        // --------------------------
+
+        let vCtrlAccess:CtrlAccessI = null;
+        if (ok) { // Получить список пользователей
+            vCtrlAccess = await this.ctrlAccessSQL.getCtrlAccessByID(idGCtrlAccess);
+        }
+
+        // --------------------------
+
+        let out:V.addCtrlAccess.ResponseI = null;
+        if (ok) { // Формирование ответа
+            out = {
+                add_ctrl_access:idGCtrlAccess, 
+                one_ctrl_access:vCtrlAccess,
+                list_ctrl_access:aCtrlAccess // Список контроллеров
+            };
+        }
+
+        return out;
+    }
+
 }

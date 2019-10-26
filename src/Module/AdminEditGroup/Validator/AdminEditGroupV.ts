@@ -266,6 +266,7 @@ export namespace delCtrlAccessFromGroup {
     }
 }
 
+// =======================================================
 /** Добавить группу пользователей */
 export namespace addGroup {
 
@@ -285,8 +286,78 @@ export namespace addGroup {
     /** Параметры api ответа */
     export interface ResponseI {
         add_group:number; // Добавить группу
-        one_group:UserI; // Данные новой группы
+        one_group:GroupI; // Данные новой группы
         list_group:GroupI[]; // Вернуть обновленный список групп
+    }
+
+    /**
+     * Валидация
+     *
+     * @param req MainRequest
+     * @param data RequestI
+     */
+    export function valid(req: System.MainRequest, data: any) {
+        let rules = new Components.ModelRulesC();
+
+        // =======================================
+
+        // псевдоним
+        rules.set(rules.rule('alias')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('alias', 'alias')
+        );
+
+        // Наименование
+        rules.set(rules.rule('name')
+            .type(Components.ModelRulesT.text)
+            .minLen(3)
+            .maxLen(100)
+            .errorEx('name', 'name')
+        );
+
+        // Описание
+        rules.set(rules.rule('descript')
+            .type(Components.ModelRulesT.text)
+            .require()
+            .minLen(6)
+            .maxLen(100)
+            .errorEx('descript', 'descript')
+        );
+
+        // =======================================
+
+        let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+        validator.fValid(rules.get(), data);
+
+        return validator.getResult();
+    }
+}
+
+// =======================================================
+/** Добавить группу контроллер доступа*/
+export namespace addCtrlAccess {
+
+    /** APIURL */
+    export const route = '/aa/admin-edit-group/add-ctrl-access';
+
+    /** Alias действия */
+    export const action = 'add-ctrl-access';
+
+    /** Параметры api запроса */
+    export interface RequestI {
+        alias:string; // Псевдоним группы
+        name:string; // Наименование группы
+        group:string; // Группы
+    }
+
+    /** Параметры api ответа */
+    export interface ResponseI {
+        add_ctrl_access:number; // Добавить контроллер доступа
+        one_ctrl_access:CtrlAccessI; // Данные нового контроллера
+        list_ctrl_access:CtrlAccessI[]; // Вернуть обновленный список контроллеров
     }
 
     /**
