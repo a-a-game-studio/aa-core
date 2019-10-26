@@ -65,7 +65,7 @@ app.use(controller.AdminUserController.router);
 // app.use(controller.UserController.router);
 
 // Модуль для login
-app.use(controller.LoginController.router);
+app.use(controller.LoginCtrl.router);
 
 // Модуль для редактирования пользователей администратором
 app.use(controller.AdminEditUserCtrl.router);
