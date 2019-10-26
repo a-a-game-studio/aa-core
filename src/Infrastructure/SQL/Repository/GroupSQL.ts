@@ -61,7 +61,7 @@ export class GroupSQL extends BaseSQL
 
         } catch (e){
             ok = false;
-            this.errorSys.error('get_group', 'Не удалось получить группу');
+            this.errorSys.errorEx(e, 'get_group', 'Не удалось получить группу');
         }
 
         return respGroup;

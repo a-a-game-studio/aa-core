@@ -46,7 +46,7 @@ export default class BaseCtrl {
             try {
                 out = await cbAction();
             } catch (e) {
-                this.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка');
+                this.errorSys.errorEx(e, 'fatal_error', 'Ошибка сервера');
                 this.resp.status(500)
             }  
         } else {
