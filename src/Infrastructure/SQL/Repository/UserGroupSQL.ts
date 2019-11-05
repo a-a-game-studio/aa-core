@@ -39,7 +39,7 @@ export class UserGroupSQL extends BaseSQL
 
         let aUserGroups = null; 
         if( ok ){ 
-            aUserGroups = await this.autoCache(`UserGroupSQL.getUserGroupsByUserID(${idUser})`, 3600, async () =>{
+            aUserGroups = await this.cacheSys.autoCache(`UserGroupSQL.getUserGroupsByUserID(${idUser})`, 3600, async () =>{
 
                 let aUserGroups = null;
                 let sql = `
@@ -148,7 +148,7 @@ export class UserGroupSQL extends BaseSQL
         }
 
         if( ok ){ // Очищаем связный кеш
-            await this.clearCache('UserGroupSQL*');
+            await this.cacheSys.clearCache('UserGroupSQL*');
         }
 
         // Формирование ответа
@@ -239,7 +239,7 @@ export class UserGroupSQL extends BaseSQL
         }
 
         if( ok ){ // Очищаем связный кеш
-            await this.clearCache('UserGroupSQL*');
+            await this.cacheSys.clearCache('UserGroupSQL*');
         }
 
 

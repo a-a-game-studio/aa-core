@@ -40,6 +40,9 @@ app.use(middleware.InitBaseSysMiddleware);
 /** Конфигурирование приложения */
 app.use(middleware.ConfigMiddleware);
 
+/** Инициализация подсистем */
+app.use(middleware.InitSubSysMiddleware);
+
 /* запрос */
 app.use(middleware.RequestSysMiddleware);
 

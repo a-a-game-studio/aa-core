@@ -137,7 +137,7 @@ export class CtrlAccessSQL extends BaseSQL
         let ctrlAccessList = null;
         if( ok ){ // Получаем весь список контроллеров доступа
 
-            ctrlAccessList = await this.autoCache("CtrlAccessSQL.getAllCtrlAccess()", 3600, async () => {
+            ctrlAccessList = await this.cacheSys.autoCache("CtrlAccessSQL.getAllCtrlAccess()", 3600, async () => {
 
                 let ctrlAccessList = null;
                 sql = `
@@ -205,7 +205,7 @@ export class CtrlAccessSQL extends BaseSQL
         }
 
         if( ok ){
-            await this.clearCache('CtrlAccessSQL*');
+            await this.cacheSys.clearCache('CtrlAccessSQL*');
         }
 
         return ok;
@@ -244,7 +244,7 @@ export class CtrlAccessSQL extends BaseSQL
         }
 
         if( ok ){ // Удалить связанный кеш
-            this.clearCache('CtrlAccessSQL*');
+            this.cacheSys.clearCache('CtrlAccessSQL*');
         }
 
         return idCtrlAccess;
@@ -286,7 +286,7 @@ export class CtrlAccessSQL extends BaseSQL
         }
 
         if( ok ){ // Удаляем связный кеш
-            this.clearCache('CtrlAccessSQL*');
+            this.cacheSys.clearCache('CtrlAccessSQL*');
         }
 
         return ok;

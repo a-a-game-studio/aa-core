@@ -10,13 +10,17 @@ import  AuthSysMiddleware  from '../Middleware/AuthSysMiddleware'
 /* Конфигурирование приложения */
 import ConfigMiddleware from '../Middleware/ConfigMiddleware'
 
-/* Конфигурирование приложения */
+/* Инициализация базовых систем */
 import InitBaseSysMiddleware from '../Middleware/InitBaseSysMiddleware'
+
+/* Инициализация подсистем */
+import InitSubSysMiddleware from '../Middleware/InitSubSysMiddleware'
 
 export {
     RequestSysMiddleware,
     ResponseSysMiddleware,
     AuthSysMiddleware,
     ConfigMiddleware,
-    InitBaseSysMiddleware
+    InitBaseSysMiddleware,
+    InitSubSysMiddleware
 }

@@ -241,7 +241,7 @@ export class AccessGroupSQL extends BaseSQL
         }
 
         if( ok ){ // Удалить связанный кеш
-            this.clearCache('AccessGroupSQL*');
+            this.cacheSys.clearCache('AccessGroupSQL*');
         }
 
         return idAccessGroup;
@@ -331,7 +331,7 @@ export class AccessGroupSQL extends BaseSQL
 
 
         if( ok ){ // Удалить связанный кеш
-            this.clearCache('AccessGroupSQL*');
+            this.cacheSys.clearCache('AccessGroupSQL*');
         }
 
         return ok;

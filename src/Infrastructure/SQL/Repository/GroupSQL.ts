@@ -86,7 +86,7 @@ export class GroupSQL extends BaseSQL
 
         let groupList = null;
         if( ok && !bCache ){ // Получаем весь список групп
-            groupList = await this.autoCache(`GroupSQL.getAllGroups()`, 3600, async () => {
+            groupList = await this.cacheSys.autoCache(`GroupSQL.getAllGroups()`, 3600, async () => {
 
                 let groupList = null;
                 sql = `
@@ -148,7 +148,7 @@ export class GroupSQL extends BaseSQL
         }
 
         if( ok ){ // Удалить связанный кеш
-            this.clearCache('GroupSQL*');
+            this.cacheSys.clearCache('GroupSQL*');
         }
 
         return idGroup;
@@ -234,7 +234,7 @@ export class GroupSQL extends BaseSQL
         }
 
         if( ok ){ // Удаляем связный кеш
-            this.clearCache('GroupSQL*');
+            this.cacheSys.clearCache('GroupSQL*');
         }
 
         return ok;
