@@ -20,7 +20,7 @@ export declare class CtrlAccessSQL extends BaseSQL {
      * @param integer idCtrlAccess
      * @return array|null
      */
-    getCtrlAccessByID(idCtrlAccess: number): Promise<any>;
+    getCtrlAccessByID(idCtrlAccess: number): Promise<CtrlAccessI>;
     /**
      * Получить список контроллеров доступа
      *

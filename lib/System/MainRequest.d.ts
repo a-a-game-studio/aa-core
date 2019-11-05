@@ -4,6 +4,9 @@ import { ResponseSys } from './ResponseSys';
 import { Request } from 'express';
 import { Seo } from './Seo';
 import { ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
+import { KnexSys } from './KnexSys';
+import { CacheSys } from './CacheSys';
+import { LogicSys } from './LogicSys';
 export interface ConfI {
     env: string;
     mysql: {
@@ -52,6 +55,9 @@ export interface MainRequest extends Request {
         bAuth: boolean;
         errorSys: AAClasses.Components.ErrorSys;
         userSys: UserSys;
+        knexSys: KnexSys;
+        logicSys: LogicSys;
+        cacheSys: CacheSys;
         responseSys: ResponseSys;
         systemCore: AAClasses.SysteCoreModule.SystemCore;
     };

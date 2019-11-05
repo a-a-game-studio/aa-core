@@ -9,11 +9,9 @@ export declare class GroupSQL extends BaseSQL {
     constructor(req: MainRequest);
     /**
      * Получить группу по ID
-     *
      * @param integer idGroup
-     * @return array|null
      */
-    getGroupByID(idGroup: number): Promise<any>;
+    getGroupByID(idGroup: number): Promise<GroupI>;
     /**
      * Получить группы/роли
      *

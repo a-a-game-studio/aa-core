@@ -2,6 +2,9 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 import { RedisSys } from './RedisSys';
 import { MainRequest } from './MainRequest';
 import { UserSys } from './UserSys';
+import { KnexSys } from './KnexSys';
+import { CacheSys } from './CacheSys';
+import { LogicSys } from './LogicSys';
 /**
  * SQL Запросы
  */
@@ -11,17 +14,8 @@ export default class BaseSQL {
     protected modelValidatorSys: Components.ModelValidatorSys;
     protected errorSys: Components.ErrorSys;
     protected userSys: UserSys;
+    protected knexSys: KnexSys;
+    protected cacheSys: CacheSys;
+    protected logicSys: LogicSys;
     constructor(req: MainRequest);
-    /**
-     * Авто кеширование для встраивания в функцию
-     * @param sKey - Ключ кеша
-     * @param iTimeSec - Время кеширования
-     * @param callback - функция получающая данные из БД
-     */
-    autoCache(sKey: string, iTimeSec: number, callback: any): Promise<any>;
-    /**
-     * Очистить кеш редиса
-     * @param sKey
-     */
-    clearCache(sKey: string): Promise<void>;
 }

@@ -81,6 +81,9 @@ export class App {
             req.sys = {
                 token: '',
                 errorSys: null,
+                knexSys: null,
+                logicSys: null,
+                cacheSys: null,
                 userSys: null,
                 responseSys: null,
                 bAuth: false,
