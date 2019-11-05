@@ -80,27 +80,25 @@ export class AdminEditGroupM extends BaseM
 
         data = <R.selectGroup.RequestI>V.selectGroup(this.req, data);
 
-        let ok = this.errorSys.isOk();
-
         let idGroup = data.id_group;
 
         let vGroup:GroupI = null;
-        if (ok) { // Получить список групп
+        await this.logicSys.ifOk('Получить список групп', async () => {
             vGroup = await this.groupSQL.getGroupByID(idGroup);
-        }
+        });
 
         let aAccessGroups:AccessGroupI[] = null;
-        if (ok) { // Получить список ролей пользователя
+        await this.logicSys.ifOk('Получить список ролей пользователя', async () => {
             aAccessGroups = await this.accessGroupSQL.getCtrlAccessOfGroupByID(idGroup);
-        }
+        });
 
         let out:R.selectGroup.ResponseI = null;
-        if (ok) { // Формирование ответа
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 one_group:vGroup,
                 list_access_group:aAccessGroups
             };
-        }
+        });
 
         return out;
     }
@@ -117,21 +115,19 @@ export class AdminEditGroupM extends BaseM
 
         data = <R.selectCtrlAccess.RequestI>V.selectCtrlAccess(this.req, data);
 
-        let ok = this.errorSys.isOk();
-
         let idCtrlAccess = data.id_ctrl_access;
 
-        let oneCtrlAccess = [];
-        if (ok) { // Получить список ролей пользователя
+        let oneCtrlAccess:CtrlAccessI = null;
+        await this.logicSys.ifOk('Получить список ролей пользователя', async () => {
             oneCtrlAccess = await this.ctrlAccessSQL.getCtrlAccessByID(idCtrlAccess);
-        }
+        });
 
         let out:R.selectCtrlAccess.ResponseI = null;
-        if (ok) { // Формирование ответа
+        this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 one_ctrl_access:oneCtrlAccess
             }
-        }
+        });
 
         return out;
     }

@@ -17,6 +17,7 @@ import * as V from './AdminEditUserV'
 import { UserI, UserIDs } from '../../Infrastructure/SQL/Entity/UserE';
 import { UserGroupI } from '../../Infrastructure/SQL/Entity/UserGroupE';
 import { GroupSQL } from '../../Infrastructure/SQL/Repository/GroupSQL';
+import { GroupI } from '../../Infrastructure/SQL/Entity/GroupE';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -146,7 +147,7 @@ export class AdminEditUserM extends BaseM
 
         let idGroup = data.id_group;
 
-        let oneGroup = [];
+        let oneGroup:GroupI = null;
         if (ok) { // Получить список ролей пользователя
             oneGroup = await this.groupSQL.getGroupByID(idGroup);
         }

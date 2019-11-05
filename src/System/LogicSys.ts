@@ -33,12 +33,11 @@ export class LogicSys {
 
 
     /**
-     * Авто кеширование для встраивания в функцию
-     * @param sKey - Ключ кеша
-     * @param iTimeSec - Время кеширования
-     * @param callback - функция получающая данные из БД
+     * Логический блок
+     * @param sError - Сообщение об ощибке
+     * @param callback - функция содержащая логическую операцию
      */
-    async ifOk(sError:string, callback:any):Promise<any>{
+    async ifOk(sError:string, callback:Function):Promise<any>{
 
         let out = null;
         if( this.errorSys.isOk() ){

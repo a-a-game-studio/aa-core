@@ -23,18 +23,17 @@ export class KnexSys {
 
     /**
      * Получить строку из SQL raw запроса
-     * @param sError
-     * @param cbQuery
+     * @param data
      */
-    async faOneRaw(sError:string, cbQuery:Function): Promise<any>{
+    fOneRaw(data:any): any{
         let ok = this.errorSys.isOk();
         let one = null;
         
         if(ok){ // Получаем стоку базы LIMIT 1
             try{ 
-                one = (await cbQuery())[0][0];
+                one = data[0][0];
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('faOneRaw');
             }
         }
 
@@ -43,17 +42,16 @@ export class KnexSys {
 
     /**
      * Получить список из SQL raw запроса
-     * @param sError
-     * @param cbQuery
+     * @param data
      */
-    async faListRaw(sError:string, cbQuery:Function): Promise<any>{
+    async fListRaw(data:any): Promise<any>{
         let list = null;
 
         if(this.errorSys.isOk()){
             try{ 
-                list = (await cbQuery())[0];
+                list = data[0];
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('fListRaw');
             }
         }
 
@@ -62,19 +60,18 @@ export class KnexSys {
 
     /**
      * Получить поле из SQL raw запроса
-     * @param sError
+     * @param data
      * @param sField
-     * @param cbQuery
      */
-    async faFieldRaw(sError:string, sField:string ,cbQuery:Function): Promise<any>{
+    fFieldRaw(sField:string, data:any): number|string|boolean|bigint{
         let ok = this.errorSys.isOk();
         let field = null;
         
         if( this.errorSys.isOk() ){
             try{ // Получаем стоку базы LIMIT 1
-                field = (await cbQuery())[0][0][sField];
+                field = data[0][0][sField];
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('fFieldRaw');
             }
         }
 
@@ -85,18 +82,17 @@ export class KnexSys {
 
     /**
      * Получить строку из SQL builder запроса
-     * @param sError
-     * @param cbQuery
+     * @param data
      */
-    async faOne(sError:string, cbQuery:Function): Promise<any>{
+    async fOne(data:any): Promise<any>{
         let ok = this.errorSys.isOk();
         let one = null;
         
         if( this.errorSys.isOk() ){
             try{ // Получаем стоку базы LIMIT 1
-                one = (await cbQuery())[0];
+                one = data[0];
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('fOne');
             }
         }
 
@@ -105,17 +101,16 @@ export class KnexSys {
 
     /**
      * Получить строку из SQL builder запроса
-     * @param sError
-     * @param cbQuery
+     * @param data
      */
-    async faList(sError:string, cbQuery:Function): Promise<any>{
+    async fList(data:any): Promise<any>{
         let list = null;
 
         if( this.errorSys.isOk() ){
             try{ // Получаем стоку базы LIMIT 1
-                list = (await cbQuery());
+                list = data;
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('fList');
             }
         }
 
@@ -124,19 +119,18 @@ export class KnexSys {
 
     /**
      * Получить поле из SQL builder запроса
-     * @param sError
      * @param sField
-     * @param cbQuery
+     * @param data
      */
-    async faField(sError:string, sField:string ,cbQuery:Function): Promise<number|string|boolean|bigint>{
+    async fField(sField:string, data:any): Promise<number|string|boolean|bigint>{
         let ok = this.errorSys.isOk();
         let field = null;
         
         if( this.errorSys.isOk() ){
             try{ // Получаем стоку базы LIMIT 1
-                field = (await cbQuery())[0][sField];
+                field = data[0][sField];
             } catch(e){
-                throw this.errorSys.throw(e, sError);
+                throw this.errorSys.throwDB('fField');
             }
         }
 

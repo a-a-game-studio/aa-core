@@ -74,7 +74,7 @@ export class CtrlAccessSQL extends BaseSQL
      * @param integer idCtrlAccess
      * @return array|null
      */
-    public async getCtrlAccessByID(idCtrlAccess:number): Promise<any>{
+    public async getCtrlAccessByID(idCtrlAccess:number): Promise<CtrlAccessI>{
         let ok = this.errorSys.isOk();
         let resp:any = null;
 

@@ -27,44 +27,31 @@ export class GroupSQL extends BaseSQL
 
     /**
      * Получить группу по ID
-     *
      * @param integer idGroup
-     * @return array|null
      */
-    public async getGroupByID(idGroup:number): Promise<any>{
-        let ok = this.errorSys.isOk();
-        
-        let sql:string = '';
+    public async getGroupByID(idGroup:number): Promise<GroupI>{
 
-        // Декларация ошибок
-        this.errorSys.declareEx({
-            'get_group':'Не удалось получить группу'
+        let oneGroup = null;
+        await this.logicSys.ifOk('Получить группу', async () => {
+            let sql = `
+                SELECT
+                    g.id,
+                    g.alias,
+                    g.name,
+                    g.descript
+                FROM ${GroupE.NAME} g
+                WHERE g.id = :id_group
+                LIMIT 1
+            `;
+
+            oneGroup = this.knexSys.fOneRaw(
+                await this.db.raw(sql, {
+                    id_group: idGroup
+                })
+            );
         });
 
-        sql = `
-            SELECT
-                g.id,
-                g.alias,
-                g.name,
-                g.descript
-            FROM ${GroupE.NAME} g
-            WHERE g.id = :id_group
-            LIMIT 1
-        `;
-
-        let respGroup = null;
-        try{
-            respGroup = (await this.db.raw(sql, {
-                id_group: idGroup
-            }))[0][0];
-
-
-        } catch (e){
-            ok = false;
-            this.errorSys.errorEx(e, 'get_group', 'Не удалось получить группу');
-        }
-
-        return respGroup;
+        return oneGroup;
     }
 
     /**

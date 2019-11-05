@@ -8,10 +8,10 @@ import { LogicSys } from './LogicSys';
  */
 export default class BaseM {
 
-    public errorSys: Components.ErrorSys;
-    public userSys: UserSys;
-    public req: MainRequest;
-    private logicSys: LogicSys;
+    protected errorSys: Components.ErrorSys;
+    protected userSys: UserSys;
+    protected req: MainRequest;
+    protected logicSys: LogicSys;
 
     constructor(req: MainRequest) {
         this.errorSys = req.sys.errorSys;

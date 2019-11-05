@@ -8,6 +8,7 @@ import { MainRequest } from './MainRequest';
 import { UserSys } from './UserSys';
 import { KnexSys } from './KnexSys';
 import { CacheSys } from './CacheSys';
+import { LogicSys } from './LogicSys';
 
 
 /**
@@ -23,6 +24,7 @@ export default class BaseSQL {
     protected userSys: UserSys;
     protected knexSys: KnexSys;
     protected cacheSys: CacheSys;
+    protected logicSys: LogicSys;
 
     constructor(req: MainRequest) {
 
@@ -31,6 +33,7 @@ export default class BaseSQL {
         this.cacheSys = req.sys.cacheSys;
         this.errorSys = req.sys.errorSys;
         this.userSys = req.sys.userSys;
+        this.logicSys = req.sys.logicSys;
 
         if( req.infrastructure.mysql ){
             this.db = req.infrastructure.mysql;
