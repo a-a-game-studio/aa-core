@@ -48,7 +48,7 @@ export class KnexSys {
         let list = null;
 
         if(this.errorSys.isOk()){
-            try{ 
+            try{
                 list = data[0];
             } catch(e){
                 throw this.errorSys.throwDB('fListRaw');
