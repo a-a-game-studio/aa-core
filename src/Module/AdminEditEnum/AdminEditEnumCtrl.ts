@@ -45,102 +45,74 @@ class Ctrl extends BaseCtrl {
     }
 }
 
-/**
- * INIT
- */
 router.post(R.init.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.init.action, () => {
+    await ctrl.faAction('INIT', () => {
         return ctrl.adminEditUserM.init(req.body);
     })
 });
 
-/**
- * Выбрать группу
- */
 router.post(R.selectEnum.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.selectEnum.action, () => {
+    await ctrl.faAction('Выбрать enum', () => {
         return ctrl.adminEditUserM.selectEnum(req.body);
     })
 });
 
-/**
- * Выбрать контроллер доступа
- */
 router.post(R.selectEnumParam.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.selectEnumParam.action, () => {
+    await ctrl.faAction('Выбрать enum параметр', () => {
         return ctrl.adminEditUserM.selectEnumParam(req.body);
     })
 });
 
-
-/**
- * Удалить контроллер из группы
- */
 router.post(R.delEnumParam.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.delEnumParam.action, () => {
+    await ctrl.faAction('Удалить параметр enum', () => {
         return ctrl.adminEditUserM.delEnumParam(req.body);
     })
 });
 
-/**
- * Добавить группу
- */
 router.post(R.addEnum.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.addEnum.action, () => {
+    await ctrl.faAction('Добавить enum', () => {
         return ctrl.adminEditUserM.addEnum(req.body);
     })
 });
 
-/**
- * Удалить группу
- */
 router.post(R.delEnum.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.delEnum.action, () => {
+    await ctrl.faAction('Удалить enum', () => {
         return ctrl.adminEditUserM.delEnum(req.body);
     })
 });
 
-/**
- * Сохранить группу
- */
 router.post(R.saveEnum.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.saveEnum.action, () => {
+    await ctrl.faAction('Сохранить enum', () => {
         return ctrl.adminEditUserM.saveEnum(req.body);
     })
 });
 
-/**
- * Сохранить контроллер доступа
- */
 router.post(R.saveEnumParam.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.saveEnumParam.action, () => {
+    await ctrl.faAction('Сохранить enum параметр', () => {
         return ctrl.adminEditUserM.saveEnumParam(req.body);
     })
 });
 
-/**
- * Добавить контроллер доступа
- */
 router.post(R.addEnumParam.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);
     await ctrl.faInit();
-    await ctrl.faAction(R.addEnumParam.action, () => {
+    await ctrl.faAction('Добавить enum параметр', () => {
         return ctrl.adminEditUserM.addEnumParam(req.body);
     })
 });

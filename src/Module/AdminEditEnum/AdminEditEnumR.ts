@@ -24,7 +24,6 @@ export namespace AdminEditEnumR {
         export interface ResponseI {
             is_init:boolean; // Статус инициализации
             list_enum: EnumI[]; // Список enum
-            list_enum_param:EnumParamI[]; // Все доступные модули
         }
     }
 
@@ -116,7 +115,7 @@ export namespace AdminEditEnumR {
 
         /** Параметры api ответа */
         export interface ResponseI {
-            add_enum:number; // Добавить enumу
+            enum_id:number; // ID enum
             one_enum:EnumI; // Данные новой enumы
             list_enum:EnumI[]; // Вернуть обновленный список enum
         }
@@ -191,7 +190,6 @@ export namespace AdminEditEnumR {
 
         /** Параметры api ответа */
         export interface ResponseI {
-            save_enum:boolean; // команда сохранения enumы
             one_enum: EnumI; // информация по enumе
             list_enum: EnumI[]; // Список enum
         }

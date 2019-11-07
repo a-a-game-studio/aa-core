@@ -28,7 +28,7 @@ export class EnumSQL extends BaseSQL
         let ok = this.errorSys.isOk();
         
         let respEnum = null;
-        if( ok ){ // Получить список
+        await this.logicSys.ifOk('Получить enum по ID', async () => {
             let sql = `
                 SELECT
                     e.*
@@ -37,15 +37,12 @@ export class EnumSQL extends BaseSQL
                 LIMIT 1
             `;
             
-            try{
-                respEnum = (await this.db.raw(sql, {
+            respEnum = this.knexSys.fOneRaw(
+                await this.db.raw(sql, {
                     id_enum: idEnum
-                }))[0][0];
-
-            } catch (e){
-                throw this.errorSys.throw(e, 'Не удалось получить запись о enumе');
-            }
-        }
+                })
+            );
+        });
 
         return respEnum;
     }
