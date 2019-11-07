@@ -15,10 +15,14 @@ import * as AdminEditUserCtrl from '../Module/AdminEditUser/AdminEditUserCtrl'
 // admin-edit-group
 import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/AdminEditGroupCtrl'
 
+// admin-edit-enum
+import * as AdminEditEnumCtrl from '../Module/AdminEditEnum/AdminEditEnumCtrl'
+
 export {
     IndexController,
     UserController,
     LoginCtrl,
     AdminEditUserCtrl,
-    AdminEditGroupCtrl
+    AdminEditGroupCtrl,
+    AdminEditEnumCtrl,
 }

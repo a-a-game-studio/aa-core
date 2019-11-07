@@ -73,6 +73,9 @@ app.use(controller.AdminEditUserCtrl.router);
 // Модуль для редактирования групп администратором
 app.use(controller.AdminEditGroupCtrl.router);
 
+// Модуль для редактирования ENUM дерева типов
+app.use(controller.AdminEditEnumCtrl.router);
+
 
 console.log('server start at http://localhost:'+config.common.port);
     app.listen(config.common.port);
