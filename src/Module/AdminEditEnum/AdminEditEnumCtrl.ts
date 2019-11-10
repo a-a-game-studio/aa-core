@@ -92,6 +92,13 @@ router.post(R.delEnum.route, async (req: System.MainRequest, res: any, next: any
         return ctrl.adminEditUserM.delEnum(req.body);
     })
 });
+router.post(R.delEnumParam.route, async (req: System.MainRequest, res: any, next: any) => {
+    const ctrl = new Ctrl(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction('Удалить enum параметр', () => {
+        return ctrl.adminEditUserM.delEnumParam(req.body);
+    })
+});
 
 router.post(R.saveEnum.route, async (req: System.MainRequest, res: any, next: any) => {
     const ctrl = new Ctrl(req, res);

@@ -77,10 +77,10 @@ export namespace AdminEditEnumR {
     export namespace delEnumParam {
 
         /** APIURL */
-        export const route = '/aa/admin-edit-enum/del-enum-param-from-enum';
+        export const route = '/aa/admin-edit-enum/del-enum-param';
 
         /** Alias действия */
-        export const action = 'del-enum-param-from-enum';
+        export const action = 'del-enum-param';
 
         /** Параметры api запроса */
         export interface RequestI {
@@ -108,14 +108,11 @@ export namespace AdminEditEnumR {
 
         /** Параметры api запроса */
         export interface RequestI {
-            alias:string; // Псевдоним enumы
-            name:string; // Наименование enumы
-            enum:string; // Группы
         }
 
         /** Параметры api ответа */
         export interface ResponseI {
-            enum_id:number; // ID enum
+            id_enum:number; // ID enum
             one_enum:EnumI; // Данные новой enumы
             list_enum:EnumI[]; // Вернуть обновленный список enum
         }
@@ -134,14 +131,12 @@ export namespace AdminEditEnumR {
 
         /** Параметры api запроса */
         export interface RequestI {
-            alias:string; // Псевдоним enumы
-            name:string; // Наименование enumы
-            enum:string; // Группы
+            id_enum: number; // ID ENUM которому добавляем параметр
         }
 
         /** Параметры api ответа */
         export interface ResponseI {
-            add_enum_param:number; // Добавить контроллер доступа
+            id_enum_param:number; // Добавить контроллер доступа
             one_enum_param:EnumParamI; // Данные нового контроллера
             list_enum_param:EnumParamI[]; // Вернуть обновленный список контроллеров
         }
@@ -207,15 +202,19 @@ export namespace AdminEditEnumR {
 
         /** Параметры api запроса */
         export interface RequestI {
-            id_enum_param:number; // ID enumы
-            alias:string; // Псевдоним enumы
-            name:string; // Наименование enumы
-            descript:string; // Описание enumы
-        }
+            id_enum_param:number; // ID параметра
+            k?: string; // Ключ
+            name?: string; // Имя
+            val?: number; // Значение
+            descript?: string; // Описание 
+            type?: string; // Тип
+            arg1?: string; // Аргумент 1
+            arg2?: string; // Аргумент 2
+            arg3?: string; // Аргумент 3
+        };
 
         /** Параметры api ответа */
         export interface ResponseI {
-            save_enum_param:boolean; // команда сохранения контроллера
             one_enum_param: EnumParamI; // информация по контроллеру
             list_enum_param: EnumParamI[]; // Список контроллеров
         }

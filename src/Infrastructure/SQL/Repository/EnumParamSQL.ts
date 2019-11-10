@@ -31,9 +31,9 @@ export class EnumParamSQL extends BaseSQL
         if( ok ){ // Получить список
             let sql = `
                 SELECT
-                    mm.*
-                FROM ${EnumParamE.NAME} mm
-                WHERE mm.id = :id_enum_param
+                    ep.*
+                FROM ${EnumParamE.NAME} ep
+                WHERE ep.id = :id_enum_param
                 LIMIT 1
             `;
             
@@ -60,8 +60,8 @@ export class EnumParamSQL extends BaseSQL
         if( ok ){ // Получить список
             let sql = `
                 SELECT
-                    mm.*
-                FROM ${EnumParamE.NAME} mm
+                    ep.*
+                FROM ${EnumParamE.NAME} ep
                 ORDER BY id DESC
                 ;
             `;
@@ -89,10 +89,10 @@ export class EnumParamSQL extends BaseSQL
         if( ok ){ // Получить список
             let sql = `
                 SELECT
-                    mm.*
-                FROM ${EnumParamE.NAME} mm
+                    ep.*
+                FROM ${EnumParamE.NAME} ep
                 WHERE
-                    mm.id_enum = :id_enum
+                    ep.id_enum = :id_enum
                 ORDER BY id DESC
                 ;
             `;
@@ -197,6 +197,8 @@ export class EnumParamSQL extends BaseSQL
      */
     public async delEnumParamByID(idEnumParam:number): Promise<boolean>{
         let ok = this.errorSys.isOk();
+
+        console.log('idEnumParam:',idEnumParam);
 
         if( ok ){
             try{

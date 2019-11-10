@@ -41,32 +41,32 @@ export class EnumE
         let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('k')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.k', 'k - неверные данные')
         );
 
         rules.set(rules.rule('name')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.name', 'name - неверные данные')
         );
 
         rules.set(rules.rule('descript')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.descript', 'descript - неверные данные')
         );
 
         rules.set(rules.rule('path1')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.path1', 'path1 - неверные данные')
         );
 
         rules.set(rules.rule('path2')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.path2', 'path2 - неверные данные')
         );
 
         rules.set(rules.rule('path3')
-            .type(ModelRulesT.int)
+            .type(ModelRulesT.text)
             .errorEx(EnumE.NAME+'.path3', 'path3 - неверные данные')
         );
 

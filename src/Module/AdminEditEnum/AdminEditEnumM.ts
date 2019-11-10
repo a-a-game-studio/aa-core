@@ -109,7 +109,7 @@ export class AdminEditEnumM extends BaseM
         });
 
         let out:R.selectEnumParam.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 one_enum_param:oneEnumParam
             }
@@ -126,25 +126,25 @@ export class AdminEditEnumM extends BaseM
      */
     public async delEnumParam(data:R.delEnumParam.RequestI): Promise<R.delEnumParam.ResponseI> {
 
-        data = <R.delEnumParam.RequestI>V.delEnumParamFromEnum(this.req, data);
+        data = <R.delEnumParam.RequestI>V.delEnumParam(this.req, data);
 
         let idEnumParam = data.id_enum_param;
         let idEnum = data.id_enum;
 
         let bDelEnumParam = false;
-        this.logicSys.ifOk('Удалить enum параметр', async () => {
+        await this.logicSys.ifOk('Удалить enum параметр', async () => {
             bDelEnumParam = await this.enumParamSQL.delEnumParamByID(idEnumParam);
         });
 
         let aEnumParams:EnumParamI[] = null;
-        this.logicSys.ifOk('Список enum параметров', async () => {
+        await this.logicSys.ifOk('Список enum параметров', async () => {
             aEnumParams = await this.enumParamSQL.listByParam({
                 id_enum:idEnum
             });
         });
 
         let out:R.delEnumParam.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 del_enum_param_from_enum:bDelEnumParam,
                 list_enum_param:aEnumParams
@@ -163,24 +163,24 @@ export class AdminEditEnumM extends BaseM
         data = <R.addEnum.RequestI>V.addEnum(this.req, data);
 
         let idEnum:number = null;
-        this.logicSys.ifOk('Добавить enum', async () => {
+        await this.logicSys.ifOk('Добавить enum', async () => {
             idEnum = await this.enumSQL.addEnum(data);
         });
 
         let listEnum:EnumI[] = null;
-        this.logicSys.ifOk('Получить список enum', async () => {
+        await this.logicSys.ifOk('Получить список enum', async () => {
             listEnum = await this.enumSQL.listAllEnum();
         });
 
         let vEnum:EnumI = null;
-        this.logicSys.ifOk('Получить информацию по enum', async () => {
+        await this.logicSys.ifOk('Получить информацию по enum', async () => {
             vEnum = await this.enumSQL.oneEnumByID(idEnum);
         });
 
         let out:R.addEnum.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
-                enum_id:idEnum, // ID enum
+                id_enum:idEnum, // ID enum
                 one_enum:vEnum, // Информация по enum
                 list_enum:listEnum // Список пользователей
             };
@@ -200,22 +200,22 @@ export class AdminEditEnumM extends BaseM
         let idEnum = data.id_enum;
 
         let bSaveEnum = false;
-        this.logicSys.ifOk('Сохранить enum', async () => {
+        await this.logicSys.ifOk('Сохранить enum', async () => {
             bSaveEnum = await this.enumSQL.saveEnum(idEnum, data);
         });
 
         let vEnum:EnumI = null;
-        this.logicSys.ifOk('Получить информацию по enum', async () => {
+        await this.logicSys.ifOk('Получить информацию по enum', async () => {
             vEnum = await this.enumSQL.oneEnumByID(idEnum);
         });
 
         let listEnum:EnumI[] = null;
-        this.logicSys.ifOk('Получить список enum', async () => {
+        await this.logicSys.ifOk('Получить список enum', async () => {
             listEnum = await this.enumSQL.listAllEnum();
         });
 
         let out:R.saveEnum.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 one_enum:vEnum, // Измененный пользователь
                 list_enum:listEnum // Список пользователей
@@ -231,29 +231,30 @@ export class AdminEditEnumM extends BaseM
      */
     public async saveEnumParam(data:R.saveEnumParam.RequestI): Promise<R.saveEnumParam.ResponseI> {
 
-        data = <R.saveEnumParam.RequestI>V.saveEnum(this.req, data);
+        data = <R.saveEnumParam.RequestI>V.saveEnumParam(this.req, data);
 
         let idEnumParam = data.id_enum_param;
 
         let bSaveEnumParam = false;
-        this.logicSys.ifOk('Сохранить enum параметр', async () => {
+        await this.logicSys.ifOk('Сохранить enum параметр', async () => {
             bSaveEnumParam = await this.enumParamSQL.saveEnumParam(idEnumParam, data);
         });
 
         let vEnumParam:EnumParamI = null;
-        this.logicSys.ifOk('Получить информацию по enum параметру', async () => {
+        await this.logicSys.ifOk('Получить информацию по enum параметру', async () => {
             vEnumParam = await this.enumParamSQL.oneEnumParamByID(idEnumParam);
         });
 
         let listEnumParam:EnumI[] = null;
-        this.logicSys.ifOk('Получить список enum параметры', async () => {
-            listEnumParam = await this.enumParamSQL.listAllEnumParam();
+        await this.logicSys.ifOk('Получить список enum параметры', async () => {
+            listEnumParam = await this.enumParamSQL.listByParam({
+                id_enum:vEnumParam.id_enum
+            });
         });
 
         let out:R.saveEnumParam.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
-                save_enum_param:bSaveEnumParam, // статус команды
                 one_enum_param:vEnumParam, // Измененный пользователь
                 list_enum_param:listEnumParam // Список пользователей
             };
@@ -273,17 +274,17 @@ export class AdminEditEnumM extends BaseM
         let idEnum = data.id_enum;
 
         let bDelEnum = false;
-        this.logicSys.ifOk('Удалить enum', async () => {
+        await this.logicSys.ifOk('Удалить enum', async () => {
             bDelEnum = await this.enumSQL.delEnumByID(idEnum);
         });
 
         let listEnum:EnumI[] = null;
-        this.logicSys.ifOk('Получить обновленный список enum', async () => {
+        await this.logicSys.ifOk('Получить обновленный список enum', async () => {
             listEnum = await this.enumSQL.listAllEnum();
         });
 
         let out:R.delEnum.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
                 del_enum:bDelEnum, // Подтверждение регистрации
                 list_enum:listEnum // Список пользователей
@@ -301,25 +302,29 @@ export class AdminEditEnumM extends BaseM
 
         data = <R.addEnumParam.RequestI>V.addEnumParam(this.req, data);
 
+        let idEnum = data.id_enum;
+
         let idGEnumParam:number = null;
-        this.logicSys.ifOk('Добавить enum параметр', async () => {
+        await this.logicSys.ifOk('Добавить enum параметр', async () => {
             idGEnumParam = await this.enumParamSQL.addEnumParam(data);
         });
 
         let aEnumParam:EnumParamI[] = null;
-        this.logicSys.ifOk('Список enum параметров', async () => {
-            aEnumParam = await this.enumParamSQL.listAllEnumParam();
+        await this.logicSys.ifOk('Список enum параметров', async () => {
+            aEnumParam = await this.enumParamSQL.listByParam({
+                id_enum:idEnum
+            });
         });
 
         let vEnumParam:EnumParamI = null;
-        this.logicSys.ifOk('Получить информацию по enum параметру', async () => {
+        await this.logicSys.ifOk('Получить информацию по enum параметру', async () => {
             vEnumParam = await this.enumParamSQL.oneEnumParamByID(idGEnumParam);
         });
 
         let out:R.addEnumParam.ResponseI = null;
-        this.logicSys.ifOk('Формирование ответа', async () => {
+        await this.logicSys.ifOk('Формирование ответа', async () => {
             out = {
-                add_enum_param:idGEnumParam, 
+                id_enum_param:idGEnumParam, 
                 one_enum_param:vEnumParam,
                 list_enum_param:aEnumParam // Список контроллеров
             };

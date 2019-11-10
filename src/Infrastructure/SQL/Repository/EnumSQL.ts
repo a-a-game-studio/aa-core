@@ -7,6 +7,7 @@ import BaseSQL from '../../../System/BaseSQL';
 
 // Сущьности и правила валидации
 import {EnumE, EnumI} from '../Entity/EnumE';
+import { EnumParamE } from '../Entity/EnumParamE';
 
 /**
  * Здесь методы для SQL запросов
@@ -69,6 +70,7 @@ export class EnumSQL extends BaseSQL
                 throw this.errorSys.throw(e, 'Не удалось получить список enumов');
             }
         }
+        console.log('listAllEnum');
 
         // Формирование ответа
         return listEnum;
@@ -130,6 +132,9 @@ export class EnumSQL extends BaseSQL
         let vEnumE = new EnumE();
         if( ok && this.modelValidatorSys.fValid(vEnumE.getRulesUpdate(), data) ){
 
+            console.log('idEnum:',idEnum);
+            console.log(this.modelValidatorSys.getResult());
+
             let resp = null;
             try{
                 resp = await this.db(EnumE.NAME)
@@ -161,6 +166,13 @@ export class EnumSQL extends BaseSQL
 
         if( ok ){
             try{
+                await this.db(EnumParamE.NAME)
+                    .where({
+                        id_enum: idEnum,
+                    })
+                    .del()
+                ;
+
                 await this.db(EnumE.NAME)
                     .where({
                         id: idEnum,

@@ -43,6 +43,7 @@ export class LogicSys {
         if( this.errorSys.isOk() ){
             try{
                 out = await callback();
+                this.errorSys.devNotice('ifok', sError);
             } catch(e) {
                 throw this.errorSys.throw(e, sError)
             }

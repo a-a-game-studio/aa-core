@@ -34,6 +34,11 @@ export class EnumParamE
 	public getRulesInsert(){
         let rules = new Components.ModelRulesC();
 
+        rules.set(rules.rule('id_enum')
+            .type(ModelRulesT.int)
+            .errorEx(EnumParamE.NAME+'.id_enum', 'id_enum - неверные данные')
+        );
+
         return rules.get();
     }
 
@@ -42,11 +47,6 @@ export class EnumParamE
      */
 	public getRulesUpdate(){
         let rules = new Components.ModelRulesC();
-
-        rules.set(rules.rule('id_enum')
-            .type(ModelRulesT.int)
-            .errorEx(EnumParamE.NAME+'.id_enum', 'id_enum - неверные данные')
-        );
 
         rules.set(rules.rule('k')
             .type(ModelRulesT.text)
