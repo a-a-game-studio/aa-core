@@ -39,7 +39,6 @@ export default async function ConfigMiddleware(req: MainRequest, res: any, next:
     }
     console.log('connection infrastructure complete;');
 
-
     next();
 }
 

@@ -14,8 +14,6 @@ import { isObject, isArray } from 'util';
  */
 export class LogicSys {
 
-    protected redisSys: RedisSys;
-
     protected errorSys: Components.ErrorSys;
     protected userSys: UserSys;
 
@@ -23,12 +21,6 @@ export class LogicSys {
 
         this.errorSys = req.sys.errorSys;
         this.userSys = req.sys.userSys;
-
-        if( req.infrastructure.redis ){
-            this.redisSys = req.infrastructure.redis;
-        } else {
-            this.errorSys.error('db_redis', 'Отсутствует подключение к redis');
-        }
     }
 
 
@@ -54,5 +46,18 @@ export class LogicSys {
         return out;
 
     }
+
+    /**
+     * задержка на нужное кол-во секунд
+     * @param n
+     */
+    faWait(n: number): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(true);
+            }, n);
+        });
+    }
+
 
 }

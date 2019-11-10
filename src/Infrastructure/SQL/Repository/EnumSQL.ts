@@ -51,7 +51,7 @@ export class EnumSQL extends BaseSQL
     /**
      * Получить все enumы
      */
-    public async listAllEnum(): Promise<any>{
+    public async listAllEnum(): Promise<EnumI[]>{
         let ok = this.errorSys.isOk();
 
         let listEnum = null;
