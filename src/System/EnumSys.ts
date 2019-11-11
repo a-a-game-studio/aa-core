@@ -10,6 +10,8 @@ import { UserSys } from './UserSys';
 import { EnumSQL } from '../Infrastructure/SQL/Repository/EnumSQL';
 import { EnumParamSQL } from '../Infrastructure/SQL/Repository/EnumParamSQL';
 import * as fs from 'fs';
+import { CacheSys } from './CacheSys';
+import md5 = require('md5');
 
 
 /**
@@ -21,6 +23,7 @@ export class EnumSys {
     protected userSys: UserSys;
     protected enumSQL: EnumSQL;
     protected enumParamSQL: EnumParamSQL;
+    protected cacheSys: CacheSys;
 
     constructor(req: MainRequest) {
         this.errorSys = req.sys.errorSys;
@@ -28,6 +31,8 @@ export class EnumSys {
 
         this.enumSQL = new EnumSQL(req);
         this.enumParamSQL = new EnumParamSQL(req);
+
+        this.cacheSys = new CacheSys(req);
     }
 
     private createEnumType(){
@@ -45,19 +50,56 @@ export class EnumSys {
         };
     }
 
-    public async fGenerateJSON(){
+    /**
+     * Путь от точки входа run.ts
+     * @param sPathEnumConf 
+     */
+    public async faGetEnumType(){
+        let vEnumType = null;
+        vEnumType = this.cacheSys.autoCache(`faGetEnumType()`, 3600*24, async() => {
+            vEnumType = await this.faGenerateEnumType();
+            return vEnumType;
+        });
+
+        return vEnumType;
+    }
+
+    /**
+     * Путь от точки входа en.ts
+     * @param sPathEnumConf 
+     */
+    public async faSaveEnumType(sPathEnumConf:string){
+        let vEnumType = await this.faGenerateEnumType();
+
+        let sEnumTree = '';
+        try{
+            sEnumTree = JSON.stringify(vEnumType);
+        } catch(e){
+            this.errorSys.errorEx(e, 'save_enum_type', 'Сохранить enum type')
+        }
+
+        fs.writeFile(sPathEnumConf, sEnumTree, function (err) {
+            if (err) throw err;
+            console.log('It\'s saved!');
+        });
+    }
+
+    /**
+     * Путь от точки входа en.ts
+     * @param sPathEnumConf
+     */
+    public async faGenerateEnumType(){
         let str = "";
 
-        let aEnum = await this.enumSQL.listAllEnum();
-
         let aEnumTree:any = {};
+        this.cacheSys.clearCache(`faGetEnumType()`);
+        let aEnum = await this.enumSQL.listAllEnum();
         for(let i = 0; i < aEnum.length; i++){
             let vEnum = aEnum[i];
 
             let aEnumParam = await this.enumParamSQL.listByParam({
                 'id_enum':vEnum.id,
             });
-
 
             if(!aEnumTree[vEnum.k]){
                 aEnumTree[vEnum.k] = {};
@@ -203,16 +245,7 @@ export class EnumSys {
             
         } //foreach
 
-        let sEnumTree = JSON.stringify(aEnumTree);
-        let sFileTS = `
-            export const En = ${sEnumTree};
-        `;
-        console.log(sFileTS);
-
-        fs.writeFile('./src/Data/Enum/Enum.json', sEnumTree, function (err) {
-            if (err) throw err;
-            console.log('It\'s saved!');
-        });
+        return aEnumTree;
     }
 
 }

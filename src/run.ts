@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import {Response} from "express";
 import {NextFunction} from "express";
 

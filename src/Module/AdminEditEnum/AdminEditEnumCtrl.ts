@@ -41,7 +41,6 @@ class Ctrl extends BaseCtrl {
 
         // Проверка являетесь ли вы администратором
         this.userSys.isAdmin();
-
     }
 }
 
@@ -50,6 +49,14 @@ router.post(R.init.route, async (req: System.MainRequest, res: any, next: any) =
     await ctrl.faInit();
     await ctrl.faAction('INIT', () => {
         return ctrl.adminEditUserM.init(req.body);
+    })
+});
+
+router.post(R.getEnumTreeType.route, async (req: System.MainRequest, res: any, next: any) => {
+    const ctrl = new Ctrl(req, res);
+    await ctrl.faInit();
+    await ctrl.faAction('Получить enum дерево типов', () => {
+        return ctrl.adminEditUserM.getEnumTreeType(req.body);
     })
 });
 

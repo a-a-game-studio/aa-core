@@ -4,7 +4,30 @@ import * as Components from '@a-a-game-studio/aa-components/lib';
 import { EnumI } from '../../Infrastructure/SQL/Entity/EnumE';
 import { EnumParamI } from '../../Infrastructure/SQL/Entity/EnumParamE';
 
+
 export namespace AdminEditEnumR {
+
+    // =======================================================
+    /** Получить дерево типов */
+    export namespace getEnumTreeType {
+
+        /** APIURL */
+        export const route = '/aa/admin-edit-enum/get-enum-tree-type';
+
+        /** Alias действия */
+        export const action = 'get-enum-tree-type';
+
+        /** Параметры api запроса */
+        export interface RequestI {
+        }
+
+        /** Параметры api ответа */
+        export interface ResponseI {
+            /** BIG TREE OBJECTS */
+        }
+
+    }
+
 
     // =======================================================
     /** Получить Список пользователей */

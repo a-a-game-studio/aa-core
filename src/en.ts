@@ -9,11 +9,15 @@ import BaseCommand from './System/BaseCommand'
 process.env.tsconfig = '../tsconfig.json'
 
 // =========================
+// Файл для генерации Enum типов(дерево типов)
+// =========================
+
+// =========================
 // Подключение middleware
 // =========================
 import * as middleware from './Namespace/Middleware';
 
-function fVoid(){}
+function fVoid(){};
 
 // Инициализация конфига
 const req = initMainRequest(config);
@@ -30,6 +34,6 @@ async function run(){
     let logicSys = new LogicSys(req);
     
     let enumSys = new EnumSys(req);
-    enumSys.fGenerateJSON();
+    await enumSys.faSaveEnumType('./src/Config/Enum.json');
 
 }; run();

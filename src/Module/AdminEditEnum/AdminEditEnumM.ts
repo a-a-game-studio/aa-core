@@ -15,6 +15,7 @@ import * as V from './AdminEditEnumV';
 import { EnumParamI } from '../../Infrastructure/SQL/Entity/EnumParamE';
 import { EnumSQL } from '../../Infrastructure/SQL/Repository/EnumSQL';
 import { EnumI } from '../../Infrastructure/SQL/Entity/EnumE';
+import { EnumSys } from '../../System/EnumSys';
 
 /**
  * Бизнес модель пользователя суда мы нас проксирует контроллер 1 url = 1 метод модели
@@ -25,12 +26,14 @@ export class AdminEditEnumM extends BaseM
 
     private enumParamSQL: EnumParamSQL;
     private enumSQL: EnumSQL;
+    private enumSys: EnumSys;
 
     constructor(req:any) {
         super(req);
 
         this.enumParamSQL = new EnumParamSQL(req);
         this.enumSQL = new EnumSQL(req);
+        this.enumSys = new EnumSys(req);
     }
 
 
@@ -53,6 +56,27 @@ export class AdminEditEnumM extends BaseM
                 is_init:true,
                 list_enum:aEnumList // Список всех enum
             };
+        });
+
+        return out;
+    }
+
+    /**
+     * Получить дерево объектов
+     * @param data 
+     */
+    public async getEnumTreeType(data:R.getEnumTreeType.RequestI): Promise<R.getEnumTreeType.ResponseI> {
+
+        data = <R.getEnumTreeType.RequestI>V.getEnumTreeType(this.req, data);
+
+        let vEnumTreeType:any = null;
+        await this.logicSys.ifOk('Получить дерево объектов', async () => {
+            vEnumTreeType = await this.enumSys.faGetEnumType();
+        });
+
+        let out:R.getEnumTreeType.ResponseI = null;
+        await this.logicSys.ifOk('Формирование ответа', async () => {
+            out = vEnumTreeType;
         });
 
         return out;

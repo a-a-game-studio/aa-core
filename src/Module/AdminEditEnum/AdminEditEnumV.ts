@@ -24,6 +24,27 @@ export function init(req: System.MainRequest, data: any) {
 
 // =======================================================
 /**
+ * Получить Список пользователей
+ *
+ * @param req MainRequest
+ * @param data RequestI
+ */
+export function getEnumTreeType(req: System.MainRequest, data: any) {
+    let rules = new Components.ModelRulesC();
+
+    // ---------------------------------------
+
+    // ---------------------------------------
+
+    let validator = new Components.ModelValidatorSys(req.sys.errorSys);
+    validator.fValid(rules.get(), data);
+
+    return validator.getResult();
+}
+
+
+// =======================================================
+/**
  * Выбрать группу
  *
  * @param req MainRequest

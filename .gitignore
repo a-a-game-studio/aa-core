@@ -64,3 +64,4 @@ typings/
 tests/config.js
 src/Config/MainConfig.js
 package-lock.json
+src/Config/Enum.json
