@@ -1,6 +1,6 @@
 import { Components } from '@a-a-game-studio/aa-classes/lib';
-import * as db from "knex";
-import * as express from 'express';
+import db from "knex";
+import express from 'express';
 import * as System from './Namespace/System';
 import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
 /**

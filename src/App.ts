@@ -2,9 +2,9 @@ import { SysteCoreModule, Components, WalletModule, FileModule } from '@a-a-game
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-import * as db from "knex";
+import db from "knex";
 
-import * as express from 'express';
+import express from 'express';
 // Подключене системных файлов
 import * as Middleware from './Namespace/Middleware'
 import * as System from './Namespace/System'
