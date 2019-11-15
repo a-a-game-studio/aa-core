@@ -40,7 +40,7 @@ export class LogicSys {
                 throw this.errorSys.throw(e, sError)
             }
         } else {
-            throw this.errorSys.throwLogic(sError)
+            this.errorSys.devWarning('ifok', sError+' - Не выполненно');
         }
         
         return out;
