@@ -18,7 +18,7 @@ export default {
     },
     common:{
         env:'dev',
-        port:3005,
+        port:3007,
     },
 
 

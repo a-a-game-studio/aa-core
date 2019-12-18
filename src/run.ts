@@ -59,7 +59,7 @@ app.use(middleware.AuthSysMiddleware);
 import * as controller from './Namespace/Controller'
 
 // Базовый модуль
-// app.use(controller.IndexController.router);
+app.use(controller.IndexController.router);
 
 // Модуль для пользователей
 // app.use(controller.UserController.router);
