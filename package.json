@@ -32,11 +32,11 @@
     "typescript": "^3.5.3"
   },
   "scripts": {
-    "release": "npm run build:dev && npm run build:prod",
     "build": "tsc",
     "test": "ts-mocha",
-    "watch": "./node_modules/.bin/nodemon -e ts -w ./src -x npm run start",
-    "start": "./node_modules/.bin/ts-node ./src/run.ts",
+    "watch": "./node_modules/.bin/nodemon -e ts -w ./src -x npm run dev-server",
+    "dev-server": "./node_modules/.bin/ts-node ./src/run.ts",
+    "server": "./node_modules/.bin/node ./lib/run.js",
     "en": "./node_modules/.bin/ts-node ./src/en.ts",
     "run_test": "./node_modules/.bin/ts-node",
     "migration:create": "./node_modules/.bin/knex migrate:make",

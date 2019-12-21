@@ -1,13 +1,13 @@
 //Конфигурация
-module.exports = {
-    env: 'prod', // Тип окружения
+export default {
+    env: 'dev', // Тип окружения
     mysql: { // Knex mysql
         "client": "mysql",
         "connection": {
             "host": "localhost",
-            "user": "db_user",
-            "password": "db_pass",
-            "database": "db_name"
+            "user": "root",
+            "password": "Angel13q24w35e",
+            "database": "lara_story_db"
         },
         "pool": { "min": 0, "max": 7 },
         "migrations": {
@@ -15,6 +15,10 @@ module.exports = {
             "directory": "./src/Infrastructure/SQL/Migrations"
         },
         "acquireConnectionTimeout": 60000
+    },
+    common:{
+        env:'dev',
+        port:3007,
     },
 
 
@@ -43,9 +47,7 @@ module.exports = {
 
     S3: {
         endpoint: 'https://file.yousite.ru:8000',
-        bucket: { // Список корзин
-            backet1:'backet1' // Картинки для товаров
-        },
+        bucket:  'backet1',
         baseUrl: 'https://file.yousite.ru:8000',
         access: 'accessKey1',
         secret: 'verySecretKey1',
