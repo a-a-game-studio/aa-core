@@ -34,8 +34,8 @@
   "scripts": {
     "build": "tsc",
     "test": "ts-mocha",
-    "server": "./node_modules/.bin/node ./build/run.js",
-    "watch": "tsc-watch --outDir ./build --onSuccess \"npm run server\"",
+    "server": "./node_modules/.bin/node ./lib/run.js",
+    "watch": "tsc-watch --outDir ./lib --onSuccess \"npm run server\"",
     "en": "./node_modules/.bin/ts-node ./src/en.ts",
     "run_test": "./node_modules/.bin/ts-node",
     "migration:create": "./node_modules/.bin/knex migrate:make",
