@@ -9,12 +9,6 @@ import { MainRequest } from '../System/MainRequest';
  */
 export default async function MySqlMiddleware(req: MainRequest, res: any, next: any) {
 
-    req.infrastructure = {
-        mysql: null,
-        redis: null,
-        rabbit: null
-    }
-
     if(!req.conf){
         req.sys.errorSys.error('not_config', 'Не указан конфиг');
     }
