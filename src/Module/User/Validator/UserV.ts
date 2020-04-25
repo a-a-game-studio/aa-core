@@ -2,7 +2,6 @@
 import * as Components from '@a-a-game-studio/aa-components/lib';
 import { UserI } from '../../../Infrastructure/SQL/Entity/UserE';
 import * as System from '../../../Namespace/System';
-import { router } from '../Controller/UserController';
 
 // =======================================================
 /** Получить информацию о себе */
