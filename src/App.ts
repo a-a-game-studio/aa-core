@@ -16,6 +16,8 @@ import * as IndexController from './Module/Common/Controller/IndexController';
 
 import { AppDefaultMigration } from './AppDefaultMigration';
 import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
+import { MemSysI } from '@a-a-game-studio/aa-redis-sys/lib/CacheSys';
+import { SharedMemSys } from '@a-a-game-studio/aa-redis-sys/lib';
 
 
 
@@ -177,6 +179,22 @@ export class App {
 
         this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = this.reddis;
+            next();
+        }); // уст. конфиг
+
+        this.bUseReddis = true;
+
+        return this;
+    }
+
+    /**
+     * Использовать SharedMem
+     * заменяет redis
+     */
+    public fUseSharedMem(globalMem: MemSysI): App {    
+        
+        this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
+            req.infrastructure.redis = new SharedMemSys.SharedMemSys(globalMem);
             next();
         }); // уст. конфиг
 
