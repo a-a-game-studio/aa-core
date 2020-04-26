@@ -51,6 +51,8 @@ export interface ConfI { // Конфигурация
 
     seo?: Seo;
 
+    sSaveFilePath? : string; // для молуля File
+
 };
 
 export interface MainRequest extends Request {
