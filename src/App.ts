@@ -134,7 +134,7 @@ export class App {
      */
     public fUseBodyParser(): App {
         this.objExpress.use(bodyParser.urlencoded({ limit: this.bodyMaxSize, extended: true }));
-        this.objExpress.use(bodyParser.json());
+        this.objExpress.use(bodyParser.json({ limit: this.bodyMaxSize, extended: true }));
         return this;
     }
 
