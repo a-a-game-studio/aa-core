@@ -6,6 +6,12 @@
  */
 export declare const faSaveBase64ToFile: (base64Image: string, sFile: string) => Promise<unknown>;
 /**
+ * Сохранить из буфера в файл
+ * @param img
+ * @param sFile
+ */
+export declare const faSaveBufferToFile: (img: Buffer, sFile: string) => Promise<unknown>;
+/**
  * Картинка base64 в Buffer
  * @param sDataBase64
  */

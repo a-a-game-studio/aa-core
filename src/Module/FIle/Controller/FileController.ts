@@ -31,7 +31,7 @@ export class FileController extends BaseCtrl {
         await self.userSys.isAuth();
 
         /*   Проверка права доступа на модуль */
-        await self.userSys.isAccessCtrl('File');
+        await self.userSys.isAccessCtrl('file-module');
 
         /*  Проверка являетесь ли вы администратором */
         self.userSys.isAdmin();
@@ -61,6 +61,19 @@ router.post('/file/upload-img', async (req: MainRequest, res: any) => {
 
     res.send(
         self.responseSys.response(out, 'Загрузить картинку в файловое хранилище')
+    );
+});
+
+/**
+ * Загрузить картинку в файловое хранилище
+ */
+router.get('/file', async (req: MainRequest, res: any) => {
+
+    const self = <FileController>await FileController.Init(req, res);
+   
+
+    res.send(
+        self.responseSys.response({}, 'Загрузить картинку в файловое хранилище')
     );
 });
 

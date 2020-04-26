@@ -40,6 +40,13 @@ app.use(middleware.InitBaseSysMiddleware);
 /** Конфигурирование приложения */
 app.use(middleware.ConfigMiddleware);
 
+// кэш
+const sharedMem = {};
+app.use(middleware.SharedMemMiddleware(sharedMem));
+
+// база
+app.use(middleware.MySqlMiddleware);
+
 /** Инициализация подсистем */
 app.use(middleware.InitSubSysMiddleware);
 

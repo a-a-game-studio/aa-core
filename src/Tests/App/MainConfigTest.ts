@@ -1,5 +1,6 @@
 import { ConfI } from "../../System/MainRequest";
 
+
 export const conf: ConfI = {
     env: 'dev', // Тип окружения
     mysql: { // Knex mysql
@@ -54,7 +55,7 @@ export const conf: ConfI = {
     },
     
     FileModule : {
-        sSavePath: '', // полный путь к папке с файлами
+        sSavePath: __dirname + '/../../../src/Tests/App/public/', // полный путь к папке с файлами
         sUrl: '/img/', // url файлов
     } // для молуля File
 };

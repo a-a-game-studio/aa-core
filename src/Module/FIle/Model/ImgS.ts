@@ -14,6 +14,20 @@ export const faSaveBase64ToFile = (base64Image: string, sFile: string) => {
     });
 }
 
+/**
+ * Сохранить из буфера в файл
+ * @param img 
+ * @param sFile 
+ */
+export const faSaveBufferToFile = (img: Buffer, sFile: string) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(sFile, img, function (err: any) {
+            resolve(true);
+        });
+    });
+}
+
+
 
 
 /**

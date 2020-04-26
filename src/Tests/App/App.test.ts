@@ -1,55 +1,95 @@
-import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
-import * as Middleware from '../../Namespace/Middleware';
+import * as middleware from '../../Namespace/Middleware';
 
-import { conf } from "./MainConfigTest";
-import { App } from '../../App';
 
 const sharedMem = {};
 
-// /* Пример переопредления класса пользователя */
-// class MyUserSys extends UserSys {
-//     constructor(req: System.MainRequest, listDB: AAClasses.BaseModule.ListDB) {
-//         super(req, listDB);
-//         console.log('Change UserActions');
-//     }
-// }
 
-// /* Пример переопределения AuthSysMiddleware */
-// class MyAuthSysMiddleware extends Middleware.AuthSysMiddleware {
-//     protected fInitUser(req: System.MainRequest): UserSys {
-//         console.log('Init UserSys');
-//         return new MyUserSys(req, this.listDB);
-//     }
-// }
+import express from 'express';
 
-const app = new App(conf)
-        .fUseMySql();
+import { conf } from './MainConfigTest'
+import { MainRequest } from '../../System/MainRequest'
 
-/* Ф-я запуска приложения */
-async function faRunServer() {
-    console.log('Starting App...');
+const app = express();
 
-    await app.faInstall();
+// =========================
+// Базовая конфигурация expressa
+// =========================
 
-    app.fDisableCors() // отключаем cors
-        .fUseBodyParser() // используем дефолтный BodyParser
-        .fUseDefaultIndex()
-        .fUseSharedMem(sharedMem)
-        .fUseFileModule()
-        ;
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '50mb', extended: true }));
 
-    /* Иницализируем модуль аторизации */
-    await app.faUseAuthSys();
+const cors = require('cors');
 
-    // app.fUseAdminUser() // Контролер администрирования пользователей
-    //     .fUseUserCtrl() // Контролер пользователя
-    //     .fStart(); // Запускаем приложение
+/*для подкл к API*/
+app.use(cors());
+app.options('*', cors());
 
-} // faRunServer
+app.use(express.static(__dirname + '/../../../src/Tests/App/public'));
 
-// faRunServer();
+// Инициализация конфига
+app.use(function InitConfigMiddleware(req: MainRequest, res: any, next: any) {
 
-app.faRunDefaultMigration();
+    req.conf = conf;
+
+    next();
+});
+
+// =========================
+// Подключение middleware
+// =========================
+
+
+/* Инициализация базовых систем */
+app.use(middleware.InitBaseSysMiddleware);
+
+/** Конфигурирование приложения */
+app.use(middleware.ConfigMiddleware);
+
+// кэш
+app.use(middleware.SharedMemMiddleware(sharedMem));
+
+// база
+app.use(middleware.MySqlMiddleware);
+
+/** Инициализация подсистем */
+app.use(middleware.InitSubSysMiddleware);
+
+/* запрос */
+app.use(middleware.RequestSysMiddleware);
+
+/* ответ */
+app.use(middleware.ResponseSysMiddleware);
+
+/* проверка авторизации на уровне приложения */
+app.use(middleware.AuthSysMiddleware);
+
+// =========================
+// Подключение контроллеров
+// =========================
+
+import * as controller from '../../Namespace/Controller'
+
+// Базовый модуль
+app.use(controller.IndexController.router);
+
+// Модуль для пользователей
+// app.use(controller.UserController.router);
+
+// Модуль для login
+app.use(controller.LoginCtrl.router);
+
+
+
+// файлы
+app.use(controller.FileCtrl.router);
+
+app.use(controller.FileCtrl.router);
+
+
+
+console.log('server start at http://localhost:' + conf.common.port);
+app.listen(conf.common.port);
 
 
 

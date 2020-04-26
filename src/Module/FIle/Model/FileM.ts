@@ -84,6 +84,12 @@ export class FileM extends BaseM {
             img.f_800 = fMd5(file800.toString('base64'));
             img.f_1024 = fMd5(file1024.toString('base64'));
 
+
+            await ImgS.faSaveBufferToFile(file320, sSaveFilePath + img.f_320 + '.jpg');
+            await ImgS.faSaveBufferToFile(file800, sSaveFilePath + img.f_800 + '.jpg');
+            await ImgS.faSaveBufferToFile(file1024, sSaveFilePath + img.f_1024 + '.jpg');
+
+
             /* вставляем файлы */
             await this.fileSQL.faInsert({
                 file_name: img.f_320,

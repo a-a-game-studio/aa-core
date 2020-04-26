@@ -20,6 +20,7 @@ import { MemSysI } from '@a-a-game-studio/aa-redis-sys/lib/CacheSys';
 import { SharedMemSys } from '@a-a-game-studio/aa-redis-sys/lib';
 
 import * as FileCtrl from "./Module/File/Controller/FileController";
+import { CacheSys } from './System/CacheSys';
 
 
 
@@ -66,7 +67,7 @@ export class App {
 
         this.errorSys = new Components.ErrorSys(this.conf.env);
 
-        this.reddis = new System.RedisSys(this.conf.redis);
+        
 
         /* Подключаем конфиг */
         this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
@@ -178,9 +179,11 @@ export class App {
         };
 
         // this.reddis.fSetUse(true);
-
+        this.reddis = new System.RedisSys(this.conf.redis);
+        
         this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = this.reddis;
+            req.sys.cacheSys = new CacheSys(req); // Система кеширования
             next();
         }); // уст. конфиг
 
@@ -197,6 +200,7 @@ export class App {
         
         this.objExpress.use((req: System.MainRequest, resp: any, next: any) => {
             req.infrastructure.redis = new SharedMemSys.SharedMemSys(globalMem);
+            req.sys.cacheSys = new CacheSys(req); // Система кеширования
             next();
         }); // уст. конфиг
 

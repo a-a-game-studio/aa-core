@@ -33,7 +33,7 @@ export class ImgSQL extends BaseSQL {
             SELECT
                 *
             FROM ${ImgE.NAME} f
-            WHERE f.img_name = :sFileName
+            WHERE f.file_name = :sFileName
             LIMIT 1
         `;
 

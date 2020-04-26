@@ -9,7 +9,7 @@ export default function RequestSysMiddleware(request: MainRequest, response: any
         data:'Неправильный формат входных данных'
     });
 
-    if (request.method == 'POST') {
+/*     if (request.method == 'POST') {
         if (request.body['data']) {
 
             try{
@@ -20,7 +20,7 @@ export default function RequestSysMiddleware(request: MainRequest, response: any
             }
         }
 
-    }
+    } */
 
     next();
 }
