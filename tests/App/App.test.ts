@@ -2,7 +2,10 @@ import { App } from '../../src/App';
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
 import * as Middleware from '../../src/Namespace/Middleware';
 import { MainRequest, UserSys } from '../../src/Namespace/System';
-const config = require('./MainConfig.js');
+
+import { conf } from "./MainConfigTest";
+
+const sharedMem = {};
 
 // /* Пример переопредления класса пользователя */
 // class MyUserSys extends UserSys {
@@ -20,27 +23,20 @@ const config = require('./MainConfig.js');
 //     }
 // }
 
-const app = new App(config)
+const app = new App(conf)
         .fUseMySql();
 
 /* Ф-я запуска приложения */
 async function faRunServer() {
     console.log('Starting App...');
 
-    /* модули доступа к данным */
-    const listDBData: AAClasses.SysteCoreModule.ListDBI = {
-        walletDB: new AAClasses.WalletModule.WalletDB(app.errorSys),
-        fileDB: new AAClasses.FileModule.FileDB(app.errorSys),
-    }
-
-    // const authSysMiddleware = new MyAuthSysMiddleware();
-
     await app.faInstall();
 
     app.fDisableCors() // отключаем cors
         .fUseBodyParser() // используем дефолтный BodyParser
         .fUseDefaultIndex()
-        .fUseReddis()
+        .fUseSharedMem(sharedMem)
+        .fUseFileModule()
         ;
 
     /* Иницализируем модуль аторизации */

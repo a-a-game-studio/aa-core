@@ -40,11 +40,11 @@ const imgQuality = 80; // качество сжатия
  * @param width
  * @param file
  */
-export const faResizeToFile = async (width: number, file: any, fileOut: string) => {
-    await sharp(file)
+export const faResizeToBuffer = async (width: number, sDataBase64: any): Promise<Buffer> => {
+    return await sharp(fImgBase64ToBuffer(sDataBase64))
         .resize(width)
         .jpeg({
             quality: imgQuality,
         })
-        .toFile(fileOut);
+        .toBuffer();
 }

@@ -3,6 +3,7 @@ import db from "knex";
 import express from 'express';
 import * as System from './Namespace/System';
 import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
+import { MemSysI } from '@a-a-game-studio/aa-redis-sys/lib/CacheSys';
 /**
  * Класс приложения со всеми компонентами
  */
@@ -49,6 +50,11 @@ export declare class App {
      */
     fUseReddis(): App;
     /**
+     * Использовать SharedMem
+     * заменяет redis
+     */
+    fUseSharedMem(globalMem: MemSysI): App;
+    /**
      * Ипользование отправки в RabbitMQ
      */
     faUseRabbitSender(): Promise<App>;
@@ -70,6 +76,10 @@ export declare class App {
      * Использовать дефолтный index page
      */
     fUseDefaultIndex(): App;
+    /**
+     * Использовать файловый модуль
+     */
+    fUseFileModule(): App;
     /**
      * Установка приложения
      */

@@ -11,6 +11,8 @@ import * as V from '../Validator/FileV';
 
 // Интерфейсы и сущьности
 import { FileI } from '../../../Infrastructure/SQL/Entity/FileE';
+import { ImgSQL } from '../../../Infrastructure/SQL/Repository/ImgSQL';
+import { ImgI } from '../../../Infrastructure/SQL/Entity/ImgE';
 
 
 
@@ -24,11 +26,13 @@ export const fMd5 = (s: string): string => {
 export class FileM extends BaseM {
 
     private fileSQL: FileSQL;
+    private imgSql: ImgSQL;
 
     constructor(req: any) {
         super(req);
 
         this.fileSQL = new FileSQL(req);
+        this.imgSql = new ImgSQL(req);
 
     }
 
@@ -52,7 +56,7 @@ export class FileM extends BaseM {
 
         const fileName = fileMd5 + '.jpg';
 
-        const vFile = await this.fileSQL.getFileByName(fileMd5);
+        const vFile = await this.imgSql.getImgByFileName(fileMd5);
 
         /* TODO: добавить обрезку */
         /* TODO: добавить растаскивание по папкам */
@@ -63,14 +67,40 @@ export class FileM extends BaseM {
             };
         } else {
 
-            await ImgS.faSaveBase64ToFile(fileBase64, `${sSaveFilePath}/${fileName}`);
+            let img: ImgI = {
+                file_name: fileMd5, // имя файла md5 от исходника
+                f_320: '', // x320
+                f_800: '',
+                f_1024: '',
+            }
+
+            /* Режем картинки */
+            const file320 = await ImgS.faResizeToBuffer(320, fileBase64);
+            const file800 = await ImgS.faResizeToBuffer(800, fileBase64);
+            const file1024 = await ImgS.faResizeToBuffer(1024, fileBase64);
+
+            /* получаем имена файлов */
+            img.f_320 = fMd5(file320.toString('base64'));
+            img.f_800 = fMd5(file800.toString('base64'));
+            img.f_1024 = fMd5(file1024.toString('base64'));
+
+            /* вставляем файлы */
+            await this.fileSQL.faInsert({
+                file_name: img.f_320,
+            });
 
             await this.fileSQL.faInsert({
-                file_name: fileMd5,
-            })
+                file_name: img.f_800,
+            });
+
+            await this.fileSQL.faInsert({
+                file_name: img.f_1024,
+            });
+
+            /* вставляем картинку */
+            await this.imgSql.faInsert(img);
 
         }
-
 
         return out;
     }

@@ -7,9 +7,10 @@ import { Components } from '@a-a-game-studio/aa-classes/lib';
  */
 export interface ImgI {
     id?: number;
-    f_320?: string;
-    f_800?: string;
-    f_1024?: string;
+    file_name: string; // имя файла md5 от исходника
+    f_320: string; // x320
+    f_800: string;
+    f_1024: string;
 }
 
 
@@ -19,6 +20,13 @@ export class ImgE {
 
     public getRulesInsert() {
         let rules = new Components.ModelRulesC();
+
+
+        rules.set(rules.rule('file_name')
+            .type('text')
+            .require()
+            .error('file_name - неверный формат')
+        );     
 
         rules.set(rules.rule('f_320')
             .type('text')

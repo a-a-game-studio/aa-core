@@ -40,7 +40,9 @@
     "run_test": "./node_modules/.bin/ts-node",
     "migration:create": "./node_modules/.bin/knex migrate:make",
     "migration:up": "./node_modules/.bin/knex migrate:latest",
-    "migration:down": "./node_modules/.bin/knex migrate:rollback"
+    "migration:down": "./node_modules/.bin/knex migrate:rollback",
+    "server_test": "tsc && node ./lib/Tests/App/App.test.js"
+
   },
   "dependencies": {
     "@a-a-game-studio/aa-classes": "^1.0.11",

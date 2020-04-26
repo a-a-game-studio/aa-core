@@ -39,7 +39,7 @@ export interface ConfI { // Конфигурация
 
     rabbit?: {
         connection: string;
-        queryList: {[key:string]:string};
+        queryList: { [key: string]: string };
     };
 
     S3?: {
@@ -51,10 +51,15 @@ export interface ConfI { // Конфигурация
 
     seo?: Seo;
 
-    FileModule? : {
+    FileModule?: {
         sSavePath: string; // полный путь к папке с файлами
         sUrl: string; // url файлов
     }; // для молуля File
+
+    common: {
+        env: string;
+        port: number;
+    },
 
 };
 
