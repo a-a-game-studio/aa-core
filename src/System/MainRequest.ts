@@ -51,7 +51,10 @@ export interface ConfI { // Конфигурация
 
     seo?: Seo;
 
-    sSaveFilePath? : string; // для молуля File
+    FileModule? : {
+        sSavePath: string; // полный путь к папке с файлами
+        sUrl: string; // url файлов
+    }; // для молуля File
 
 };
 

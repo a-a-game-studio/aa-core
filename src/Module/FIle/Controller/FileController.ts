@@ -53,7 +53,7 @@ router.post('/file/upload-img', async (req: MainRequest, res: any) => {
     let out = null;
     if (ok) {
         try {
-            out = await self.fileM.addImg(req.body, req.conf.sSaveFilePath);
+            out = await self.fileM.addImg(req.body, req.conf.FileModule.sSavePath);
         } catch (e) {
             self.errorSys.errorEx(e, 'fatal_error', 'Фатальная ошибка')
         }

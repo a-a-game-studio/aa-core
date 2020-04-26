@@ -19,6 +19,8 @@ import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListD
 import { MemSysI } from '@a-a-game-studio/aa-redis-sys/lib/CacheSys';
 import { SharedMemSys } from '@a-a-game-studio/aa-redis-sys/lib';
 
+import * as FileCtrl from "./Module/File/Controller/FileController";
+
 
 
 /**
@@ -270,6 +272,19 @@ export class App {
     public fUseDefaultIndex(): App {
         /* дефолтный index page */
         this.objExpress.use(IndexController.router);
+        return this;
+    }
+
+    /**
+     * Использовать файловый модуль
+     */
+    public fUseFileModule(): App {
+        if(!this.conf.FileModule) {
+            console.log('conf.sSaveFilePath is not use');
+            process.exit(1);
+        }
+        this.objExpress.use(express.static(this.conf.FileModule.sUrl));
+        this.objExpress.use(FileCtrl.router);
         return this;
     }
 
