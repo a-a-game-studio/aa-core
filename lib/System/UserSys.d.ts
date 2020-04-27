@@ -1,4 +1,5 @@
 import { MainRequest } from './MainRequest';
+import { UserI } from '../Infrastructure/SQL/Entity/UserE';
 /**
  * Клас который глобально знает все данные пользователя
  */
@@ -6,7 +7,7 @@ export declare class UserSys {
     idUser: number;
     private bAuth;
     private token;
-    private userInfoList;
+    userInfo: UserI;
     private userGroupsList;
     private ctrlAccessList;
     private aliasCtrlAccess;

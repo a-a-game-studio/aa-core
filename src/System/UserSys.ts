@@ -11,6 +11,7 @@ import {UserGroupSQL} from '../Infrastructure/SQL/Repository/UserGroupSQL';
 import {AccessGroupSQL} from '../Infrastructure/SQL/Repository/AccessGroupSQL';
 import {CtrlAccessSQL} from '../Infrastructure/SQL/Repository/CtrlAccessSQL';
 import { ErrorSys } from '@a-a-game-studio/aa-components/lib';
+import { UserI } from '../Infrastructure/SQL/Entity/UserE';
 
 /**
  * Клас который глобально знает все данные пользователя
@@ -22,7 +23,7 @@ export class UserSys {
 
 	private token: string; // APIKEY
 
-	private userInfoList: any; // Информация о пользователе
+	public userInfo: UserI; // Информация о пользователе
 	private userGroupsList: any; // Роли пользователя
 
 	private ctrlAccessList: any; // Список модулей
@@ -87,16 +88,16 @@ export class UserSys {
 			this.req.sys.bAuth = true;
 		}
 
-		let userInfoList: any = {};
+		let userInfo: UserI = {};
 		if (ok && this.bAuth) { // Получаем информацию о пользователе по token
-			userInfoList = await this.userSQL.fGetUserInfoByToken(this.token);
+			userInfo = await this.userSQL.fGetUserInfoByToken(this.token);
 
-			if (!userInfoList) {
+			if (!userInfo) {
 				ok = false;
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
-				this.userInfoList = userInfoList;
-				this.idUser = userInfoList['id_user'];
+				this.userInfo = userInfo;
+				this.idUser = userInfo['id'];
 			}
 		}
 

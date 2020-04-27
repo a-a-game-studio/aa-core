@@ -1,5 +1,7 @@
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
-import { MainRequest } from './MainRequest';
+import { MainRequest, ConfI } from './MainRequest';
+import { Seo } from './Seo';
+import { UserI } from '../Infrastructure/SQL/Entity/UserE';
 
 /**
  * Системный сервис формирования ответа
@@ -59,4 +61,72 @@ export class ResponseSys {
 
 		return out;
 	}
+}
+
+
+/**
+ * Ответ в шаблон страницы
+ * эти переменные используются в шаблоне
+ */
+export interface ResponseI {
+    seo: Seo, // Данные по сео страницы
+    route: string, //Данные про путь (роут)
+    data: any, // данные под конкретную стр
+    config: ConfI, // общий конфиг всего
+    userInfo: UserI; // данные по юзеру
+    bAuth: boolean; // признак автризации
+    bIsAdmin: boolean; // признак админа
+    layout?: (boolean | string);
+    bIsProd?: boolean;
+    sRefer: string; // рефер
+}
+
+
+/**
+ * Функиця формирующая данные для шаблона
+ * Ответ в шаблон страницы
+ * эти переменные используются в шаблоне
+ * @param req 
+ * @param data 
+ */
+export const fResponse = (req: MainRequest, data: any): ResponseI => {
+    return {
+        seo: req.seo, // Данные по сео страницы
+        route: fGetRoutePath(req), //Данные про путь (роут)
+        data: data, // данные под конкретную стр
+        config: req.conf, // общий конфиг всего
+        userInfo: req.sys.userSys.userInfo, // данные по юзеру
+        bAuth: req.sys.bAuth, // признак автризации
+        bIsAdmin: req.sys.userSys.isAdmin(), // признак админа
+        bIsProd: req.conf.common.env == 'prod', // признак модератора
+        sRefer: req.header('Referer'),
+        // layout: true, // вкл главный шаблон backend/src/Views/layouts/main.hbs
+    };
+}
+
+
+/*
+* Костыль над версией пакета ноды
+* @param req 
+*/
+export const fGetRoutePath = (req: any): string => {
+
+   let resp = null;
+
+   try {
+	   resp = req.route.path;
+   } catch (e) {
+
+   }
+
+   if (resp == null) {
+	   try {
+		   resp = req.route.originalUrl;
+	   } catch (e) {
+
+	   }
+   }
+
+   return resp
+
 }
