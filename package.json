@@ -1,6 +1,6 @@
 {
   "name": "@a-a-game-studio/aa-core",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Base core server application",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
@@ -42,7 +42,6 @@
     "migration:up": "./node_modules/.bin/knex migrate:latest",
     "migration:down": "./node_modules/.bin/knex migrate:rollback",
     "server_test": "tsc && node ./lib/Tests/App/App.test.js"
-
   },
   "dependencies": {
     "@a-a-game-studio/aa-classes": "^1.0.11",
