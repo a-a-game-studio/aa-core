@@ -43,6 +43,14 @@ export interface ConfI {
         secret: string;
     };
     seo?: Seo;
+    FileModule?: {
+        sSavePath: string;
+        sUrl: string;
+    };
+    common: {
+        env: string;
+        port: number;
+    };
 }
 export interface MainRequest extends Request {
     headers: {

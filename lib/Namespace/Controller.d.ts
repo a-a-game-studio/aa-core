@@ -4,4 +4,5 @@ import * as LoginCtrl from '../Module/Login/LoginCtrl';
 import * as AdminEditUserCtrl from '../Module/AdminEditUser/AdminEditUserCtrl';
 import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/AdminEditGroupCtrl';
 import * as AdminEditEnumCtrl from '../Module/AdminEditEnum/AdminEditEnumCtrl';
-export { IndexController, UserController, LoginCtrl, AdminEditUserCtrl, AdminEditGroupCtrl, AdminEditEnumCtrl, };
+import * as FileCtrl from "../Module/File/Controller/FileController";
+export { IndexController, UserController, LoginCtrl, AdminEditUserCtrl, AdminEditGroupCtrl, AdminEditEnumCtrl, FileCtrl, };

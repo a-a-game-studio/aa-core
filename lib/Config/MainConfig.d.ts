@@ -43,9 +43,12 @@ declare const _default: {
     S3: {
         endpoint: string;
         bucket: string;
-        baseUrl: string;
         access: string;
         secret: string;
+    };
+    FileModule: {
+        sSavePath: string;
+        sUrl: string;
     };
 };
 export default _default;
