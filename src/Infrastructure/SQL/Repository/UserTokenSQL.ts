@@ -143,9 +143,9 @@ export class UserTokenSQL extends BaseSQL
         let apikey = uniqid(uuidv4()+'-')
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+      /*   this.errorSys.declareEx({
             'db_inser_key_for_user':'Не удалось вставить ключ пользователя'
-        });
+        }); */
 
         let idUserToken = 0;
         try{

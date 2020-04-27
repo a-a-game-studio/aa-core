@@ -200,10 +200,10 @@ export class GroupSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+       /*  this.errorSys.declareEx({
             'del_group':'Не удалось удалить группу'
         });
-
+ */
         if( ok ){
             try{
                 await this.db(GroupE.NAME)

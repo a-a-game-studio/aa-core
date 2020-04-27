@@ -17,7 +17,7 @@ export default function InitBaseSysMiddleware(req: MainRequest, response: any, n
         systemCore:null,
     }
 
-    req.sys.errorSys = new AAComponents.ErrorSys(req.conf.env);
+    req.sys.errorSys = new AAComponents.ErrorSys(req.conf.env);    
 
     next();
 }

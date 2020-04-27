@@ -30,10 +30,10 @@ export class UserSMSCodeSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+       /*  this.errorSys.declareEx({
             'get_id_user_by_phone_and_sms':'Не удалось найти пользователя с таким телефоном'
         });
-        
+         */
         let idUser:number = 0;
         if( ok ){ /* дата создания смски сегодня или никогда */
             let sql = `

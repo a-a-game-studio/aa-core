@@ -308,9 +308,9 @@ export class AccessGroupSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+       /*  this.errorSys.declareEx({
             'del_ctrl_access':'Не удалось удалить права на модуль'
-        });
+        }); */
 
         if( ok ){
             let resp = null;

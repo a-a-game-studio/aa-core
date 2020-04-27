@@ -265,9 +265,9 @@ export class CtrlAccessSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+      /*   this.errorSys.declareEx({
             'del_ctrl_access':'Не удалось удалить контроллер доступа'
-        });
+        }); */
 
         if( ok ){
             try{

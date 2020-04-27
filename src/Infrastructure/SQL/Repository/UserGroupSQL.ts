@@ -33,9 +33,9 @@ export class UserGroupSQL extends BaseSQL
         let ok = this.errorSys.isOk();
 
         // Декларация ошибок
-        this.errorSys.declareEx({
+       /*  this.errorSys.declareEx({
             'get_role':'Не удалось получить группы пользователя'
-        });
+        }); */
 
         let aUserGroups = null; 
         if( ok ){ 
