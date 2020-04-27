@@ -1,5 +1,6 @@
 // Компоненты
 import { Components } from '@a-a-game-studio/aa-classes/lib';
+import { ModelRulesT } from '@a-a-game-studio/aa-components/lib';
 
 /**
  * Описание полей группы
@@ -27,24 +28,24 @@ export class GroupE
 
 
         rules.set(rules.rule('alias')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('alias - неверный формат')
         );
 
         rules.set(rules.rule('name')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('name - неверный формат')
         );
 
         rules.set(rules.rule('descript')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('desc - неверный формат')
         );
 
         rules.set(rules.rule('type')
-            .type('int')
+            .type(ModelRulesT.int)
             .error('type - неверный формат')
         );
 
@@ -61,22 +62,22 @@ export class GroupE
 
 
         rules.set(rules.rule('alias')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('alias - неверный формат')
         );
 
         rules.set(rules.rule('name')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('name - неверный формат')
         );
 
         rules.set(rules.rule('descript')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('desc - неверный формат')
         );
 
         rules.set(rules.rule('type')
-            .type('int')
+            .type(ModelRulesT.int)
             .error('type - неверный формат')
         );
 

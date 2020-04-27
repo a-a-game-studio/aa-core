@@ -15,9 +15,7 @@ export declare namespace getSelfUserInfo {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: System.MainRequest, data: any): {
-        [key: string]: any;
-    };
+    function valid(req: System.MainRequest, data: any): any;
 }
 /** Получить информацию о пользователе */
 export declare namespace getUserInfo {
@@ -35,9 +33,7 @@ export declare namespace getUserInfo {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: System.MainRequest, data: any): {
-        [key: string]: any;
-    };
+    function valid(req: System.MainRequest, data: any): any;
 }
 /** Сохранить данные о пользователе */
 export declare namespace save {
@@ -60,7 +56,5 @@ export declare namespace save {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: System.MainRequest, data: any): {
-        [key: string]: any;
-    };
+    function valid(req: System.MainRequest, data: any): any;
 }

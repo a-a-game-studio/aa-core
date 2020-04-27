@@ -3,6 +3,7 @@
 import { UserSys } from '../../../System/UserSys';
 
 import { Components } from '@a-a-game-studio/aa-classes/lib';
+import { ModelRulesT } from '@a-a-game-studio/aa-components/lib';
 
 
 
@@ -34,22 +35,22 @@ export class AccessGroupE {
 
 
         rules.set(rules.rule('create_access')
-            .type('boolean')
+            .type(ModelRulesT.boolean)
             .error('create_access - неверный формат')
         );
 
         rules.set(rules.rule('read_access')
-            .type('boolean')
+            .type(ModelRulesT.boolean)
             .error('read_access - неверный формат')
         );
 
         rules.set(rules.rule('update_access')
-            .type('boolean')
+            .type(ModelRulesT.boolean)
             .error('update_access - неверный формат')
         );
 
         rules.set(rules.rule('delete_access')
-            .type('boolean')
+            .type(ModelRulesT.boolean)
             .error('delete_access - неверный формат')
         );
 
@@ -63,12 +64,12 @@ export class AccessGroupE {
         let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('id_group')
-            .type('int')
+            .type(ModelRulesT.int)
             .error('id_group - неверный формат')
         );
 
         rules.set(rules.rule('id_ctrl_access')
-            .type('int')
+            .type(ModelRulesT.int)
             .error('id_ctrl_access - неверный формат')
         );
 

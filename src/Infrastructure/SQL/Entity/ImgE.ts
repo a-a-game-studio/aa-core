@@ -1,5 +1,6 @@
 // Компоненты
 import { Components } from '@a-a-game-studio/aa-classes/lib';
+import { ModelRulesT } from '@a-a-game-studio/aa-components/lib';
 
 
 /**
@@ -23,25 +24,25 @@ export class ImgE {
 
 
         rules.set(rules.rule('file_name')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('file_name - неверный формат')
         );     
 
         rules.set(rules.rule('f_320')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('f_320 - неверный формат')
         );     
 
         rules.set(rules.rule('f_800')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('f_800 - неверный формат')
         );     
 
         rules.set(rules.rule('f_1024')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('f_1024 - неверный формат')
         );     

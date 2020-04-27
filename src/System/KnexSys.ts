@@ -33,7 +33,7 @@ export class KnexSys {
             try{ 
                 one = data[0][0];
             } catch(e){
-                throw this.errorSys.throwDB('faOneRaw');
+                throw this.errorSys.throwDB(e, 'faOneRaw');
             }
         }
 
@@ -51,7 +51,7 @@ export class KnexSys {
             try{
                 list = data[0];
             } catch(e){
-                throw this.errorSys.throwDB('fListRaw');
+                throw this.errorSys.throwDB(e, 'fListRaw');
             }
         }
 
@@ -71,7 +71,7 @@ export class KnexSys {
             try{ // Получаем стоку базы LIMIT 1
                 field = data[0][0][sField];
             } catch(e){
-                throw this.errorSys.throwDB('fFieldRaw');
+                throw this.errorSys.throwDB(e, 'fFieldRaw');
             }
         }
 
@@ -92,7 +92,7 @@ export class KnexSys {
             try{ // Получаем стоку базы LIMIT 1
                 one = data[0];
             } catch(e){
-                throw this.errorSys.throwDB('fOne');
+                throw this.errorSys.throwDB(e, 'fOne');
             }
         }
 
@@ -110,7 +110,7 @@ export class KnexSys {
             try{ // Получаем стоку базы LIMIT 1
                 list = data;
             } catch(e){
-                throw this.errorSys.throwDB('fList');
+                throw this.errorSys.throwDB(e, 'fList');
             }
         }
 
@@ -130,7 +130,7 @@ export class KnexSys {
             try{ // Получаем стоку базы LIMIT 1
                 field = data[0][sField];
             } catch(e){
-                throw this.errorSys.throwDB('fField');
+                throw this.errorSys.throwDB(e, 'fField');
             }
         }
 

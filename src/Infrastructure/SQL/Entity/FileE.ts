@@ -1,5 +1,6 @@
 // Компоненты
 import { Components } from '@a-a-game-studio/aa-classes/lib';
+import { ModelRulesT } from '@a-a-game-studio/aa-components/lib';
 
 
 /**
@@ -19,7 +20,7 @@ export class FileE {
         let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('file_name')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('file_name - неверный формат')
         );     

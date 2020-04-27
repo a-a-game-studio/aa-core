@@ -1,5 +1,6 @@
 // Компоненты
 import { Components } from '@a-a-game-studio/aa-classes/lib';
+import { ModelRulesT } from '@a-a-game-studio/aa-components/lib';
 
 /**
  * Описание идентификаторов и связей пользователя
@@ -40,23 +41,23 @@ export class UserE
         let rules = new Components.ModelRulesC();
 
         rules.set(rules.rule('login')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('login - неверный формат')
         );
 
         rules.set(rules.rule('name')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('name - неверный формат')
         );
 
         rules.set(rules.rule('email')
-            .type('text')
+            .type(ModelRulesT.text)
             .error('user_email - неверный формат')
         );
 
         rules.set(rules.rule('pswd')
-            .type('text')
+            .type(ModelRulesT.text)
             .require()
             .error('pswd - неверный формат')
         );

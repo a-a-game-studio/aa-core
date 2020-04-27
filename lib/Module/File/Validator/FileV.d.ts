@@ -15,7 +15,5 @@ export declare namespace saveImg {
      * @param req MainRequest
      * @param data RequestI
      */
-    function valid(req: System.MainRequest, data: any): {
-        [key: string]: any;
-    };
+    function valid(req: System.MainRequest, data: any): any;
 }
