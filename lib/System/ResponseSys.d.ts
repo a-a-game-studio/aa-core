@@ -1,12 +1,15 @@
-import { MainRequest, ConfI } from './MainRequest';
+import { MainRequest, ConfI, TError } from './MainRequest';
 import { Seo } from './Seo';
 import { UserI } from '../Infrastructure/SQL/Entity/UserE';
+import * as express from 'express';
 /**
  * Системный сервис формирования ответа
  */
 export declare class ResponseSys {
     private env;
     private ifDevMode;
+    protected sTpl: string;
+    protected tError: TError;
     private errorSys;
     constructor(req: MainRequest);
     /**
@@ -17,6 +20,23 @@ export declare class ResponseSys {
      * @return array
      */
     response(data: any, sMsg: string): any;
+    /**
+     * Установить шаблон рендера для faResponseStatic
+     * @param sTpl
+     */
+    fSetTpl(sTpl: string): ResponseSys;
+    /**
+     * тип ошибки в случае неудачи faResponseStatic
+     * @param sTpl
+     */
+    fSetTError(tError: TError): ResponseSys;
+    /**
+     * Функция рендера страницы
+     * @param faCallback - функция контролера
+     * @param tpl - путь к шаблону hbs
+     * ПОМНИТЕ об fSetTpl и fSetTError
+     */
+    faResponseStatic(faCallback: Function): Promise<(req: MainRequest, res: express.Response, next: any) => Promise<void>>;
 }
 /**
  * Ответ в шаблон страницы

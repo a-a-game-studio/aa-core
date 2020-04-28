@@ -1,7 +1,8 @@
 import * as AAClasses from '@a-a-game-studio/aa-classes/lib';
-import { MainRequest, ConfI } from './MainRequest';
+import { MainRequest, ConfI, TError } from './MainRequest';
 import { Seo } from './Seo';
 import { UserI } from '../Infrastructure/SQL/Entity/UserE';
+import * as express from 'express';
 
 /**
  * Системный сервис формирования ответа
@@ -9,11 +10,12 @@ import { UserI } from '../Infrastructure/SQL/Entity/UserE';
 export class ResponseSys {
 	private env: string;
 	private ifDevMode: boolean;
+	protected sTpl: string; // шаблон для статика
+	protected tError: TError; // тип ошибки в случае неудачи faResponseStatic
 
 	private errorSys: AAClasses.Components.ErrorSys;
 
 	constructor(req: MainRequest) {
-
 		this.env = req.conf.env;
 		if (this.env == 'local' || this.env == 'dev') {
 			this.ifDevMode = true;
@@ -22,7 +24,7 @@ export class ResponseSys {
 		}
 
 		this.errorSys = req.sys.errorSys;
-
+		this.tError = TError.AllBad;
 	}
 
 	/**
@@ -33,8 +35,6 @@ export class ResponseSys {
 	 * @return array
 	 */
 	public response(data: any, sMsg: string): any {
-
-
 
 		let out: any = {
 			'ok': this.errorSys.isOk(),
@@ -61,6 +61,45 @@ export class ResponseSys {
 
 		return out;
 	}
+
+
+	/**
+	 * Установить шаблон рендера для faResponseStatic
+	 * @param sTpl 
+	 */
+	public fSetTpl(sTpl: string): ResponseSys {
+		this.sTpl = sTpl;
+		return this;
+	}
+
+	/**
+	 * тип ошибки в случае неудачи faResponseStatic
+	 * @param sTpl 
+	 */
+	public fSetTError(tError: TError): ResponseSys {
+		this.tError = tError;
+		return this;
+	}
+
+
+	/**
+	 * Функция рендера страницы
+	 * @param faCallback - функция контролера
+	 * @param tpl - путь к шаблону hbs
+	 * ПОМНИТЕ об fSetTpl и fSetTError
+	 */
+	public async faResponseStatic(faCallback: Function) {
+		return async (req: MainRequest, res: express.Response, next: any) => {
+			try {
+				res.render(this.sTpl, fResponse(req, await faCallback(req)));
+			} catch (error) {
+				req.errorType = this.tError;
+				next(error);
+			}
+		};
+	};
+
+
 }
 
 
@@ -69,16 +108,16 @@ export class ResponseSys {
  * эти переменные используются в шаблоне
  */
 export interface ResponseI {
-    seo: Seo, // Данные по сео страницы
-    route: string, //Данные про путь (роут)
-    data: any, // данные под конкретную стр
-    config: ConfI, // общий конфиг всего
-    userInfo: UserI; // данные по юзеру
-    bAuth: boolean; // признак автризации
-    bIsAdmin: boolean; // признак админа
-    layout?: (boolean | string);
-    bIsProd?: boolean;
-    sRefer: string; // рефер
+	seo: Seo, // Данные по сео страницы
+	route: string, //Данные про путь (роут)
+	data: any, // данные под конкретную стр
+	config: ConfI, // общий конфиг всего
+	userInfo: UserI; // данные по юзеру
+	bAuth: boolean; // признак автризации
+	bIsAdmin: boolean; // признак админа
+	layout?: (boolean | string);
+	bIsProd?: boolean;
+	sRefer: string; // рефер
 }
 
 
@@ -90,18 +129,18 @@ export interface ResponseI {
  * @param data 
  */
 export const fResponse = (req: MainRequest, data: any): ResponseI => {
-    return {
-        seo: req.seo, // Данные по сео страницы
-        route: fGetRoutePath(req), //Данные про путь (роут)
-        data: data, // данные под конкретную стр
-        config: req.conf, // общий конфиг всего
-        userInfo: req.sys.userSys.userInfo, // данные по юзеру
-        bAuth: req.sys.bAuth, // признак автризации
-        bIsAdmin: req.sys.userSys.isAdmin(), // признак админа
-        bIsProd: req.conf.common.env == 'prod', // признак модератора
-        sRefer: req.header('Referer'),
-        // layout: true, // вкл главный шаблон backend/src/Views/layouts/main.hbs
-    };
+	return {
+		seo: req.seo, // Данные по сео страницы
+		route: fGetRoutePath(req), //Данные про путь (роут)
+		data: data, // данные под конкретную стр
+		config: req.conf, // общий конфиг всего
+		userInfo: req.sys.userSys.userInfo, // данные по юзеру
+		bAuth: req.sys.bAuth, // признак автризации
+		bIsAdmin: req.sys.userSys.isAdmin(), // признак админа
+		bIsProd: req.conf.common.env == 'prod', // признак модератора
+		sRefer: req.header('Referer'),
+		// layout: true, // вкл главный шаблон backend/src/Views/layouts/main.hbs
+	};
 }
 
 
@@ -111,22 +150,23 @@ export const fResponse = (req: MainRequest, data: any): ResponseI => {
 */
 export const fGetRoutePath = (req: any): string => {
 
-   let resp = null;
+	let resp = null;
 
-   try {
-	   resp = req.route.path;
-   } catch (e) {
+	try {
+		resp = req.route.path;
+	} catch (e) {
 
-   }
+	}
 
-   if (resp == null) {
-	   try {
-		   resp = req.route.originalUrl;
-	   } catch (e) {
+	if (resp == null) {
+		try {
+			resp = req.route.originalUrl;
+		} catch (e) {
 
-	   }
-   }
+		}
+	}
 
-   return resp
+	return resp
 
 }
+

@@ -7,6 +7,15 @@ import { ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListDB';
 import { KnexSys } from './KnexSys';
 import { CacheSys } from './CacheSys';
 import { LogicSys } from './LogicSys';
+/**
+ * Типы ошибок ответа
+ */
+export declare enum TError {
+    None = 0,
+    PageNotFound = 404,
+    Api = 1,
+    AllBad = 500
+}
 export interface ConfI {
     env: string;
     mysql: {
@@ -58,6 +67,7 @@ export interface MainRequest extends Request {
     };
     body: any;
     method: string;
+    errorType?: TError;
     sys: {
         token: string;
         bAuth: boolean;

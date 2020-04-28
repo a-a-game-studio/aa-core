@@ -12,6 +12,18 @@ import { KnexSys } from './KnexSys';
 import { CacheSys } from './CacheSys';
 import { LogicSys } from './LogicSys';
 
+
+/**
+ * Типы ошибок ответа
+ */
+export enum TError {
+    None = 0,
+    PageNotFound = 404,
+    Api = 1,
+    AllBad = 500,
+}
+
+
 export interface ConfI { // Конфигурация
     env: string; // Тип окружения
     // ================================
@@ -67,7 +79,8 @@ export interface MainRequest extends Request {
     headers: { [key: string]: any };
     body: any;
     method: string;
-
+    errorType?: TError; /// тип ошибки ответа если есть
+    
     sys: {
         token: string,
         bAuth: boolean, /* флаг авторизации */
