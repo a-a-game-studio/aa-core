@@ -63,3 +63,9 @@ export interface ResponseI {
  */
 export declare const fResponse: (req: MainRequest, data: any) => ResponseI;
 export declare const fGetRoutePath: (req: any) => string;
+/**
+ * Функция рендера страницы
+ * @param faCallback - функция контролера
+ * @param tpl - путь к шаблону hbs
+ */
+export declare const faResponseStatic: (tpl: string, tError: TError, faCallback: Function) => (req: MainRequest, res: express.Response, next: any) => Promise<void>;
