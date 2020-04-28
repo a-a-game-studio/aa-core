@@ -170,3 +170,21 @@ export const fGetRoutePath = (req: any): string => {
 
 }
 
+
+
+/**
+ * Функция рендера страницы
+ * @param faCallback - функция контролера
+ * @param tpl - путь к шаблону hbs
+ */
+export const faResponseStatic = (tpl: string, tError: TError, faCallback: Function) => {
+	return async (req: MainRequest, res: express.Response, next: any) => {
+		try {
+			res.render(tpl, fResponse(req, await faCallback(req)));
+		} catch (error) {
+			req.errorType = tError;
+			next(error);
+		}
+	};
+};
+
