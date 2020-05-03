@@ -36,7 +36,7 @@ export declare class ResponseSys {
      * @param tpl - путь к шаблону hbs
      * ПОМНИТЕ об fSetTpl и fSetTError
      */
-    faResponseStatic(faCallback: Function): Promise<(req: MainRequest, res: express.Response, next: any) => Promise<void>>;
+    faResponseStatic(faCallback: Function): Promise<(req: MainRequest, res: express.Response<any>, next: any) => Promise<void>>;
 }
 /**
  * Ответ в шаблон страницы
@@ -68,4 +68,4 @@ export declare const fGetRoutePath: (req: any) => string;
  * @param faCallback - функция контролера
  * @param tpl - путь к шаблону hbs
  */
-export declare const faResponseStatic: (tpl: string, tError: TError, faCallback: Function) => (req: MainRequest, res: express.Response, next: any) => Promise<void>;
+export declare const faResponseStatic: (tpl: string, tError: TError, faCallback: Function) => (req: MainRequest, res: express.Response<any>, next: any) => Promise<void>;

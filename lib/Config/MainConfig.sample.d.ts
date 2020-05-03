@@ -1,29 +1,29 @@
 declare const _default: {
     env: string;
     mysql: {
-        "client": string;
-        "connection": {
-            "host": string;
-            "user": string;
-            "password": string;
-            "database": string;
+        client: string;
+        connection: {
+            host: string;
+            user: string;
+            password: string;
+            database: string;
         };
-        "pool": {
-            "min": number;
-            "max": number;
+        pool: {
+            min: number;
+            max: number;
         };
-        "migrations": {
-            "tableName": string;
-            "directory": string;
+        migrations: {
+            tableName: string;
+            directory: string;
         };
-        "acquireConnectionTimeout": number;
+        acquireConnectionTimeout: number;
     };
     common: {
         env: string;
         port: number;
     };
     redis: {
-        "url": string;
+        url: string;
     };
     /**
     Конфиг подклчения RabbitMQ
