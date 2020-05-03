@@ -11,7 +11,7 @@ export default {
         },
         "pool": { "min": 0, "max": 7 },
         "migrations": {
-            "tableName": "knex_migrations",
+            "tableName": "knex_migrations_aa_core",
             "directory": "./src/Infrastructure/SQL/Migrations"
         },
         "acquireConnectionTimeout": 60000

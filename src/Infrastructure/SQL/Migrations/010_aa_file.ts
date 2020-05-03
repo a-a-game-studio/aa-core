@@ -50,27 +50,27 @@ export const up = async function (knex: any, Promise: any) {
         table.collate('utf8_bin');
     });
 
-    await knex('aa_ctrl_access')
-    .insert([
-        {
-            name: 'Загрузка файлов',
-            alias: 'file-module',
-            descript: '',
-            created_at: knex.fn.now(),
-        },
-    ]);
+    let idFileModule = (await knex('aa_ctrl_access')
+        .insert([
+            {
+                name: 'Загрузка файлов',
+                alias: 'file-module',
+                descript: '',
+                created_at: knex.fn.now(),
+            },
+        ])
+    )[0];
 
     await knex('aa_access_group')
     .insert([
         {
-            id_group: 'Загрузка файлов',
-            id_ctrl_access: 'file-module',
+            id_group: 1,
+            id_ctrl_access: idFileModule,
             create_access: 1,
             read_access: 1,
             update_access: 1,
-            delete_access: 1,
-            created_at: knex.fn.now(),
-        },
+            delete_access: 1
+        }
     ]);
 
     return knex.schema;
