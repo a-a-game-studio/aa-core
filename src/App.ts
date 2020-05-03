@@ -19,7 +19,7 @@ import { ListDBI, ListDB } from '@a-a-game-studio/aa-classes/lib/BaseClass/ListD
 import { MemSysI } from '@a-a-game-studio/aa-redis-sys/lib/CacheSys';
 import { SharedMemSys } from '@a-a-game-studio/aa-redis-sys/lib';
 
-import * as FileCtrl from "./Module/File/Controller/FileController";
+import * as FileCtrl from "./Module/File/FileCtrl";
 import { CacheSys } from './System/CacheSys';
 
 

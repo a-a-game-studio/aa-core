@@ -18,7 +18,7 @@ import * as AdminEditGroupCtrl from '../Module/AdminEditGroup/AdminEditGroupCtrl
 // admin-edit-enum
 import * as AdminEditEnumCtrl from '../Module/AdminEditEnum/AdminEditEnumCtrl';
 
-import * as FileCtrl from "../Module/File/Controller/FileController";
+import * as FileCtrl from "../Module/File/FileCtrl";
 
 
 

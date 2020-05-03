@@ -6,8 +6,7 @@ import * as System from '../../Namespace/System'
 
 import BaseCtrl from '../../System/BaseCtrl';
 
-import {AdminEditUserR} from './AdminEditUserR'
-import R = AdminEditUserR;
+import {AdminEditUserR as R} from './AdminEditUserR'
 
 const router = express.Router();
 
