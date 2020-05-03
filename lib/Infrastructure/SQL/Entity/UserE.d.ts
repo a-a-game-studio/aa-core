@@ -2,7 +2,7 @@
  * Описание идентификаторов и связей пользователя
  */
 export interface UserIDs {
-    id_user?: number;
+    id?: number;
     login?: string;
     name?: string;
     email?: string;

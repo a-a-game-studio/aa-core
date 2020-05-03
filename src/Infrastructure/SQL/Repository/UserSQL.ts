@@ -196,19 +196,15 @@ export class UserSQL extends BaseSQL
 
 
     /* выдает инфу по юзеру по token */
-    public async fGetUserInfoByToken(token = ''):Promise<any>{
+    public async fGetUserInfoByToken(token = ''):Promise<UserI>{
         let ok = true;
         let resp:{[key:string]:any} = null;
 
-        // Декларация ошибок
-        this.errorSys.declare([
-            'user_info_by_token'
-        ]);
 
         if( ok ){
             let sql = `
                 SELECT  
-                    u.id as id_user,
+                    u.id,
                     u.name,
                     u.surname,
                     u.patronymic,

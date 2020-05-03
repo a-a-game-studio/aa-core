@@ -31,7 +31,7 @@ export declare class UserSQL extends BaseSQL {
      * @param sToken
      */
     getUserIDsByToken(sToken: string): Promise<UserIDs>;
-    fGetUserInfoByToken(token?: string): Promise<any>;
+    fGetUserInfoByToken(token?: string): Promise<UserI>;
     fGetUserInfoById(userId: number): Promise<UserI>;
     /**
      * Для авторизации

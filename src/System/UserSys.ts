@@ -97,7 +97,7 @@ export class UserSys {
 				this.errorSys.error('get_user_info_in_auth', 'Не возомжно получить данные пользователя при авторизации');
 			} else {
 				this.userInfo = userInfo;
-				this.idUser = userInfo['id'];
+				this.idUser = userInfo.id;
 			}
 		}
 

@@ -34,13 +34,6 @@ export class UserTokenSQL extends BaseSQL
         let ok = true;
         let resp:any[] = null;
 
-        // Декларация ошибок
-        this.errorSys.declare([
-            'api_key_in_db'
-        ]);
-
-        
-
         /* если ключ больше 4 */
         if( apikey.length > 4) {
 

@@ -265,7 +265,7 @@ export class AdminEditUserM extends BaseM
 
         let bAddUser = false;
         if(ok){ // Подтвердить регистрацию
-            bAddUser = await this.userSQL.faConfirmRegisterByID(vUserIDs.id_user);
+            bAddUser = await this.userSQL.faConfirmRegisterByID(vUserIDs.id);
             if(!bAddUser){
                 ok = false;
                 this.errorSys.error('confirm_user', 'Не удалось получить подтвердить регистрацию');
@@ -283,7 +283,7 @@ export class AdminEditUserM extends BaseM
 
         let vUser:UserI = null;
         if (ok) { // Получить список пользователей
-            vUser = await this.userSQL.getUserByID(vUserIDs.id_user);
+            vUser = await this.userSQL.getUserByID(vUserIDs.id);
         }
 
         // --------------------------
@@ -291,7 +291,7 @@ export class AdminEditUserM extends BaseM
         let out:R.addUser.ResponseI = null;
         if (ok) { // Формирование ответа
             out = {
-                add_user:vUserIDs.id_user, 
+                add_user:vUserIDs.id, 
                 one_user:vUser,
                 list_user:listUser // Список пользователей
             };
