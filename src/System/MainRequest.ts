@@ -25,7 +25,6 @@ export enum TError {
 
 
 export interface ConfI { // Конфигурация
-    env: string; // Тип окружения
     // ================================
     mysql: { // Конфиг для MySql
         client: string, // mysql

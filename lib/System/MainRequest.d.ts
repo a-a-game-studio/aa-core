@@ -17,7 +17,6 @@ export declare enum TError {
     AllBad = 500
 }
 export interface ConfI {
-    env: string;
     mysql: {
         client: string;
         connection: {
