@@ -2,7 +2,6 @@ import { ConfI } from "../../System/MainRequest";
 
 
 export const conf: ConfI = {
-    env: 'dev', // Тип окружения
     mysql: { // Knex mysql
         "client": "mysql",
         "connection": {

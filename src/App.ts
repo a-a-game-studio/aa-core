@@ -65,7 +65,7 @@ export class App {
 
         this.iPort = iPort; // уст. порт
 
-        this.errorSys = new Components.ErrorSys(this.conf.env);
+        this.errorSys = new Components.ErrorSys(this.conf.common.env);
 
         
 

@@ -16,7 +16,7 @@ export class ResponseSys {
 	private errorSys: AAClasses.Components.ErrorSys;
 
 	constructor(req: MainRequest) {
-		this.env = req.conf.env;
+		this.env = req.conf.common.env;
 		if (this.env == 'local' || this.env == 'dev') {
 			this.ifDevMode = true;
 		} else {
