@@ -2,7 +2,15 @@ var fs = require('fs');
 import { BaseM } from '../Namespace/System';
 const imgQuality = 80; // качество сжатия
 
-export type fncResize = (data: any, width: number, quality: number) => Promise<Buffer>;
+/**
+ * Класс ресайза изображений
+ */
+export class ImgResizeBaseS {
+    public faResize(data: any, width: number, quality: number): Promise<Buffer> {
+        return null;
+    }
+}
+
 
 /**
  * Сервис автоматизаций по работе с картинками
@@ -10,6 +18,18 @@ export type fncResize = (data: any, width: number, quality: number) => Promise<B
 export class ImgS extends BaseM {
 
     public nImgQuality = imgQuality;// качество сжатия
+
+    protected imageResizeS: ImgResizeBaseS;
+
+    /**
+     * Ресайз изображений
+     * незабыть переопределить
+     * @param imageResizeS 
+     */
+    public fSetImageResizeS(imageResizeS: ImgResizeBaseS){
+        this.imageResizeS = imageResizeS;
+    }
+
     /**
      * Сохранить Base64 строку в файл
      * @param base64Image 
@@ -58,7 +78,7 @@ export class ImgS extends BaseM {
      * @param width
      * @param file
      */
-    public async faResizeToBuffer(width: number, sDataBase64: any, fResize: fncResize): Promise<Buffer>{
-        return (await fResize(this.fImgBase64ToBuffer(sDataBase64), width, this.nImgQuality));
+    public async faResizeToBuffer(width: number, sDataBase64: any): Promise<Buffer>{
+        return (await this.imageResizeS.faResize(this.fImgBase64ToBuffer(sDataBase64), width, this.nImgQuality));
     }
 }

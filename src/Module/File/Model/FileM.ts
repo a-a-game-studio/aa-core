@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-import { ImgS } from '../../../Service/ImgS';
+import { ImgS, ImgResizeBaseS } from '../../../Service/ImgS';
 // Системные классы
 import BaseM from '../../../System/BaseM';
 
@@ -28,7 +28,7 @@ export class FileM extends BaseM {
 
     private fileSQL: FileSQL;
     private imgSql: ImgSQL;
-    private imgS:ImgS;
+    private imgS: ImgS; // незабыть переопределить класс ресайза изображений
 
     constructor(req: any) {
         super(req);
@@ -38,6 +38,14 @@ export class FileM extends BaseM {
 
     }
 
+    /**
+     * Ресайз изображений
+     * незабыть переопределить
+     * @param imageResizeS 
+     */
+    public fSetImageResizeS(imageResizeS: ImgResizeBaseS) {
+        this.imgS.fSetImageResizeS(imageResizeS);
+    }
 
     // =====================================
 
@@ -101,7 +109,7 @@ export class FileM extends BaseM {
 
         // Формирование ответа
         let out: R.uploadImg.ResponseI = null;
-        if(this.errorSys.isOk()){
+        if (this.errorSys.isOk()) {
             out = {
                 file_name: fileMd5,
             };

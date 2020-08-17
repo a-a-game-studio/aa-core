@@ -1,9 +1,23 @@
 /// <reference types="node" />
 import { BaseM } from '../Namespace/System';
 /**
+ * Класс ресайза изображений
+ */
+export declare class ImgResizeBaseS {
+    faResize(data: any, width: number, quality: number): Promise<Buffer>;
+}
+/**
  * Сервис автоматизаций по работе с картинками
  */
 export declare class ImgS extends BaseM {
+    nImgQuality: number;
+    protected imageResizeS: ImgResizeBaseS;
+    /**
+     * Ресайз изображений
+     * незабыть переопределить
+     * @param imageResizeS
+     */
+    fSetImageResizeS(imageResizeS: ImgResizeBaseS): void;
     /**
      * Сохранить Base64 строку в файл
      * @param base64Image
