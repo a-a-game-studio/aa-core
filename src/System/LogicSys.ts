@@ -38,7 +38,6 @@ export class LogicSys {
                 out = await callback();
                 this.errorSys.devNotice('ifok', sError);
             } catch(e) {
-                this.errorSys.errorEx(e, 'ifok', 'Ошибка выполнения');
                 throw this.errorSys.throw(e, sError)
             }
         } else {
