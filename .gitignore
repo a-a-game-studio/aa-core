@@ -64,3 +64,5 @@ typings/
 tests/config.js
 src/Config/MainConfig.ts
 package-lock.json
+
+lib
