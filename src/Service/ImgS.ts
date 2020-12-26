@@ -1,12 +1,34 @@
 var fs = require('fs');
-import sharp = require('sharp');
 import { BaseM } from '../Namespace/System';
 const imgQuality = 80; // качество сжатия
+
+/**
+ * Класс ресайза изображений
+ */
+export class ImgResizeBaseS {
+    public faResize(data: any, width: number, quality: number): Promise<Buffer> {
+        return null;
+    }
+}
+
 
 /**
  * Сервис автоматизаций по работе с картинками
  */
 export class ImgS extends BaseM {
+
+    public nImgQuality = imgQuality;// качество сжатия
+
+    protected imageResizeS: ImgResizeBaseS;
+
+    /**
+     * Ресайз изображений
+     * незабыть переопределить
+     * @param imageResizeS 
+     */
+    public fSetImageResizeS(imageResizeS: ImgResizeBaseS){
+        this.imageResizeS = imageResizeS;
+    }
 
     /**
      * Сохранить Base64 строку в файл
@@ -57,12 +79,6 @@ export class ImgS extends BaseM {
      * @param file
      */
     public async faResizeToBuffer(width: number, sDataBase64: any): Promise<Buffer>{
-        return (await sharp(this.fImgBase64ToBuffer(sDataBase64))
-            .resize(width)
-            .jpeg({
-                quality: imgQuality,
-            })
-            .toBuffer()
-        );
+        return (await this.imageResizeS.faResize(this.fImgBase64ToBuffer(sDataBase64), width, this.nImgQuality));
     }
 }

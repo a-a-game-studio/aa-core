@@ -65,7 +65,6 @@ export class App {
 
         this.iPort = iPort; // уст. порт
 
-        this.errorSys = new Components.ErrorSys(this.conf.common.env);
 
         
 
@@ -95,7 +94,7 @@ export class App {
                 systemCore: null,
             }
 
-            req.sys.errorSys = this.errorSys;
+            req.sys.errorSys = new Components.ErrorSys(this.conf.common.env);
             next();
         });
 
