@@ -4,6 +4,12 @@
   "description": "Base core server application",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
+  "engines": {
+    "node": ">=12"
+  },
+  "files": [
+    "lib/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/a-a-game-studio/aa-core.git"
@@ -34,15 +40,13 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "release": "./sh/release.sh",
     "build": "tsc",
     "test": "ts-mocha",
-    "server": "./node_modules/.bin/node ./lib/run.js",
+    "server": "node ./lib/run.js",
     "watch": "tsc-watch --outDir ./lib --onSuccess \"npm run server\"",
     "en": "./node_modules/.bin/ts-node ./src/en.ts",
     "run_test": "./node_modules/.bin/ts-node",
-    "migration:create": "./node_modules/.bin/knex migrate:make",
-    "migration:up": "./node_modules/.bin/knex migrate:latest",
-    "migration:down": "./node_modules/.bin/knex migrate:rollback",
     "server_test": "tsc && node ./lib/Tests/App/App.test.js"
   },
   "dependencies": {
