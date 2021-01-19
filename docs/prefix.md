@@ -9,6 +9,7 @@
 - **a** array
 - **as** array string
 - **ai** array number
+- **aid** array ID
 - **av** array any или объектов
 - **ab** array boolean
 - **b** boolean
